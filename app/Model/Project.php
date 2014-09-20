@@ -61,6 +61,10 @@ class Project extends AppModel {
         return $this->ProjectTechnology->Technology->find('list', array('fields' => array('id', 'stream_name')));
     }
 
+    public function getSkillData() {
+        return $this->ProjectTechnology->Technology->find('list', array('fields' => array('id', 'stream_name')));
+    }
+
     public function getProjectUserCount() {
         $this->virtualFields['employee_count'] = 'count(User.id)';
 

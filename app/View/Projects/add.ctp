@@ -80,12 +80,44 @@ echo $this->Html->script(array('validations','projects/project-add'), false);
                             ?>
                         </div>
                     </div>
+
+                    <div class="control-group info">
+                        <label class="control-label" for="end">Project Lead</label>
+
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input(
+                                'project_lead_id', array(
+                                'class' => 'span3',
+                                'placeholder' => 'Enter Project Lead Name',
+                                'id' => 'project_lead',
+                                'type' => 'text',
+                            ));
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="control-group info">
+                        <label class="control-label" for="end">Project BA</label>
+
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input(
+                                'project_ba_id', array(
+                                'class' => 'span3',
+                                'placeholder' => 'Enter Projects BA Name',
+                                'id' => 'project_ba',
+                                'type' => 'text',
+                            ));
+                            ?>
+                        </div>
+                    </div>
                 </div>
 
                 <!--Project Requirements : start-->
                 <div class="form-actions">
                     <div class="page-header">
-                        <h3>Project Requirements</h3>
+                        <h3>Resource Allocation Plan</h3>
                     </div>
 
                     <div class="control-group info project-requirements" id="project-requirements" >
@@ -96,23 +128,23 @@ echo $this->Html->script(array('validations','projects/project-add'), false);
                         <div class="requirements" id="requirements">
                             <span class="pull-left">
                             <?php
-                                echo $this->Form->input('ProjectResourceRequirements.1.technology_id', array(
-                                    'options' => $technologies,
+                                echo $this->Form->input('ProjectResourceRequirements.1.skill_id', array(
+                                    'options' => $skills,
                                     'div' => false,
                                     'label' => false,
-                                    'empty' => 'Select Technology'
+                                    'empty' => 'Select Skill'
                                 ));
                                 ?>
                         </span>
                             <span class="pull-left">
                             <?php
-                                $percentages = array(
+                                /*$percentages = array(
                                     5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40,
                                     45 => 45, 50 => 50, 55 => 55, 60 => 60, 65 => 65, 70 => 70, 75 => 75, 80 => 80,
                                     85 => 85, 90 => 90, 95 => 95, 100 => 100
-                                );
+                                );*/
                                 echo $this->Form->input('ProjectResourceRequirements.1.required_percentage', array(
-                                    'options' => $percentages,
+                                    //'options' => $percentages,
                                     'div' => false,
                                     'label' => false,
                                     'empty' => 'Allocation percentage'
