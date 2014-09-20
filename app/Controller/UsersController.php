@@ -110,8 +110,11 @@ class UsersController extends AppController {
      */
     public function add() {
         if ($this->request->is('post')) {
-            $this->User->create();
-            if ($this->User->save($this->request->data)) {
+            $userData = $this->request->data;
+            $this->User->create($userData);
+            if ($this->User->save()) {
+                $this->User->UserProfile->create($userData);
+                $this->User->UserProfile->save();
                 $this->Session->setFlash(__('The user has been saved'), 'set_flash');
                 $this->redirect('/');
             } else {
@@ -119,9 +122,11 @@ class UsersController extends AppController {
             }
         }
         $roles = $this->User->Role->getList();
-        $technologies = $this->User->Technology->getList();
+        $teams = $this->User->UserProfile->Team->getList();
+        $designations = $this->User->UserProfile->Designation->getList();
+        $grades = $this->User->UserProfile->Grade->getList();
         $tab = 'users';
-        $this->set(compact('technologies', 'roles','tab'));
+        $this->set(compact('teams', 'roles','tab','designations','grades'));
     }
 
     /**

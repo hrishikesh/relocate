@@ -35,32 +35,26 @@ class User extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
-        ),
-        'Team' => array(
-            'className' => 'Team',
-            'foreignKey' => 'team_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        ),
-        'Designation' => array(
-            'className' => 'Designation',
-            'foreignKey' => 'designation_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        ),
-        'Grade' => array(
-            'className' => 'Grade',
-            'foreignKey' => 'grade_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        ),
+        )
     );
     public $hasMany = array(
         'ProjectsUser' => array(
             'className' => 'ProjectsUser',
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
+    );
+    public $hasOne = array(
+        'UserProfile' => array(
+            'className' => 'UserProfile',
             'foreignKey' => 'user_id',
             'dependent' => true,
             'conditions' => '',
