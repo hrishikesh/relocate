@@ -134,7 +134,6 @@
  * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
  */
 	define('LOG_ERROR', 2);
-	define('LOG_ERROR', 2);
 
 /**
  * Session configuration.
