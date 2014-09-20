@@ -7,12 +7,6 @@ App::uses('AppModel', 'Model');
  * @property UserProfile $UserProfile
  */
 class Grade extends AppModel {
-/**
- * Use table
- *
- * @var mixed False or table name
- */
-	public $useTable = 'grade';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -55,4 +49,5 @@ class Grade extends AppModel {
             'fields'=>array('id','abbreviation')
         ));
     }
+
 }

@@ -8,12 +8,6 @@ App::uses('AppModel', 'Model');
  */
 class Designation extends AppModel {
 /**
- * Use table
- *
- * @var mixed False or table name
- */
-	public $useTable = 'designation';
-/**
  * Display field
  *
  * @var string
@@ -61,4 +55,5 @@ class Designation extends AppModel {
             'fields'=>array('id','name')
         ));
     }
+
 }

@@ -9,12 +9,6 @@ App::uses('AppModel', 'Model');
  * @property Team $Team
  */
 class OrganisationHierarchy extends AppModel {
-/**
- * Use table
- *
- * @var mixed False or table name
- */
-	public $useTable = 'organisation_hierarchy';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -53,4 +47,6 @@ class OrganisationHierarchy extends AppModel {
 			'order' => ''
 		)
 	);
+
+    
 }

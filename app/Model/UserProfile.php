@@ -4,18 +4,11 @@ App::uses('AppModel', 'Model');
  * UserProfile Model
  *
  * @property Grade $Grade
- * @property Year $Year
  * @property Designation $Designation
  * @property Team $Team
  * @property User $User
  */
 class UserProfile extends AppModel {
-/**
- * Use table
- *
- * @var mixed False or table name
- */
-	public $useTable = 'user_profile';
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
@@ -28,13 +21,6 @@ class UserProfile extends AppModel {
 		'Grade' => array(
 			'className' => 'Grade',
 			'foreignKey' => 'grade_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Year' => array(
-			'className' => 'Year',
-			'foreignKey' => 'year_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
