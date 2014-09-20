@@ -1,102 +1,106 @@
-<script type="text/javascript">
-    /* <![CDATA[ */
-    jQuery(function(){
-                jQuery("#UserId").validate({
-            expression: "if (VAL) return true; else return false;",
-            message: "Please enter the Required field"
-        });
-                jQuery("#UserUsername").validate({
-            expression: "if (VAL) return true; else return false;",
-            message: "Please enter the Required field"
-        });
-                jQuery("#UserPassword").validate({
-            expression: "if (VAL) return true; else return false;",
-            message: "Please enter the Required field"
-        });
-                jQuery("#UserPhone").validate({
-            expression: "if (VAL) return true; else return false;",
-            message: "Please enter the Required field"
-        });
-                jQuery("#UserImei").validate({
-            expression: "if (VAL) return true; else return false;",
-            message: "Please enter the Required field"
-        });
-                jQuery("#UserName").validate({
-            expression: "if (VAL) return true; else return false;",
-            message: "Please enter the Required field"
-        });
-                jQuery("#UserUserType").validate({
-            expression: "if (VAL) return true; else return false;",
-            message: "Please enter the Required field"
-        });
-                jQuery("#UserIsVerified").validate({
-            expression: "if (VAL) return true; else return false;",
-            message: "Please enter the Required field"
-        });
-                jQuery("#UserIsActive").validate({
-            expression: "if (VAL) return true; else return false;",
-            message: "Please enter the Required field"
-        });
-            });
-    /* ]]> */
-</script>
-<div class="row">
-    <div class="span3">
-        <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-                                <li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('User.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('User.id'))); ?></li>
-                                <li><?php echo $this->Html->link(__('List Users'), array('action' => 'index'));?></li>
-                            </ul>
-        </div>
-    </div>
-    <div class="span9">
-        <div class="hero-unit">
-            <h2><?php  echo __('User');?></h2>
-            <?php echo $this->Form->create('User', array('inputDefaults' => array('label' => false, 'div' => false)));?>
-            <table class="table">
-                		<tr>
-			<td><?php echo __('Id'); ?></td>
-		<td><?php echo $this->Form->input('id');?></td>
-		</tr>
-		<tr>
-			<td><?php echo __('Username'); ?></td>
-		<td><?php echo $this->Form->input('username');?></td>
-		</tr>
-		<tr>
-			<td><?php echo __('Password'); ?></td>
-		<td><?php echo $this->Form->input('password');?></td>
-		</tr>
-		<tr>
-			<td><?php echo __('Phone'); ?></td>
-		<td><?php echo $this->Form->input('phone');?></td>
-		</tr>
-		<tr>
-			<td><?php echo __('Imei'); ?></td>
-		<td><?php echo $this->Form->input('imei');?></td>
-		</tr>
-		<tr>
-			<td><?php echo __('Name'); ?></td>
-		<td><?php echo $this->Form->input('name');?></td>
-		</tr>
-		<tr>
-			<td><?php echo __('User Type'); ?></td>
-		<td><?php echo $this->Form->input('user_type');?></td>
-		</tr>
-		<tr>
-			<td><?php echo __('Is Verified'); ?></td>
-		<td><?php echo $this->Form->input('is_verified');?></td>
-		</tr>
-		<tr>
-			<td><?php echo __('Is Active'); ?></td>
-		<td><?php echo $this->Form->input('is_active');?></td>
-		</tr>
-		<tr><td>&nbsp;</td>		<td><?php echo $this->Form->submit(__('Submit',true),array('div' => false, 'class' => 'btn btn-primary'));
-                            echo '&nbsp;&nbsp;';
-                            echo $this->Html->link(__('Cancel',true),'javascript: void(0);',array('onclick' => 'javascript:history.go(-1);', 'class' => 'btn', 'title' => 'Cancel'))
-                        ?></td></tr>
-            </table>
-            <?php echo $this->Form->end();?>
-        </div>
-    </div>
-</div>
+<?php
+echo $this->Html->script(array('validations'), false);
+?>
 
+<div class="users form">
+    <section id="forms">
+        <div class="page-header">
+            <h3>Edit User  <a href="javascript:window.history.back();" class="pull-right backButton"></a></h3>
+        </div>
+
+        <div class="row">
+            <div class="span10 offset1">
+                <?php
+                echo $this->Form->create('User', array(
+                    'class' => "form-horizontal well",
+                    'inputDefaults' => array('label' => false, 'div' => false)
+                )); ?>
+                <div class="form-actions">
+                    <div class="page-header">
+                        <h3>Personal information</h3>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="userName">Email Id</label>
+
+                        <div class="controls">
+                            <?php echo $this->Form->input('username');?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="first_name">First Name</label>
+
+                        <div class="controls">
+                            <?php echo $this->Form->input('first_name');?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="last_name">Last Name</label>
+
+                        <div class="controls">
+                            <?php echo $this->Form->input('last_name');?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="employee_id">Employee id</label>
+
+                        <div class="controls">
+                            <?php echo $this->Form->input('employee_id', array('type' => 'text'));?>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Project Reequirements : start-->
+                <div class="form-actions">
+                    <div class="page-header">
+                        <h3>Technical Information</h3>
+                    </div>
+
+                    <div class="control-group info">
+                        <label class="control-label" for="technology">Technology</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('technology_id', array('options' => $technologies,'selected'=>$this->request->data['Technology']['id']));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="salary">Salary</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('salary');
+                            ?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="work_experience">Work Experience</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('work_experience');
+                            ?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="is_verified">Verified</label>
+                        <div class="controls">
+                            <?php echo $this->Form->input('is_verified');?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="is_active">Active</label>
+                        <div class="controls">
+                            <?php echo $this->Form->input('is_active');?>
+                        </div>
+                    </div>
+                </div>
+                <!--Project Reequirements : end-->
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <a href="/users/all_users" class="btn">Cancel</a>
+                </div>
+
+                <?php echo $this->Form->end(); ?>
+            </div>
+        </div>
+    </section>
+</div>

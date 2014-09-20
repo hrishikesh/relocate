@@ -33,33 +33,62 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
+    public $components = array('Auth', 'Session');
+
     public $applicationName = '';
     public $loggedInUserId = '';
-    public $loggedInUserType = '';
     public $loggedInUserName = '';
-
-    public $components = array('Auth', 'Session');
+    public $loggedInUserFirstName = '';
+    public $loggedInUserLastName = '';
+    public $loggedInUserRole = '';
 
     public function beforeFilter() {
         parent::beforeFilter();
         $this->applicationName = Configure::read('APPLICATION_NAME');
 
-        $this->Auth->loginRedirect = array('controller' => 'users', 'action' => 'index');
+        $this->Auth->loginRedirect = array('controller' => 'users', 'action' => 'dashboard');
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
         $this->Auth->authError = 'You are not authorized user, please enter username and password.';
         $this->Auth->authenticate = array(
             'Form' => array(
-                'scope' => array('User.is_active' => 1, 'User.is_verified' => 1,)
+                'scope' => array('User.is_active' => 1, 'User.is_verified' => 1, 'User.role_id' => 1,)
             )
         );
-        if ($this->Auth->user()) {
-            pr($this->Auth->user());
-        }
     }
 
     public function beforeRender() {
         parent::beforeRender();
         $appName = Configure::read('APPLICATION_NAME');
-        $this->set(compact('appName'));
+
+        $loggedInUserId = $this->loggedInUserId = $this->loggedInUserId();
+        $loggedInUserRole = $this->loggedInUserRole = $this->loggedInUserRole();
+        $loggedInUserName = $this->loggedInUserName = $this->loggedInUserName();
+        $loggedInUserFirstName = $this->loggedInUserFirstName = $this->loggedInUserFirstName();
+        $loggedInUserLastName = $this->loggedInUserLastName = $this->loggedInUserLastName();
+
+        $this->set(compact(
+            'appName', 'loggedInUserId', 'loggedInUserRole',
+            'loggedInUserLastName','loggedInUserFirstName','loggedInUserName'
+        ));
+    }
+
+    public function loggedInUserId() {
+        return $this->Auth->user('id') != '' ? $this->Auth->user('id') : false;
+    }
+
+    public function loggedInUserRole() {
+        return $this->Auth->user('role_id') != '' ? $this->Auth->user('role_id') : false;
+    }
+
+    public function loggedInUserName() {
+        return $this->Auth->user('username') != '' ? $this->Auth->user('username') : false;
+    }
+
+    public function loggedInUserFirstName() {
+        return $this->Auth->user('first_name') != '' ? $this->Auth->user('first_name') : false;
+    }
+
+    public function loggedInUserLastName() {
+        return $this->Auth->user('last_name') != '' ? $this->Auth->user('last_name') : false;
     }
 }
