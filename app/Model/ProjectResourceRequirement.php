@@ -37,4 +37,15 @@ class ProjectResourceRequirement extends AppModel {
 			'order' => ''
 		)
 	);
+
+
+    public function saveProjectReq($resourceRequirements){
+
+        foreach($resourceRequirements as &$resourceRequirement) {
+            $resourceRequirement['start_date'] = date('Y-m-d H:i:s', strtotime($resourceRequirement['start_date']));
+            $resourceRequirement['end_date'] = date('Y-m-d H:i:s', strtotime($resourceRequirement['end_date']));
+        }
+
+        return $this->saveAll($resourceRequirement);
+    }
 }

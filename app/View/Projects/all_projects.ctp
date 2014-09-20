@@ -34,7 +34,10 @@
                         'class' => 'icon-trash',
                         ),
                         __('You are about to delete %s', '"'.$project['Project']['project_name']. '", Are you sure?')
-                        ); ?>
+                        );
+                        echo $this->Html->link(__(''), array('action' => 'allocate', $project['Project']['id']), array('class' => 'icon-user'));
+
+                        ?>
                     </td>
                 </tr>
                 <?php } } else{ ?>

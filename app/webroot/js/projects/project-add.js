@@ -1,47 +1,37 @@
 $(document).ready(function () {
-    $('#addMore').on('click', function () {
-        var project_requirements = $('.project-requirements .requirements').length;
-        var technologies;
-        project_requirements = parseInt(project_requirements) + 1;
-        var requirements_html = '<div class="requirements clearfix">';
-        requirements_html += '<span class="pull-left">';
-        requirements_html += '<select name="data[ProjectResourceRequirements][' + project_requirements + '][technology_id]" id="ProjectResourceRequirements' + project_requirements + 'TechnologyId">';
-        requirements_html += '<option value="">Select Technology</option>';
 
-        $.ajax({
-            method:'GET',
-            async:false,
-            url:'/projects/getAllTechnologies',
-            success:function (response) {
-                technologies = response;
+    var replaceName = function(obj, count){
+        $(obj).each(function(){
+            var name = $(this).attr('name');
+            name = name.replace('[1]', '['+count +']');
+            $(this).attr('name', name);
+
+            if($(this).hasClass('date-picker')){
+                var date = $.datepicker.formatDate('dd-mm-yy', new Date());
+                $(this).val(date);
+            }else {
+                $(this).val('');
             }
         });
-        var technologiesArray = jQuery.parseJSON(technologies);
-        for (var key in technologiesArray) {
-            requirements_html += '<option value="' + key + '">' + technologiesArray[key] + '</option>';
-        }
-        requirements_html += '</select></span>';
-        requirements_html += '<span class="pull-left">';
+    };
 
-        requirements_html += '<select name="data[ProjectResourceRequirements][' + project_requirements + '][required_percentage]" id="ProjectResourceRequirements' + project_requirements + 'RequiredPercentage">';
-        requirements_html += '<option value="">Allocation percentage</option>';
-        for (var percentageCount = 5; percentageCount <= 100; percentageCount = percentageCount + 5) {
-            requirements_html += '<option value="' + percentageCount + '">' + percentageCount + '</option>';
-        }
-        requirements_html += '</select></span>';
+    $('#addMore').on('click', function () {
+        var requirements_html = $('.requirements:first').clone();
+        var resAllocSelect = $(requirements_html).find('select');
+        var resAllocInput = $(requirements_html).find('input');
 
-        requirements_html += '<span class="pull-left">';
+        var project_requirements_count = $('.project-requirements .requirements').length;
+        project_requirements_count = parseInt(project_requirements_count) + 1;
 
-        requirements_html += '<select name="data[ProjectResourceRequirements][' + project_requirements + '][no_of_resources]" id="ProjectResourceRequirements' + project_requirements + 'NoOfResources">';
-        requirements_html += '<option value="">Number of resources</option>';
-        for (var percentageAllocation = 1; percentageAllocation <= 10; percentageAllocation++) {
-            requirements_html += '<option value="' + percentageAllocation + '">' + percentageAllocation + '</option>';
-        }
-        requirements_html += '</select></span>';
+        replaceName(resAllocSelect, project_requirements_count);
 
-        requirements_html += '</div>';
+        replaceName(resAllocInput, project_requirements_count);
 
-//        console.log('write on variable done');
         $('#project-requirements').append(requirements_html);
+
+
     });
+
+    $('.comboBox').combobox();
+
 });
