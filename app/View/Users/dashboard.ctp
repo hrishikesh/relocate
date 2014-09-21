@@ -5,7 +5,8 @@
             <h1>Dashboard</h1>
             <a >Teams<i></i></a>
             <div id="chartsiv"></div>
-            <a href="/projects/project_stats">Projects<i></i></a>
+           <!-- <a href="/projects/project_stats">Projects<i></i></a>-->
+            <a href="javascript:void(0)">Projects<i></i></a>
             <div id="chartdiv"></div>
 
         </div>

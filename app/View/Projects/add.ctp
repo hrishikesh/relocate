@@ -146,7 +146,8 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                         //'options' => $percentages,
                                         'div' => false,
                                         'label' => false,
-                                        'empty' => 'Allocation percentage'
+                                        'empty' => 'Allocation percentage',
+                                        'placeholder'=>'Enter Description'
                                     ));
                                 ?>
                             </span>

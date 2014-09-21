@@ -231,8 +231,8 @@ class ProjectsController extends AppController {
         $projects = $this->Project->getActiveProjects();
         $firstProject = $projects[0];
 
-        $technologiesWiseData = $this->Project->ProjectTechnology->Technology->getProjectAllocationStats($firstProject['Project']['id']);
-        $technologyData =  $this->getFormattedData($technologiesWiseData);
+        //$technologiesWiseData = $this->Project->ProjectTechnology->Technology->getProjectAllocationStats($firstProject['Project']['id']);
+        //$technologyData =  $this->getFormattedData($technologiesWiseData);
 
         $this->set(compact('projects','technologyData'));
     }
