@@ -65,5 +65,8 @@ $(document).ready(function () {
         }
     });
 
+    $(".fancybox").fancybox({
+        content:$("#company")
+    });
 
 });
