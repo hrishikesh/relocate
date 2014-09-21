@@ -113,8 +113,24 @@ class UsersController extends AppController {
             $userData = $this->request->data;
             $this->User->create($userData);
             if ($this->User->save()) {
+                $user_id = $this->User->getLastInsertID();
+                $userData['UserProfile']['user_id'] = $user_id;
                 $this->User->UserProfile->create($userData);
                 $this->User->UserProfile->save();
+                if(!empty($userData['UserPreviousExperience'])) {
+                    $experienceCount = 0;
+                    foreach($userData['UserPreviousExperience'] as $experienceKey=>$experienceValue){
+                        $previousExperience[$experienceCount]['user_id'] = $user_id;
+                        $previousExperience[$experienceCount]['start_date'] =date('Y-m-d H:i:s', strtotime($experienceValue['start_date']));
+                        $previousExperience[$experienceCount]['end_date'] =date('Y-m-d H:i:s', strtotime($experienceValue['start_date']));
+                        $previousExperience[$experienceCount]['company_name'] =$experienceValue['company_name'];
+                        $previousExperience[$experienceCount]['description'] =$experienceValue['description'];
+                        $experienceCount = $experienceCount+1;
+                    }
+                    unset($userData['UserPreviousExperience']);
+                    $userData['UserPreviousExperience'] = $previousExperience;
+                    $this->User->UserPreviousExperience->saveAll($userData['UserPreviousExperience']);
+                }
                 $this->Session->setFlash(__('The user has been saved'), 'set_flash');
                 $this->redirect('/');
             } else {
