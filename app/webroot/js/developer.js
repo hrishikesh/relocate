@@ -28,15 +28,12 @@ $(document).ready(function () {
     };
 
     $('#addMore').on('click', function () {
-        if($('#company').hasClass('companyHide')) {
-            $('#company').removeClass('companyHide');
-            $('#company').addClass('companyShow');
-        }
-        else {
-            var company_html = $('.company:first').clone();
+
+            var company_html = $('.companyInfo:first').clone();
+            //$(company_html).find("#addMore").remove();
             var resAllocSelect = $(company_html).find('select');
             var resAllocInput = $(company_html).find('input');
-
+            //$("#addMore" ).remove();
             var company_count = $('.company').length;
             company_count = parseInt(company_count) + 1;
 
@@ -44,13 +41,12 @@ $(document).ready(function () {
 
             replaceName(resAllocInput, company_count);
             $('#company').append(company_html);
-        }
     });
 
 
 
     $(".fancybox").fancybox({
-        content:$("#company")
+        content: $("#company")
     });
 
 
