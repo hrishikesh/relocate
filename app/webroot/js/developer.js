@@ -58,5 +58,8 @@ $(document).ready(function () {
         content:$("#company")
     });
 
+    $(".fancybox").fancybox({
+        content:$("#company")
+    });
 
 });
