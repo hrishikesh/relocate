@@ -35,11 +35,41 @@ class User extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
-        ),
+
+        )
     );
     public $hasMany = array(
         'ProjectsUser' => array(
             'className' => 'ProjectsUser',
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'UserPreviousExperience' => array(
+            'className' => 'UserPreviousExperience',
+            'foreignKey' => 'user_id',
+            'dependent' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
+
+    );
+    public $hasOne = array(
+        'UserProfile' => array(
+            'className' => 'UserProfile',
             'foreignKey' => 'user_id',
             'dependent' => true,
             'conditions' => '',
