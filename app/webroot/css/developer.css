@@ -302,3 +302,11 @@ th a {
 .viewUsers tr:first-child td {
     border-top: 0;
 }
+
+.companyHide{
+    display:none;
+}
+
+.companyShow{
+    display:block;
+}

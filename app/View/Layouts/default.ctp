@@ -26,7 +26,7 @@ $cakeDescription = __d('cake_dev', $appName);
     <?php
     echo $this->Html->meta('icon');
     echo $this->Html->css(array(
-        "flatly.bootstrap", 'developer', 'jquery-ui-1.8.22.custom', 'CircleView'));
+        "flatly.bootstrap",'jquery.fancybox','developer', 'jquery-ui-1.8.22.custom', 'CircleView'));
 
     echo $this->fetch('meta');
     echo $this->fetch('css');
@@ -40,7 +40,8 @@ $cakeDescription = __d('cake_dev', $appName);
         'tween/EasePack',
         'tween/TimelineMax',
         'tween/TweenMax.js',
-        'circleview/jquery.qtip-1.0.0-rc3'
+        'circleview/jquery.qtip-1.0.0-rc3',
+        'jquery.fancybox'
     ));
     echo $this->fetch('script');
     ?>

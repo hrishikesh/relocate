@@ -110,8 +110,27 @@ class UsersController extends AppController {
      */
     public function add() {
         if ($this->request->is('post')) {
-            $this->User->create();
-            if ($this->User->save($this->request->data)) {
+            $userData = $this->request->data;
+            $this->User->create($userData);
+            if ($this->User->save()) {
+                $user_id = $this->User->getLastInsertID();
+                $userData['UserProfile']['user_id'] = $user_id;
+                $this->User->UserProfile->create($userData);
+                $this->User->UserProfile->save();
+                if(!empty($userData['UserPreviousExperience'])) {
+                    $experienceCount = 0;
+                    foreach($userData['UserPreviousExperience'] as $experienceKey=>$experienceValue){
+                        $previousExperience[$experienceCount]['user_id'] = $user_id;
+                        $previousExperience[$experienceCount]['start_date'] =date('Y-m-d H:i:s', strtotime($experienceValue['start_date']));
+                        $previousExperience[$experienceCount]['end_date'] =date('Y-m-d H:i:s', strtotime($experienceValue['start_date']));
+                        $previousExperience[$experienceCount]['company_name'] =$experienceValue['company_name'];
+                        $previousExperience[$experienceCount]['description'] =$experienceValue['description'];
+                        $experienceCount = $experienceCount+1;
+                    }
+                    unset($userData['UserPreviousExperience']);
+                    $userData['UserPreviousExperience'] = $previousExperience;
+                    $this->User->UserPreviousExperience->saveAll($userData['UserPreviousExperience']);
+                }
                 $this->Session->setFlash(__('The user has been saved'), 'set_flash');
                 $this->redirect('/');
             } else {
@@ -119,9 +138,11 @@ class UsersController extends AppController {
             }
         }
         $roles = $this->User->Role->getList();
-        $technologies = $this->User->Technology->getList();
+        $teams = $this->User->UserProfile->Team->getList();
+        $designations = $this->User->UserProfile->Designation->getList();
+        $grades = $this->User->UserProfile->Grade->getList();
         $tab = 'users';
-        $this->set(compact('technologies', 'roles','tab'));
+        $this->set(compact('teams', 'roles','tab','designations','grades'));
     }
 
     /**
