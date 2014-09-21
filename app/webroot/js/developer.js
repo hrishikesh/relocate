@@ -33,15 +33,12 @@ $(document).ready(function () {
     };
 
     $('#addMore').on('click', function () {
-        if($('#company').hasClass('companyHide')) {
-            $('#company').removeClass('companyHide');
-            $('#company').addClass('companyShow');
-        }
-        else {
-            var company_html = $('.company:first').clone();
+
+            var company_html = $('.companyInfo:first').clone();
+            //$(company_html).find("#addMore").remove();
             var resAllocSelect = $(company_html).find('select');
             var resAllocInput = $(company_html).find('input');
-
+            //$("#addMore" ).remove();
             var company_count = $('.company').length;
             company_count = parseInt(company_count) + 1;
 
@@ -49,13 +46,23 @@ $(document).ready(function () {
 
             replaceName(resAllocInput, company_count);
             $('#company').append(company_html);
-        }
     });
 
 
 
     $(".fancybox").fancybox({
-        content:$("#company")
+        content: $("#company"),
+        afterClose: function() {
+            var year = 0;
+            $('.companyInfo').each(function(index, value){
+                var startDate = new Date($(this).find('input.startDate').val());
+                var endDate = new Date($(this).find('input.endDate').val());
+
+                var months = ((endDate.getFullYear() - startDate.getFullYear()) * 12) + endDate.getMonth() - startDate.getMonth();
+                year =+ (months/12);
+            });
+            $('#totalExperience').val(year);
+        }
     });
 
 
