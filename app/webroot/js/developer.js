@@ -46,7 +46,18 @@ $(document).ready(function () {
 
 
     $(".fancybox").fancybox({
-        content: $("#company")
+        content: $("#company"),
+        afterClose: function() {
+            var year = 0;
+            $('.companyInfo').each(function(index, value){
+                var startDate = new Date($(this).find('input.startDate').val());
+                var endDate = new Date($(this).find('input.endDate').val());
+
+                var months = ((endDate.getFullYear() - startDate.getFullYear()) * 12) + endDate.getMonth() - startDate.getMonth();
+                year =+ (months/12);
+            });
+            $('#totalExperience').val(year);
+        }
     });
 
 
