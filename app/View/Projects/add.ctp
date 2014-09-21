@@ -89,7 +89,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                             <?php
                             echo $this->Form->input(
                                 'project_lead_id', array(
-                                'options'=>$ba,
+                                'options'=>$projectLeads,
                                 'class' => 'span3 comboBox',
                                /* 'placeholder' => 'Enter Project Lead Name',*/
                                 'id' => 'projectLead',
@@ -106,7 +106,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                             <?php
                             echo $this->Form->input(
                                 'project_ba_id', array(
-                                'options'=>$projectLeads,
+                                'options'=>$ba,
                                 'class' => 'span3 comboBox',
                                 /*'placeholder' => 'Enter Projects BA Name',*/
                                 'id' => 'projectBa',

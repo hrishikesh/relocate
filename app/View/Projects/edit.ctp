@@ -1,5 +1,5 @@
 <?php
-echo $this->Html->script(array('validations', 'projects/project-add'), false);
+echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'autoCompleteLazyLoad','projects/project-add'), false);
 ?>
 <div class="projects form">
     <section id="forms">
@@ -88,9 +88,10 @@ echo $this->Html->script(array('validations', 'projects/project-add'), false);
                             <?php
                             echo $this->Form->input(
                                 'project_lead_id', array(
+                                'options'=>$projectLeads,
                                 'class' => 'span3',
                                 'placeholder' => 'Enter Project Lead Name',
-                                'id' => 'project_lead',
+                                'id' => 'projectLead',
                                 'type' => 'text',
                             ));
                             ?>
@@ -104,9 +105,10 @@ echo $this->Html->script(array('validations', 'projects/project-add'), false);
                             <?php
                             echo $this->Form->input(
                                 'project_ba_id', array(
+                                'options'=>$ba,
                                 'class' => 'span3',
                                 'placeholder' => 'Enter Projects BA Name',
-                                'id' => 'project_ba',
+                                'id' => 'projectBa',
                                 'type' => 'text',
                             ));
                             ?>
