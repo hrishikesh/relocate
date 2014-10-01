@@ -59,7 +59,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                 'placeholder' => 'Enter Start Date',
                                 'id' => 'start',
                                 'type' => 'text',
-                                'value' => date('d-m-Y')
+                                /*'value' => date('d-m-Y')*/
                             ));
                             ?>
                         </div>
@@ -76,7 +76,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                 'placeholder' => 'Enter End Date',
                                 'id' => 'end',
                                 'type' => 'text',
-                                'value' => date('d-m-Y')
+                                /*'value' => date('d-m-Y')*/
                             ));
                             ?>
                         </div>
@@ -147,7 +147,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                         'div' => false,
                                         'label' => false,
                                         'empty' => 'Allocation percentage',
-                                        'placeholder'=>'Enter Description'
+                                        'placeholder'=>'Enter % Allocation'
                                     ));
                                 ?>
                             </span>
@@ -158,7 +158,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                     'class' => 'tip span3 date-picker',
                                     'placeholder' => 'Enter Start Date',
                                     'type' => 'text',
-                                    'value' => date('d-m-Y')
+                                    /*'value' => date('d-m-Y')*/
                                 ));
                                 ?>
                             </span>
@@ -169,7 +169,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                     'class' => 'tip span3 date-picker',
                                     'placeholder' => 'Enter End Date',
                                     'type' => 'text',
-                                    'value' => date('d-m-Y')
+                                    /*'value' => date('d-m-Y')*/
                                 ));
                                 ?>
                             </span>

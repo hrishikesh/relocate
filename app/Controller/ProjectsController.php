@@ -174,8 +174,11 @@ class ProjectsController extends AppController {
         $this->request->data = $this->Project->read(null, $id);
         $project_id = $id;
         $this->loadModel('Skill');
+        $this->loadModel('User');
         $skills = $this->Skill->getSkills();
-        $this->set(compact('skills', 'project_id'));
+        $projectLeads = $this->User->find('list', array('fields'=>array('id', 'first_name')));
+        $ba = $this->User->find('list', array('fields'=>array('id', 'first_name')));
+        $this->set(compact('skills', 'project_id','projectLeads','ba'));
     }
 
     /**

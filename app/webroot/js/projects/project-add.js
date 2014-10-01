@@ -5,13 +5,13 @@ $(document).ready(function () {
             var name = $(this).attr('name');
             name = name.replace('[1]', '['+count +']');
             $(this).attr('name', name);
-
-            if($(this).hasClass('date-picker')){
+            $(this).val('');
+            /*if($(this).hasClass('date-picker')){
                 var date = $.datepicker.formatDate('dd-mm-yy', new Date());
                 $(this).val(date);
             }else {
                 $(this).val('');
-            }
+            }*/
         });
     };
 
