@@ -23,7 +23,7 @@ echo $this->Html->script(array('validations'), false);
                         <label class="control-label" for="userName">Email Id</label>
 
                         <div class="controls">
-                            <?php echo $this->Form->input('username', array('placeholder'=>'Enter Email Id'));
+                            <?php echo $this->Form->input('User.username', array('placeholder'=>'Enter Email Id'));
                             echo $this->Html->image('indicator.gif', array('id' => 'busy-indicator'));
                             echo $this->Html->image('available.png', array('id' => 'available'));
                             echo $this->Html->image('unavailable.gif', array('id' => 'unavailable'));?>
@@ -33,67 +33,127 @@ echo $this->Html->script(array('validations'), false);
                         <label class="control-label" for="password">Password</label>
 
                         <div class="controls">
-                            <?php echo $this->Form->input('password',array('placeholder'=>'Enter Password'));?>
+                            <?php echo $this->Form->input('User.password',array('placeholder'=>'Enter Password'));?>
                         </div>
                     </div>
                     <div class="control-group info">
                         <label class="control-label" for="first_name">First Name</label>
 
                         <div class="controls">
-                            <?php echo $this->Form->input('first_name',array('placeholder'=>'Enter First Name'));?>
+                            <?php echo $this->Form->input('User.first_name',array('placeholder'=>'Enter First Name'));?>
                         </div>
                     </div>
                     <div class="control-group info">
                         <label class="control-label" for="last_name">Last Name</label>
 
                         <div class="controls">
-                            <?php echo $this->Form->input('last_name', array('placeholder'=>'Enter Last Name'));?>
+                            <?php echo $this->Form->input('User.last_name', array('placeholder'=>'Enter Last Name'));?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="last_name">Date Of Birth</label>
+
+                        <div class="controls">
+                            <?php echo $this->Form->input('User.date_of_birth', array('placeholder'=>'dd/mm/yyyy','class'=>'date-picker'));?>
                         </div>
                     </div>
                     <div class="control-group info">
                         <label class="control-label" for="employee_id">Employee id</label>
 
                         <div class="controls">
-                            <?php echo $this->Form->input('employee_id', array('type' => 'text','placeholder'=>'Enter Employee Id'));?>
-                        </div>
-                    </div>
-                </div>
-
-                <!--Project Reequirements : start-->
-                <div class="form-actions">
-                    <div class="page-header">
-                        <h3>Technical Information</h3>
-                    </div>
-
-                    <div class="control-group info">
-                        <label class="control-label" for="technology">Technology</label>
-                        <div class="controls">
-                            <?php
-                            echo $this->Form->input('technology_id', array('options' => $technologies));
-                            ?>
+                            <?php echo $this->Form->input('User.employee_id', array('type' => 'text','placeholder'=>'Enter Employee Id'));?>
                         </div>
                     </div>
                     <div class="control-group info">
                         <label class="control-label" for="salary">Salary</label>
                         <div class="controls">
                             <?php
-                            echo $this->Form->input('salary',array('placeholder'=>'Enter Annual Salary'));
+                            echo $this->Form->input('User.salary',array('placeholder'=>'Enter Annual Salary'));
                             ?>
                         </div>
+                    </div>
+                </div>
+
+
+                <!--Project Reequirements : start-->
+                <div class="form-actions">
+                    <div class="page-header">
+                        <h3>Technical Information</h3>
                     </div>
                     <div class="control-group info">
                         <label class="control-label" for="work_experience">Work Experience</label>
                         <div class="controls">
                             <?php
-                            echo $this->Form->input('work_experience',array('placeholder'=>'Enter Total Work Experience'));
+                            echo $this->Form->input('User.work_experience',array('placeholder'=>'Enter Total Work Experience','id'=>"totalExperience"));
+                            ?>
+                            <input type="button" class="fancybox" name="addCompany" id="addCompany" value="Add Experience" />
+
+                            <div class="company companyHide" id="company">
+                                <div>
+                                    <input type="button" name="addMore" id="addMore" value="Add More" />
+                                </div>
+                                <div class="companyInfo">
+                                    <span class="pull-left">
+                                       <?php echo $this->Form->input('UserPreviousExperience.start_date',array('name'=>'data[UserPreviousExperience][1][start_date]','type'=>'text','placeholder'=>'dd/mm/yyyy','class'=>'date-picker startDate'));?>
+                                       <?php echo $this->Form->input('UserPreviousExperience.end_date',array('name'=>'data[UserPreviousExperience][1][end_date]','type'=>'text','placeholder'=>'dd/mm/yyyy','class'=>'date-picker endDate'));?>
+                                    </span>
+                                    <span class="pull-left">
+                                        <?php echo $this->Form->input('UserPreviousExperience.company_name',array('name'=>'data[UserPreviousExperience][1][company_name]','placeholder'=>'Company Name'));?>
+                                    </span>
+                                    <span class="pull-left">
+                                        <?php echo $this->Form->textarea('UserPreviousExperience.description',array('name'=>'data[UserPreviousExperience][1][description]','placeholder'=>'Description'));?>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="primary_skill">Primary Skill</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('UserSkill.primary_skill', array('options' => $skills,'empty' => 'Select Primary Skill'));
                             ?>
                         </div>
                     </div>
                     <div class="control-group info">
-                        <label class="control-label" for="role_id">Role</label>
+                        <label class="control-label" for="secondary_skill">Secondary Skill</label>
                         <div class="controls">
                             <?php
-                            echo $this->Form->input('role_id', array('options' => $roles));
+                            echo $this->Form->input('UserSkill.secondary_skill', array('options' => $skills,'empty' => 'Select Secondary Skills','multiple' => true),array('multiple' => true));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="team_id">Team</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('UserProfile.team_id', array('options' => $teams,'empty' => 'Select Team'));
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="control-group info">
+                        <label class="control-label" for="designation_id">Designation</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('UserProfile.designation_id', array('options' => $designations,'empty' => 'Select Designation'));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="grade_id">Grade</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('UserProfile.grade_id', array('options' => $grades,'empty' => 'Select Grade'));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="date_of_joining">Date Of Joining</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('User.date_of_joining',array('placeholder'=>'dd/mm/yyyy','type'=>'text','class'=>'date-picker'));
                             ?>
                         </div>
                     </div>
