@@ -117,6 +117,7 @@ class UsersController extends AppController {
                 $userData['UserProfile']['user_id'] = $user_id;
                 $this->User->UserProfile->create($userData);
                 $this->User->UserProfile->save();
+                $saveSkills = $this->User->UserSkill->saveUserSkills($userData['UserSkill'],$user_id);
                 if(!empty($userData['UserPreviousExperience'])) {
                     $experienceCount = 0;
                     foreach($userData['UserPreviousExperience'] as $experienceKey=>$experienceValue){
@@ -139,10 +140,11 @@ class UsersController extends AppController {
         }
         $roles = $this->User->Role->getList();
         $teams = $this->User->UserProfile->Team->getList();
+        $skills = $this->User->UserSkill->Skill->getAllSkills();
         $designations = $this->User->UserProfile->Designation->getList();
         $grades = $this->User->UserProfile->Grade->getList();
         $tab = 'users';
-        $this->set(compact('teams', 'roles','tab','designations','grades'));
+        $this->set(compact('skills','teams', 'roles','tab','designations','grades'));
     }
 
     /**

@@ -109,6 +109,22 @@ echo $this->Html->script(array('validations'), false);
                         </div>
                     </div>
                     <div class="control-group info">
+                        <label class="control-label" for="primary_skill">Primary Skill</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('UserSkill.primary_skill', array('options' => $skills,'empty' => 'Select Primary Skill'));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
+                        <label class="control-label" for="secondary_skill">Secondary Skill</label>
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input('UserSkill.secondary_skill', array('options' => $skills,'empty' => 'Select Secondary Skills','multiple' => true),array('multiple' => true));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="control-group info">
                         <label class="control-label" for="team_id">Team</label>
                         <div class="controls">
                             <?php
@@ -116,6 +132,7 @@ echo $this->Html->script(array('validations'), false);
                             ?>
                         </div>
                     </div>
+
                     <div class="control-group info">
                         <label class="control-label" for="designation_id">Designation</label>
                         <div class="controls">

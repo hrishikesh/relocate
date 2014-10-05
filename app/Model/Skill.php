@@ -11,6 +11,22 @@ class Skill extends AppModel {
  * @var string
  */
 	public $displayField = 'name';
+
+    public $hasMany = array(
+        'UserSkill' => array(
+            'className' => 'UserSkill',
+            'foreignKey' => 'skill_id',
+            'dependent' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+    );
 /**
  * Validation rules
  *
@@ -28,4 +44,9 @@ class Skill extends AppModel {
 			),
 		),
 	);
+
+    public function getAllSkills(){
+        $this->recursive = -1;
+        return $this->find('list', array('fields' => array('id', 'name')));
+    }
 }
