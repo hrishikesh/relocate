@@ -1,4 +1,9 @@
 $(document).ready(function () {
+
+    $('.date-picker').datepicker({
+        dateFormat:'dd-mm-yy'
+    });
+
     $('#start').datepicker({
         dateFormat:'dd-mm-yy',
         onSelect:function (selectedDate) {
@@ -60,5 +65,8 @@ $(document).ready(function () {
         }
     });
 
+    $(".fancybox").fancybox({
+        content:$("#company")
+    });
 
 });

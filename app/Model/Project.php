@@ -29,7 +29,7 @@ class Project extends AppModel {
             'finderQuery' => '',
             'counterQuery' => ''
         ),
-        'ProjectTechnology' => array(
+        /*'ProjectTechnology' => array(
             'className' => 'ProjectTechnology',
             'foreignKey' => 'project_id',
             'dependent' => true,
@@ -41,7 +41,7 @@ class Project extends AppModel {
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => ''
-        ),
+        ),*/
         'ProjectsUser' => array(
             'className' => 'ProjectsUser',
             'foreignKey' => 'project_id',
@@ -118,7 +118,7 @@ class Project extends AppModel {
                     $this->ProjectsUser->User->recursive = -1;
                     $projectData['ProjectTechnology'][$key]['ProjectsUser'] = $this->ProjectsUser->User->find('all',array('conditions'=>array('User.technology_id'=>$projectTechnology['technology_id'],'User.id'=>$userIds)));
                 }else{
-                    $conditions = array('User.technology_id'=>$projectTechnology['technology_id']);
+                    $conditions = array('User.skill_id'=>$projectTechnology['technology_id']);
                 }
                 $this->ProjectsUser->User->recursive = -1;
                 $resourceData = $this->ProjectsUser->User->find('all', array('conditions'=>$conditions,'fields'=>array('id','first_name','last_name','technology_id')));

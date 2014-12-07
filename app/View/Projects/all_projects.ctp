@@ -27,14 +27,17 @@
                     <td><?php echo h(date('d-m-Y',strtotime($project['Project']['start_date']))); ?>&nbsp;</td>
                     <td><?php echo h(date('d-m-Y',strtotime($project['Project']['end_date']))); ?>&nbsp;</td>
                     <td class="actions">
-                        <?php echo $this->Html->link(__(''), array('action' => 'view', $project['Project']['id']), array('class' => 'icon-eye-open'));
+                        <?php //echo $this->Html->link(__(''), array('action' => 'view', $project['Project']['id']), array('class' => 'icon-eye-open'));
                         echo $this->Html->link(__(''), array('action' => 'edit', $project['Project']['id']), array('class' => 'icon-edit'));
                         echo $this->Html->link(
                         '', array('action' => 'delete', $project['Project']['id']), array(
                         'class' => 'icon-trash',
                         ),
                         __('You are about to delete %s', '"'.$project['Project']['project_name']. '", Are you sure?')
-                        ); ?>
+                        );
+                        echo $this->Html->link(__(''), array('action' => 'allocate', $project['Project']['id']), array('class' => 'icon-user'));
+
+                        ?>
                     </td>
                 </tr>
                 <?php } } else{ ?>

@@ -35,6 +35,7 @@ class User extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
+
         )
     );
     public $hasMany = array(
@@ -63,6 +64,7 @@ class User extends AppModel {
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => ''
+
         ),
         'UserSkill' => array(
             'className' => 'UserSkill',
@@ -77,6 +79,7 @@ class User extends AppModel {
             'finderQuery' => '',
             'counterQuery' => ''
         ),
+
     );
     public $hasOne = array(
         'UserProfile' => array(

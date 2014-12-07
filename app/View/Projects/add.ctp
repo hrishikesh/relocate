@@ -1,5 +1,6 @@
+
 <?php
-echo $this->Html->script(array('validations','projects/project-add'), false);
+echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'autoCompleteLazyLoad','projects/project-add'), false);
 ?>
 <div class="projects form">
     <section id="forms">
@@ -58,7 +59,7 @@ echo $this->Html->script(array('validations','projects/project-add'), false);
                                 'placeholder' => 'Enter Start Date',
                                 'id' => 'start',
                                 'type' => 'text',
-                                'value' => date('d-m-Y')
+                                /*'value' => date('d-m-Y')*/
                             ));
                             ?>
                         </div>
@@ -75,7 +76,41 @@ echo $this->Html->script(array('validations','projects/project-add'), false);
                                 'placeholder' => 'Enter End Date',
                                 'id' => 'end',
                                 'type' => 'text',
-                                'value' => date('d-m-Y')
+                                /*'value' => date('d-m-Y')*/
+                            ));
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="control-group info">
+                        <label class="control-label" for="end">Project Lead</label>
+
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input(
+                                'project_lead_id', array(
+                                'options'=>$projectLeads,
+                                'class' => 'span3 comboBox',
+                               /* 'placeholder' => 'Enter Project Lead Name',*/
+                                'id' => 'projectLead',
+                                /*'type' => 'text',*/
+                            ));
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="control-group info">
+                        <label class="control-label" for="end">Project BA</label>
+
+                        <div class="controls">
+                            <?php
+                            echo $this->Form->input(
+                                'project_ba_id', array(
+                                'options'=>$ba,
+                                'class' => 'span3 comboBox',
+                                /*'placeholder' => 'Enter Projects BA Name',*/
+                                'id' => 'projectBa',
+                                /*'type' => 'text',*/
                             ));
                             ?>
                         </div>
@@ -85,7 +120,7 @@ echo $this->Html->script(array('validations','projects/project-add'), false);
                 <!--Project Requirements : start-->
                 <div class="form-actions">
                     <div class="page-header">
-                        <h3>Project Requirements</h3>
+                        <h3>Resource Allocation Plan</h3>
                     </div>
 
                     <div class="control-group info project-requirements" id="project-requirements" >
@@ -96,42 +131,62 @@ echo $this->Html->script(array('validations','projects/project-add'), false);
                         <div class="requirements" id="requirements">
                             <span class="pull-left">
                             <?php
-                                echo $this->Form->input('ProjectResourceRequirements.1.technology_id', array(
-                                    'options' => $technologies,
+                                echo $this->Form->input('ProjectResourceRequirements.1.skill_id', array(
+                                    'options' => $skills,
                                     'div' => false,
                                     'label' => false,
-                                    'empty' => 'Select Technology'
+                                    'empty' => 'Select Skill'
                                 ));
                                 ?>
-                        </span>
+                            </span>
                             <span class="pull-left">
-                            <?php
-                                $percentages = array(
-                                    5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40,
-                                    45 => 45, 50 => 50, 55 => 55, 60 => 60, 65 => 65, 70 => 70, 75 => 75, 80 => 80,
-                                    85 => 85, 90 => 90, 95 => 95, 100 => 100
-                                );
-                                echo $this->Form->input('ProjectResourceRequirements.1.required_percentage', array(
-                                    'options' => $percentages,
-                                    'div' => false,
-                                    'label' => false,
-                                    'empty' => 'Allocation percentage'
-                                ));
+                                <?php
+
+                                    echo $this->Form->input('ProjectResourceRequirements.1.required_percentage', array(
+                                        //'options' => $percentages,
+                                        'div' => false,
+                                        'label' => false,
+                                        'empty' => 'Allocation percentage',
+                                        'placeholder'=>'Enter % Allocation'
+                                    ));
                                 ?>
-                        </span>
+                            </span>
                             <span class="pull-left">
-                            <?php
-                                echo $this->Form->input('ProjectResourceRequirements.1.no_of_resources', array(
-                                    'options' => array(
-                                        1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7,
-                                        8 => 8, 9 => 9, 10 => 10
-                                    ),
-                                    'div' => false,
-                                    'label' => false,
-                                    'empty' => 'Number of resources'
+                                <?php
+
+                                echo $this->Form->input('ProjectResourceRequirements.1.start_date', array(
+                                    'class' => 'tip span3 date-picker',
+                                    'placeholder' => 'Enter Start Date',
+                                    'type' => 'text',
+                                    /*'value' => date('d-m-Y')*/
                                 ));
                                 ?>
-                        </span>
+                            </span>
+                            <span class="pull-left">
+                                <?php
+
+                                echo $this->Form->input('ProjectResourceRequirements.1.end_date', array(
+                                    'class' => 'tip span3 date-picker',
+                                    'placeholder' => 'Enter End Date',
+                                    'type' => 'text',
+                                    /*'value' => date('d-m-Y')*/
+                                ));
+                                ?>
+                            </span>
+
+                            <!-- <span class="pull-left">
+                                <?php
+    /*                                echo $this->Form->input('ProjectResourceRequirements.1.no_of_resources', array(
+                                        'options' => array(
+                                            1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7,
+                                            8 => 8, 9 => 9, 10 => 10
+                                        ),
+                                        'div' => false,
+                                        'label' => false,
+                                        'empty' => 'Number of resources'
+                                    ));
+                                    */?>
+                            </span>-->
                         </div>
                     </div>
 

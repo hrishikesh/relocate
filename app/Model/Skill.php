@@ -11,7 +11,6 @@ class Skill extends AppModel {
  * @var string
  */
 	public $displayField = 'name';
-
     public $hasMany = array(
         'UserSkill' => array(
             'className' => 'UserSkill',
@@ -48,5 +47,9 @@ class Skill extends AppModel {
     public function getAllSkills(){
         $this->recursive = -1;
         return $this->find('list', array('fields' => array('id', 'name')));
+    }
+
+    public function getSkills(){
+        return $this->find('list');
     }
 }
