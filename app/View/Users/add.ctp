@@ -61,7 +61,12 @@ echo $this->Html->script(array('validations'), false);
                         <label class="control-label" for="employee_id">Employee id</label>
 
                         <div class="controls">
-                            <?php echo $this->Form->input('User.employee_id', array('type' => 'text','placeholder'=>'Enter Employee Id'));?>
+                            <?php
+                            echo $this->Form->input('User.employee_id', array('type' => 'text','placeholder'=>'Enter Employee Id'));
+                            echo $this->Html->image('indicator.gif', array('id' => 'e-busy-indicator'));
+                            echo $this->Html->image('available.png', array('id' => 'e-available'));
+                            echo $this->Html->image('unavailable.gif', array('id' => 'e-unavailable'));
+                            ?>
                         </div>
                     </div>
                     <div class="control-group info">
@@ -86,26 +91,26 @@ echo $this->Html->script(array('validations'), false);
                             <?php
                             echo $this->Form->input('User.work_experience',array('placeholder'=>'Enter Total Work Experience','id'=>"totalExperience"));
                             ?>
-                            <input type="button" class="fancybox" name="addCompany" id="addCompany" value="Add Experience" />
+<!--                            <input type="button" class="fancybox" name="addCompany" id="addCompany" value="Add Experience" />-->
 
-                            <div class="company companyHide" id="company">
-                                <div>
-                                    <input type="button" name="addMore" id="addMore" value="Add More" />
-                                </div>
-                                <div class="companyInfo">
-                                    <span class="pull-left">
-                                       <?php echo $this->Form->input('UserPreviousExperience.start_date',array('name'=>'data[UserPreviousExperience][1][start_date]','type'=>'text','placeholder'=>'dd/mm/yyyy','class'=>'date-picker startDate'));?>
+<!--                            <div class="company companyHide" id="company">-->
+<!--                                <div>-->
+<!--                                    <input type="button" name="addMore" id="addMore" value="Add More" />-->
+<!--                                </div>-->
+<!--                                <div class="companyInfo">-->
+<!--                                    <span class="pull-left">-->
+<!--                                       --><?php //echo $this->Form->input('UserPreviousExperience.start_date',array('name'=>'data[UserPreviousExperience][1][start_date]','type'=>'text','placeholder'=>'dd/mm/yyyy','class'=>'date-picker startDate'));?>
                                        <?php echo $this->Form->input('UserPreviousExperience.end_date',array('name'=>'data[UserPreviousExperience][1][end_date]','type'=>'text','placeholder'=>'dd/mm/yyyy','class'=>'date-picker endDate'));?>
-                                    </span>
-                                    <span class="pull-left">
-                                        <?php echo $this->Form->input('UserPreviousExperience.company_name',array('name'=>'data[UserPreviousExperience][1][company_name]','placeholder'=>'Company Name'));?>
-                                    </span>
-                                    <span class="pull-left">
-                                        <?php echo $this->Form->textarea('UserPreviousExperience.description',array('name'=>'data[UserPreviousExperience][1][description]','placeholder'=>'Description'));?>
-                                    </span>
-                                </div>
-
-                            </div>
+<!--                                    </span>-->
+<!--                                    <span class="pull-left">-->
+<!--                                        --><?php //echo $this->Form->input('UserPreviousExperience.company_name',array('name'=>'data[UserPreviousExperience][1][company_name]','placeholder'=>'Company Name'));?>
+<!--                                    </span>-->
+<!--                                    <span class="pull-left">-->
+<!--                                        --><?php //echo $this->Form->textarea('UserPreviousExperience.description',array('name'=>'data[UserPreviousExperience][1][description]','placeholder'=>'Description'));?>
+<!--                                    </span>-->
+<!--                                </div>-->
+<!---->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="control-group info">
@@ -124,31 +129,40 @@ echo $this->Html->script(array('validations'), false);
                             ?>
                         </div>
                     </div>
+<!--                    <div class="control-group info">-->
+<!--                        <label class="control-label" for="team_id">Team</label>-->
+<!--                        <div class="controls">-->
+<!--                            --><?php
+//                            echo $this->Form->input('UserProfile.team_id', array('options' => $teams,'empty' => 'Select Team'));
+//                            ?>
+<!--                        </div>-->
+<!--                    </div>-->
+
                     <div class="control-group info">
-                        <label class="control-label" for="team_id">Team</label>
+                        <label class="control-label" for="role_id">Role</label>
                         <div class="controls">
                             <?php
-                            echo $this->Form->input('UserProfile.team_id', array('options' => $teams,'empty' => 'Select Team'));
+                            echo $this->Form->input('User.role_id', array('options' => $roles,'empty' => 'Select Role'));
                             ?>
                         </div>
                     </div>
 
-                    <div class="control-group info">
-                        <label class="control-label" for="designation_id">Designation</label>
-                        <div class="controls">
-                            <?php
-                            echo $this->Form->input('UserProfile.designation_id', array('options' => $designations,'empty' => 'Select Designation'));
-                            ?>
-                        </div>
-                    </div>
-                    <div class="control-group info">
-                        <label class="control-label" for="grade_id">Grade</label>
-                        <div class="controls">
-                            <?php
-                            echo $this->Form->input('UserProfile.grade_id', array('options' => $grades,'empty' => 'Select Grade'));
-                            ?>
-                        </div>
-                    </div>
+<!--                    <div class="control-group info">-->
+<!--                        <label class="control-label" for="designation_id">Designation</label>-->
+<!--                        <div class="controls">-->
+<!--                            --><?php
+//                            echo $this->Form->input('UserProfile.designation_id', array('options' => $designations,'empty' => 'Select Designation'));
+//                            ?>
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="control-group info">-->
+<!--                        <label class="control-label" for="grade_id">Grade</label>-->
+<!--                        <div class="controls">-->
+<!--                            --><?php
+//                            echo $this->Form->input('UserProfile.grade_id', array('options' => $grades,'empty' => 'Select Grade'));
+//                            ?>
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="control-group info">
                         <label class="control-label" for="date_of_joining">Date Of Joining</label>
                         <div class="controls">

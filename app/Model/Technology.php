@@ -29,8 +29,8 @@ class Technology extends AppModel {
 			'finderQuery' => '',
 			'counterQuery' => ''
 		),
-		'User' => array(
-			'className' => 'User',
+		'UserTechnology' => array(
+			'className' => 'UserTechnology',
 			'foreignKey' => 'technology_id',
 			'dependent' => false,
 			'conditions' => '',
@@ -49,6 +49,15 @@ class Technology extends AppModel {
         return $this->find('list',array(
             'fields'=>array('id','stream_name')
         ));
+    }
+
+    public function getAllSkills(){
+        $this->recursive = -1;
+        return $this->find('list', array('fields' => array('id', 'stream_name')));
+    }
+
+    public function getSkills(){
+        return $this->find('list');
     }
 
     public function getTechnologyUserCount() {

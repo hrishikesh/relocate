@@ -22,13 +22,7 @@ class User extends AppModel {
      * @var array
      */
     public $belongsTo = array(
-        'Technology' => array(
-            'className' => 'Technology',
-            'foreignKey' => 'technology_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
-        ),
+
         'Role' => array(
             'className' => 'Role',
             'foreignKey' => 'role_id',
@@ -66,8 +60,8 @@ class User extends AppModel {
             'counterQuery' => ''
 
         ),
-        'UserSkill' => array(
-            'className' => 'UserSkill',
+        'UserTechnology' => array(
+            'className' => 'UserTechnology',
             'foreignKey' => 'user_id',
             'dependent' => true,
             'conditions' => '',
@@ -112,5 +106,9 @@ class User extends AppModel {
 
     public function checkUserByCount($data = null) {
         return $this->isExist(array('username' => $data['username']));
+    }
+
+    public function checkUserByEmpIdCount($data){
+        return $this->isExist(array('employee_id' => $data['employee_id']));
     }
 }

@@ -11,6 +11,9 @@ jQuery(function () {
     $('#busy-indicator').hide();
     $('#unavailable').hide();
     $('#available').hide();
+    $('#e-busy-indicator').hide();
+    $('#e-unavailable').hide();
+    $('#e-available').hide();
 
 //    User form validations start
     jQuery("#UserUsername").validate({
@@ -58,8 +61,18 @@ jQuery(function () {
     });
 
     jQuery("#UserEmployeeId").validate({
-        expression:"if (VAL) return true; else return false;",
+        expression:"if (VAL) return true; else{ $('#e-busy-indicator').hide(); $('#e-unavailable').hide(); $('#e-available').hide(); return false;}",
         message:"<div>Please enter the employee id</div>"
+    });
+
+    jQuery("#UserEmployeeId").validate({
+        expression:"if(VAL.match(/^[a-zA-Z0-9]+$/)) return true; else return false;",
+        message:"<div>Employee id should be alphanumeric </div>"
+    });
+
+    jQuery("#UserEmployeeId").validate({
+        expression:"if (!check_employee_id(VAL,1)) return true; else return false;",
+        message:""
     });
 
     jQuery("#UserSalary").validate({
@@ -188,6 +201,40 @@ function check_user(val,flag) {
         }).responseText;
     } else {
         $('#busy-indicator').hide();
+        return false;
+    }
+}
+
+function check_employee_id(val,flag) {
+    if (val != '') {
+        $(this).ajaxStart(function () {
+            $('#e-busy-indicator').show();
+            $('#e-unavailable').hide();
+            $('#e-available').hide();
+        });
+
+        $("#loading").ajaxStop(function () {
+            $('#e-busy-indicator').hide();
+        });
+
+        return $.ajax({
+            url:'/users/check_availability',
+            type:'post',
+            async:false,
+            data:{data:{employee_id:val}},
+            success:function (response) {
+                if (response != 1) {
+                    $('#e-available').show();
+                    $('#e-unavailable').hide();
+                } else {
+                    $('#e-available').hide();
+                    $('#e-unavailable').show();
+                }
+                $('#e-busy-indicator').hide();
+            }
+        }).responseText;
+    } else {
+        $('#e-busy-indicator').hide();
         return false;
     }
 }
