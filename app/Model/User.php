@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * User Model
  *
- * @property Technology $Technology
+ * @property UserTechnology $UserTechnology
  * @property Role $Role
  * @property ProjectsUser $ProjectsUser
  */

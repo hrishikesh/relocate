@@ -5,6 +5,7 @@ App::uses('AppModel', 'Model');
  *
  * @property User $User
  * @property Skill $Skill
+ * @property Technology $Technology
  */
 class UserTechnology extends AppModel {
 
