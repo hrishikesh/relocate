@@ -20,8 +20,9 @@ echo $this->Html->script(array('validations'), false);
                     'type' => 'file'
                 )); ?>
                 <div class="form-actions">
-                    <div class="page-header">
-                        <h3>Import Users</h3>
+                    <div class="page-header clearfix">
+                        <h3>Import Users <a href="<?php echo FULL_BASE_URL;?>/files/samples/sample_users.xls" class="pull-right">Download sample xls</a></h3>
+
                     </div>
                     <div class="control-group info">
                         <label class="control-label" for="userName">Upload XLS File</label>
