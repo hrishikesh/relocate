@@ -15,19 +15,19 @@ class XlsReaderComponent extends Component{
     protected $rules=array();
     protected $fileToUpload=null;
     private $invalidRule=true;
-    public function initialize($controller) {
+    public function initialize(Controller $controller) {
     }
 
-    public function startup() {
+    public function startup(Controller $controller) {
     }
 
-    public function beforeRender() {
+    public function beforeRender(Controller $controller) {
     }
 
-    public function beforeRedirect() {
+    public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true) {
     }
 
-    public function shutdown() {
+    public function shutdown(Controller $controller) {
     }
 
     /**

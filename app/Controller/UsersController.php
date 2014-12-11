@@ -421,8 +421,37 @@ class UsersController extends AppController {
                 $this->Session->setFlash('There is some problem occur, please try after some time');
                 $this->redirect(array('controller' => 'projects', 'action' => 'all_projects'));
             }
-
         }
+    }
 
+    /**
+     * @description Download xls
+     * @param int $projectId
+     */
+    public function export_users($projectId = 0){
+        $conditions = array();
+        if(!empty($projectId) && $projectId !=0 && $projectId !=null) {
+            $conditions['Project.id'] = $projectId;
+        }
+        $userData = $this->User->exportUsersData($conditions);
+        $this->XlsWriter = $this->Components->load('XlsWriter');
+
+        $xlsName = 'EmployeesData';
+        $workSheetName = 'Employees xls';
+        $dataKey = key($userData[0]);
+        $fields = array_keys($userData[0][$dataKey]);
+
+        $worksheet = $this->XlsWriter
+            ->createWorkbook()
+            ->createWorksheet($workSheetName);
+        $worksheet->freezePanes(array(1, 0, 1, 0));
+
+        $this->XlsWriter->addXlsHeader($fields);
+        foreach ($userData as $data) {
+            $excelData = $this->XlsWriter->replaceNulls($data[$dataKey]);
+            $this->XlsWriter->addXlsRecord($excelData);
+        }
+        /*Download excel sheet*/
+        $this->XlsWriter->download($xlsName);
     }
 }
