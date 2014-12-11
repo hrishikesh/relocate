@@ -153,24 +153,11 @@ class UsersController extends AppController
             $this->User->create($userData);
             if ($this->User->save()) {
                 $user_id = $this->User->getLastInsertID();
-                $userData['UserProfile']['user_id'] = $user_id;
-                $this->User->UserProfile->create($userData);
-                $this->User->UserProfile->save();
+//                $userData['UserProfile']['user_id'] = $user_id;
+//                $this->User->UserProfile->create($userData);
+//                $this->User->UserProfile->save();
                 $saveSkills = $this->User->UserTechnology->saveUserTechnologies($userData['UserSkill'], $user_id);
-//                if(!empty($userData['UserPreviousExperience'])) {
-//                    $experienceCount = 0;
-//                    foreach($userData['UserPreviousExperience'] as $experienceKey=>$experienceValue){
-//                        $previousExperience[$experienceCount]['user_id'] = $user_id;
-//                        $previousExperience[$experienceCount]['start_date'] =date('Y-m-d H:i:s', strtotime($experienceValue['start_date']));
-//                        $previousExperience[$experienceCount]['end_date'] =date('Y-m-d H:i:s', strtotime($experienceValue['start_date']));
-//                        $previousExperience[$experienceCount]['company_name'] =$experienceValue['company_name'];
-//                        $previousExperience[$experienceCount]['description'] =$experienceValue['description'];
-//                        $experienceCount = $experienceCount+1;
-//                    }
-//                    unset($userData['UserPreviousExperience']);
-//                    $userData['UserPreviousExperience'] = $previousExperience;
-//                    $this->User->UserPreviousExperience->saveAll($userData['UserPreviousExperience']);
-//                }
+
                 $this->Session->setFlash(__('The user has been saved'), 'set_flash');
                 $this->redirect('/');
             } else {
@@ -178,10 +165,9 @@ class UsersController extends AppController
             }
         }
         $roles = $this->User->Role->getList();
-//        $teams = $this->User->UserProfile->Team->getList();
+
         $skills = $this->User->UserTechnology->Technology->getAllSkills();
-//        $designations = $this->User->UserProfile->Designation->getList();
-//        $grades = $this->User->UserProfile->Grade->getList();
+
         $tab = 'users';
         $this->set(compact('skills', 'teams', 'roles', 'tab', 'designations', 'grades'));
     }
@@ -199,18 +185,38 @@ class UsersController extends AppController
             throw new NotFoundException(__('Invalid user'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
+//            pr($this->request->data);
+//            die;
+            $userData = $this->request->data;
             if ($this->User->save($this->request->data)) {
+                $saveSkills = $this->User->UserTechnology->updateUserTechnologies($userData['UserSkill'], $userData['User']['id']);
                 $this->Session->setFlash(__('The user has been saved'), 'set_flash');
                 $this->redirect('/');
             } else {
                 $this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'set_flash');
             }
         } else {
-            $this->request->data = $this->User->read(null, $id);
-            $technologies = $this->User->Technology->getList();
-            $tab = 'users';
-            $this->set(compact('technologies', 'tab'));
+            $userData = $this->User->read(null, $id);
+            if(!empty($userData['UserTechnology'])){
+                $user_skills=array();
+                foreach($userData['UserTechnology'] as $key=>$val){
+                    if($val['primary_skill']==1){
+                       $user_skills['primary_skill'] =$val['technology_id'];
+                    }else{
+                        $user_skills['secondary_skill'][] = $val['technology_id'];
+                    }
+                }
+                $userData['UserSkill'] = $user_skills;
+
+            }
+
+            $this->request->data = $userData;
+
         }
+        $roles = $this->User->Role->getList();
+        $skills = $this->User->UserTechnology->Technology->getAllSkills();
+        $tab = 'users';
+        $this->set(compact('skills','roles', 'tab'));
     }
 
     /**
