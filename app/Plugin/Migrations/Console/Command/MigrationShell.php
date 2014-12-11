@@ -170,7 +170,7 @@ class MigrationShell extends AppShell {
 		$options = array(
 			'precheck' => isset($this->params['precheck']) ? $this->params['precheck'] : null,
 			'type' => $this->type,
-			'callback' => &$this);
+			'callback' => $this);
 
 		$once = false; //In case of exception run shell again (all, reset, migration number)
 		if (isset($this->args[0]) && in_array($this->args[0], array('up', 'down'))) {
