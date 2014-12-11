@@ -91,26 +91,6 @@ echo $this->Html->script(array('validations'), false);
                             <?php
                             echo $this->Form->input('User.work_experience',array('placeholder'=>'Enter Total Work Experience','id'=>"totalExperience"));
                             ?>
-<!--                            <input type="button" class="fancybox" name="addCompany" id="addCompany" value="Add Experience" />-->
-
-<!--                            <div class="company companyHide" id="company">-->
-<!--                                <div>-->
-<!--                                    <input type="button" name="addMore" id="addMore" value="Add More" />-->
-<!--                                </div>-->
-<!--                                <div class="companyInfo">-->
-<!--                                    <span class="pull-left">-->
-<!--                                       --><?php //echo $this->Form->input('UserPreviousExperience.start_date',array('name'=>'data[UserPreviousExperience][1][start_date]','type'=>'text','placeholder'=>'dd/mm/yyyy','class'=>'date-picker startDate'));?>
-                                       <?php echo $this->Form->input('UserPreviousExperience.end_date',array('name'=>'data[UserPreviousExperience][1][end_date]','type'=>'text','placeholder'=>'dd/mm/yyyy','class'=>'date-picker endDate'));?>
-<!--                                    </span>-->
-<!--                                    <span class="pull-left">-->
-<!--                                        --><?php //echo $this->Form->input('UserPreviousExperience.company_name',array('name'=>'data[UserPreviousExperience][1][company_name]','placeholder'=>'Company Name'));?>
-<!--                                    </span>-->
-<!--                                    <span class="pull-left">-->
-<!--                                        --><?php //echo $this->Form->textarea('UserPreviousExperience.description',array('name'=>'data[UserPreviousExperience][1][description]','placeholder'=>'Description'));?>
-<!--                                    </span>-->
-<!--                                </div>-->
-<!---->
-<!--                            </div>-->
                         </div>
                     </div>
                     <div class="control-group info">

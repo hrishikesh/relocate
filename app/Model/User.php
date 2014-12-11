@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * User Model
  *
- * @property Technology $Technology
+ * @property UserTechnology $UserTechnology
  * @property Role $Role
  * @property ProjectsUser $ProjectsUser
  */
@@ -118,4 +118,74 @@ class User extends AppModel
     }
 
 
+    public function formatUser($users)
+    {
+        foreach ($users as $key => $user) {
+
+            unset($users[$key]['UserTechnology']);
+            unset($users[$key]['ProjectsUser']);
+            $this->UserTechnology->recursive = 0;
+            $this->UserTechnology->unbindModel(array('belongsTo' => array('User')));
+            $users[$key]['UserTechnology'] = $this->UserTechnology->find('all', array('conditions' => array('UserTechnology.user_id' => $user['User']['id']), 'group' => array('UserTechnology.technology_id')));
+            $this->ProjectsUser->recursive = 0;
+            $this->ProjectsUser->unbindModel(array('belongsTo' => array('User')));
+            $users[$key]['ProjectsUser'] = $this->ProjectsUser->find('all', array('conditions' => array('ProjectsUser.user_id' => $user['User']['id']), 'group' => array('ProjectsUser.project_id')));
+        }
+        return $users;
+    }
+
+    /**
+     * @description Save Xl uploaded user data in DB
+     * @param $userXlsData
+     * @return bool
+     */
+    public function saveUserDataFromXls($userXlsData)
+    {
+        try {
+            foreach ($userXlsData as $data) {
+                $nullChecks = array('', null, '0', '-');
+                if (!isset($data['email']) ||
+                    empty($data['email']) ||
+                    in_array($data['email'], $nullChecks)
+                ) {
+                    continue;
+                }
+                $usersData = array(
+                    'username' => $data['email'],
+                    'employee_id' => $data['emp_id'],
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'date_of_birth' => $data['dob'],
+                    'salary' => $data['salary'],
+                    'work_experience' => $data['work_ex'],
+                    'is_active' => 1,
+                    'is_verified' => 1
+
+                    //'date_of_birth' => $data['dob'],
+                );
+
+                // Check if email exist then update record
+                if ($userId = $this->isEmailExists($data['email'])) {
+                    $usersData['id'] = $userId;
+                }
+
+                $this->create();
+                $this->save($usersData);
+
+                if (!$userId) {
+                    $userId = $this->getLastInsertID();
+                }
+
+                $this->UserTechnology->saveUserSkills($userId, $data['primary_skill'], $data['secondary_skills']);
+            }
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
+    public function isEmailExists($emailId)
+    {
+        return $this->field('id', array('username' => $emailId));
+    }
 }
