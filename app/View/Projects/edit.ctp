@@ -35,7 +35,15 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                         <label class="control-label" for="projectType">Project Type</label>
 
                         <div class="controls">
-                            <?php echo $this->Form->input('project_type'); ?>
+                            <?php
+                            echo $this->Form->input("project_type_id", array(
+                                'options' => $projectType,
+                                'div' => false,
+                                'label' => false,
+                                'value' => $this->data['Project']['project_type_id'],
+                                'empty' => 'Select Technology'
+                            ));
+                            ?>
                         </div>
                     </div>
 
@@ -81,39 +89,39 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                         </div>
                     </div>
 
-                    <div class="control-group info">
-                        <label class="control-label" for="end">Project Lead</label>
-
-                        <div class="controls">
-                            <?php
-                            echo $this->Form->input(
-                                'project_lead_id', array(
-                                'options'=>$projectLeads,
-                                'class' => 'span3',
-                                'placeholder' => 'Enter Project Lead Name',
-                                'id' => 'projectLead',
-                                'type' => 'text',
-                            ));
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="control-group info">
-                        <label class="control-label" for="end">Project BA</label>
-
-                        <div class="controls">
-                            <?php
-                            echo $this->Form->input(
-                                'project_ba_id', array(
-                                'options'=>$ba,
-                                'class' => 'span3',
-                                'placeholder' => 'Enter Projects BA Name',
-                                'id' => 'projectBa',
-                                'type' => 'text',
-                            ));
-                            ?>
-                        </div>
-                    </div>
+<!--                    <div class="control-group info">-->
+<!--                        <label class="control-label" for="end">Project Lead</label>-->
+<!---->
+<!--                        <div class="controls">-->
+<!--                            --><?php
+//                            echo $this->Form->input(
+//                                'project_lead_id', array(
+//                                'options'=>$projectLeads,
+//                                'class' => 'span3',
+//                                'placeholder' => 'Enter Project Lead Name',
+//                                'id' => 'projectLead',
+//                                'type' => 'text',
+//                            ));
+//                            ?>
+<!--                        </div>-->
+<!--                    </div>-->
+<!---->
+<!--                    <div class="control-group info">-->
+<!--                        <label class="control-label" for="end">Project BA</label>-->
+<!---->
+<!--                        <div class="controls">-->
+<!--                            --><?php
+//                            echo $this->Form->input(
+//                                'project_ba_id', array(
+//                                'options'=>$ba,
+//                                'class' => 'span3',
+//                                'placeholder' => 'Enter Projects BA Name',
+//                                'id' => 'projectBa',
+//                                'type' => 'text',
+//                            ));
+//                            ?>
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
 
 
@@ -132,8 +140,17 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                         <?php
                         if (isset($this->request->data['ProjectResourceRequirement']) && !empty($this->request->data['ProjectResourceRequirement'])) {
                             foreach ($this->request->data['ProjectResourceRequirement'] as $requirementKey => $projectResourceRequirement) {
+
+                                echo $this->Form->input("ProjectResourceRequirements." . ($requirementKey + 1) . ".id", array(
+                                    'type'=>'hidden',
+                                    'div' => false,
+                                    'label' => false,
+                                    'value' => $projectResourceRequirement['id'],
+                                    ));
                                 ?>
+
                                 <div class="requirements clearfix" id="requirements">
+
                                     <?php echo $this->Form->hidden("ProjectResourceRequirements." . ($requirementKey + 1) . ".id" , array('value' => $projectResourceRequirement['id'])) ?>
                                     <span class="pull-left">
                                     <?php
@@ -154,7 +171,6 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                             85 => 85, 90 => 90, 95 => 95, 100 => 100
                                         );*/
                                         echo $this->Form->input("ProjectResourceRequirements." . ($requirementKey + 1) . ".required_percentage", array(
-                                            'options' => $percentages,
                                             'div' => false,
                                             'label' => false,
                                             'value' => $projectResourceRequirement['required_percentage'],
@@ -164,22 +180,36 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                     <span class="pull-left">
                                         <?php
 
-                                        echo $this->Form->input('ProjectResourceRequirements.1.start_date', array(
-                                            'class' => 'tip span3 date-picker',
-                                            'placeholder' => 'Enter Start Date',
-                                            'type' => 'text',
-                                            'value' => date('d-m-Y')
+                                        echo $this->Form->input('ProjectResourceRequirements.' . ($requirementKey + 1) . '.no_of_resources', array(
+                                            //'options' => $percentages,
+                                            'div' => false,
+                                            'label' => false,
+                                            'class'=>'span2',
+                                            'empty' => 'Number of resources',
+                                            'placeholder'=>'Enter no of resources',
+                                            'value'=>$projectResourceRequirement['no_of_resources']
                                         ));
                                         ?>
                                     </span>
                                     <span class="pull-left">
                                         <?php
 
-                                        echo $this->Form->input('ProjectResourceRequirements.1.end_date', array(
+                                        echo $this->Form->input('ProjectResourceRequirements.' . ($requirementKey + 1) . '.start_date', array(
+                                            'class' => 'tip span3 date-picker',
+                                            'placeholder' => 'Enter Start Date',
+                                            'type' => 'text',
+                                            'value' => date('d-m-Y',strtotime($projectResourceRequirement['start_date']))
+                                        ));
+                                        ?>
+                                    </span>
+                                    <span class="pull-left">
+                                        <?php
+
+                                        echo $this->Form->input('ProjectResourceRequirements.' . ($requirementKey + 1) . '.end_date', array(
                                             'class' => 'tip span3 date-picker',
                                             'placeholder' => 'Enter End Date',
                                             'type' => 'text',
-                                            'value' => date('d-m-Y')
+                                            'value' => date('d-m-Y',strtotime($projectResourceRequirement['end_date']))
                                         ));
                                         ?>
                                     </span>

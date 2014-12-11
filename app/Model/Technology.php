@@ -57,7 +57,7 @@ class Technology extends AppModel {
     }
 
     public function getSkills(){
-        return $this->find('list');
+        return $this->find('list',array('fields' => array('id', 'stream_name')));
     }
 
     public function getTechnologyUserCount() {

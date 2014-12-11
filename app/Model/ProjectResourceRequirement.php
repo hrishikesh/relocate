@@ -39,13 +39,25 @@ class ProjectResourceRequirement extends AppModel {
 	);
 
 
-    public function saveProjectReq($resourceRequirements){
+    public function saveProjectReq($resourceRequirements,$project_id=null){
 
-        foreach($resourceRequirements as &$resourceRequirement) {
+
+        foreach($resourceRequirements as $resourceRequirement) {
             $resourceRequirement['start_date'] = date('Y-m-d H:i:s', strtotime($resourceRequirement['start_date']));
             $resourceRequirement['end_date'] = date('Y-m-d H:i:s', strtotime($resourceRequirement['end_date']));
+            $resourceRequirement['project_id'] = $project_id;
+            if(isset($resourceRequirements['id']) && !empty($resourceRequirements['id'])){
+                $this->id=$resourceRequirements['id'];
+            }else{
+
+                $this->create();
+            }
+
+            $this->save($resourceRequirement);
+            $this->log("data saved =========");
+            $this->log($resourceRequirement);
         }
 
-        return $this->saveAll($resourceRequirement);
+        return true;
     }
 }
