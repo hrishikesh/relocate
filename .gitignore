@@ -4,15 +4,18 @@
 /app/tmp
 /app/tmp/*
 /lib/Cake/Console/Templates/skel/tmp/
-/plugins
-/vendors
-/build
-/dist
-/tags
-
+/Plugin
+/Vendors
+/Build
+/Dist
+/Tags
+/app/webroot/files/usersUpload
+/app/webroot/files/usersUpload/*
 # Editor based files #
 ######################
 .idea/
+build.properties
+build.xml
 
 # OS generated files #
 ######################

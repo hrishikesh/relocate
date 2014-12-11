@@ -4,12 +4,17 @@ App::uses('AppController', 'Controller');
  * Users Controller
  *
  * @property User $User
+ * @property XlsWriterComponent $XlsWriter
+ * @property XlsReaderComponent $XlsReader
+ * @property FileUploadComponent $FileUpload
  */
 class UsersController extends AppController
 {
 
-    public function beforeFilter()
-    {
+
+    public $components = array('FileUpload', 'XlsWriter', 'XlsReader');
+    public function beforeFilter() {
+
         parent::beforeFilter();
         $this->Auth->allow(array('index'));
     }
@@ -301,4 +306,53 @@ class UsersController extends AppController
         //WHAT IS THE FORMAT
     }
 
+    public function upload_user_xls(){
+        try{
+            if ($this->request->is('post') || $this->request->is('put')) {
+                if ($this->request->data['User']['file_name']['error'] != 4) {
+                    $xls = $this->FileUpload->uploadFiles('files/usersUpload/', $this->request->data['User']['file_name']
+                        , null, $this->permittedXls, false);
+
+                    if (empty($xls[0]['errors'])) {
+                        $fileName = $xls[0]['urls'][0];
+                        $filePath = WWW_ROOT . 'files/usersUpload/' . $fileName;
+                        $this->XlsReader->setHeaders(
+                            array('emp_id',
+                                'email',
+                                'first_name',
+                                'last_name',
+                                'dob',
+                                'doj',
+                                'salary',
+                                'primary_skill',
+                                'secondary_skills',
+                                'work_ex'
+                            ));
+                        $userXlData = $this->XlsReader->getExcelData($filePath);
+
+
+                        if($userXlData) {
+                            // Save Data
+                            $isUserDataSaved = $this->User->saveUserDataFromXls($userXlData['succeed']);
+                            if($isUserDataSaved){
+                                $this->Session->setFlash('Data saved successfully');
+                            }else{
+                                $this->Session->setFlash('Problem Saving Data');
+                            }
+                        }else{
+                            $this->Session->setFlash('Data is empty');
+                        }
+                    }else{
+                        $this->Session->setFlash('Invalid Data');
+                    }
+                }else{
+                    $this->Session->setFlash('Problem Uploading File');
+                }
+                $this->redirect($this->referer());
+            }
+        }catch (Exception $ex){
+            $this->Session->setFlash('There is some problem occur, please try after some time');
+            $this->redirect($this->referer());
+        }
+    }
 }

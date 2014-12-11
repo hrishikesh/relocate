@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * User Model
  *
- * @property Technology $Technology
+ * @property UserTechnology $UserTechnology
  * @property Role $Role
  * @property ProjectsUser $ProjectsUser
  */
@@ -110,5 +110,58 @@ class User extends AppModel {
 
     public function checkUserByEmpIdCount($data){
         return $this->isExist(array('employee_id' => $data['employee_id']));
+    }
+
+
+    /**
+     * @description Save Xl uploaded user data in DB
+     * @param $userXlsData
+     * @return bool
+     */
+    public function saveUserDataFromXls($userXlsData){
+        try{
+            foreach($userXlsData as $data){
+                $nullChecks = array('',null,'0','-');
+                if(!isset($data['email']) ||
+                    empty($data['email']) ||
+                    in_array($data['email'], $nullChecks)) {
+                    continue;
+                }
+                $usersData = array(
+                    'username' => $data['email'],
+                    'employee_id' => $data['emp_id'],
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'date_of_birth' => $data['dob'],
+                    'salary' => $data['salary'],
+                    'work_experience'=> $data['work_ex'],
+                    'is_active'=>1,
+                    'is_verified'=>1
+
+                    //'date_of_birth' => $data['dob'],
+                );
+
+                // Check if email exist then update record
+                if($userId = $this->isEmailExists($data['email'])) {
+                    $usersData['id'] = $userId;
+                }
+
+                $this->create();
+                $this->save($usersData);
+
+                if(!$userId) {
+                    $userId = $this->getLastInsertID();
+                }
+
+                $this->UserTechnology->saveUserSkills($userId, $data['primary_skill'], $data['secondary_skills']);
+            }
+            return true;
+        }catch (Exception $ex){
+            return false;
+        }
+    }
+
+    public function isEmailExists($emailId){
+        return $this->field('id', array('username'=>$emailId));
     }
 }
