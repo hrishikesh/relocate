@@ -2,8 +2,9 @@
     <div class="projects index">
         <h2><?php echo __('Projects');?>
             <a href="javascript:window.history.back();" class="pull-right backButton"></a>
+
             <div class="pull-right" style="margin-right: 10px;">
-                <?php echo $this->Html->link(__('New Project'), array('action' => 'add'),array('class'=>'btn btn-primary')); ?>
+                <?php echo $this->Html->link(__('New Project'), array('action' => 'add'), array('class' => 'btn btn-primary')); ?>
             </div>
 
         </h2>
@@ -17,27 +18,28 @@
             </tr>
             <?php
             if(count($projects)>0){
-            foreach ($projects as $project){ ?>
-                <tr>
-                    <td><?php echo h($project['Project']['project_name']); ?>&nbsp;</td>
-                    <td><?php echo h($project['Project']['account_name']); echo"(".$project['AllocationProjectType']['name'].")" ?>&nbsp;</td>
-                    <td><?php echo h(date('d-m-Y',strtotime($project['Project']['start_date']))); ?>&nbsp;</td>
-                    <td><?php echo h(date('d-m-Y',strtotime($project['Project']['end_date']))); ?>&nbsp;</td>
-                    <td class="actions">
-                        <?php //echo $this->Html->link(__(''), array('action' => 'view', $project['Project']['id']), array('class' => 'icon-eye-open'));
-                        echo $this->Html->link(__(''), array('action' => 'edit', $project['Project']['id']), array('class' => 'icon-edit'));
-                        echo $this->Html->link(
-                        '', array('action' => 'delete', $project['Project']['id']), array(
-                        'class' => 'icon-trash',
-                        ),
-                        __('You are about to delete %s', '"'.$project['Project']['project_name']. '", Are you sure?')
-                        );
-                        echo $this->Html->link(__(''), array('action' => 'allocate', $project['Project']['id']), array('class' => 'icon-user'));
+                foreach ($projects as $project){ ?>
+                    <tr>
+                        <td><?php echo h($project['Project']['project_name']); ?>&nbsp;</td>
+                        <td><?php echo h($project['Project']['account_name']); echo"(".$project['AllocationProjectType']['name'].")" ?>&nbsp;</td>
+                        <td><?php echo h(date('d-m-Y',strtotime($project['Project']['start_date']))); ?>&nbsp;</td>
+                        <td><?php echo h(date('d-m-Y',strtotime($project['Project']['end_date']))); ?>&nbsp;</td>
+                        <td class="actions">
+                            <?php //echo $this->Html->link(__(''), array('action' => 'view', $project['Project']['id']), array('class' => 'icon-eye-open'));
+                            echo $this->Html->link(__(''), array('action' => 'edit', $project['Project']['id']), array('class' => 'icon-edit'));
+                            echo $this->Html->link(
+                            '', array('action' => 'delete', $project['Project']['id']), array(
+                            'class' => 'icon-trash',
+                            ),
+                            __('You are about to delete %s', '"'.$project['Project']['project_name']. '", Are you sure?')
+                            );
+                            echo $this->Html->link(__(''), array('action' => 'allocate', $project['Project']['id']), array('class' => 'icon-user'));
 
-                        ?>
-                    </td>
-                </tr>
-                <?php } } else{ ?>
+                            ?>
+                        </td>
+                    </tr>
+          <?php }
+            } else{ ?>
                 <tr>
                     <td colspan="6">No projects are added yet.</td>
                 </tr>
@@ -47,8 +49,7 @@
         <?php
         $hasPages = ($this->params['paging']['Project']['pageCount'] > 1);
 
-        if ($hasPages)
-        {
+        if ($hasPages) {
             echo $this->element('pagination');
         } ?>
     </div>
