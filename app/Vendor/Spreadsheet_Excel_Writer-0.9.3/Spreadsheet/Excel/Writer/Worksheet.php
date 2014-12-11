@@ -387,10 +387,10 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
     * @access private
     */
     function Spreadsheet_Excel_Writer_Worksheet($BIFF_version, $name,
-                                                $index, &$activesheet,
-                                                &$firstsheet, &$str_total,
-                                                &$str_unique, &$str_table,
-                                                &$url_format, &$parser,
+                                                $index, $activesheet,
+                                                $firstsheet, $str_total,
+                                                $str_unique, $str_table,
+                                                $url_format, $parser,
                                                 $tmp_dir)
     {
         // It needs to call its parent's constructor explicitly
@@ -401,13 +401,13 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
 
         $this->name            = $name;
         $this->index           = $index;
-        $this->activesheet     = &$activesheet;
-        $this->firstsheet      = &$firstsheet;
-        $this->_str_total      = &$str_total;
-        $this->_str_unique     = &$str_unique;
-        $this->_str_table      = &$str_table;
-        $this->_url_format     = &$url_format;
-        $this->_parser         = &$parser;
+        $this->activesheet     = $activesheet;
+        $this->firstsheet      = $firstsheet;
+        $this->_str_total      = $str_total;
+        $this->_str_unique     = $str_unique;
+        $this->_str_table      = $str_table;
+        $this->_url_format     = $url_format;
+        $this->_parser         = $parser;
 
         //$this->ext_sheets      = array();
         $this->_filehandle     = '';
@@ -803,7 +803,7 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
                 // if the new range lies WITHIN the existing range 
                 if ($lastcol < $existing_end) 
                 { // split the existing range by adding a range after our new range 
-                    $this->_colinfo[] = array($lastcol+1, $existing_end, $colinfo[2], &$colinfo[3], $colinfo[4], $colinfo[5]); 
+                    $this->_colinfo[] = array($lastcol+1, $existing_end, $colinfo[2], $colinfo[3], $colinfo[4], $colinfo[5]);
                 } 
             } // if the new range ends inside an existing range 
             elseif ($lastcol > $existing_start && $lastcol < $existing_end) 
@@ -817,7 +817,7 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
         } // added by Dan Lynn <dan@spiderweblabs.com) on 2006-12-06 
         // regenerate keys 
         $this->_colinfo = array_values($this->_colinfo); 
-        $this->_colinfo[] = array($firstcol, $lastcol, $width, &$format, $hidden, $level); 
+        $this->_colinfo[] = array($firstcol, $lastcol, $width, $format, $hidden, $level);
         // Set width to zero if column is hidden 
         $width = ($hidden) ? 0 : $width; 
         for ($col = $firstcol; $col <= $lastcol; $col++) 
@@ -1311,7 +1311,7 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
     * @param mixed &$format The optional XF format
     * @return integer The XF record index
     */
-    function _XF(&$format)
+    function _XF($format)
     {
         if ($format) {
             return($format->getXfIndex());
@@ -2493,7 +2493,7 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
             foreach($ranges as $range) 
               $data .= pack('vvvv', $range[0], $range[2], $range[1], $range[3]);
             $string=$header.$data;
-            $this->_append(&$string, true);
+            $this->_append($string, true);
           }
     }
 
@@ -3565,7 +3565,7 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
     /**
     * FIXME: add comments
     */
-    function setValidation($row1, $col1, $row2, $col2, &$validator)
+    function setValidation($row1, $col1, $row2, $col2, $validator)
     {
         $this->_dv[] = $validator->_getData() .
                        pack("vvvvv", 1, $row1, $row2, $col1, $col2);
