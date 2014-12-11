@@ -4,6 +4,7 @@
         <h2><?php echo __('Users / Resources');?>
             <a href="javascript:window.history.back();" class="pull-right backButton"></a>
             <div class="pull-right" style="margin-right: 10px;">
+                <?php echo $this->Html->link(__('Export Users'), array('action' => 'export_users'),array('class'=>'btn btn-primary')); ?>
                 <?php echo $this->Html->link(__('Import Users'), array('action' => 'upload_user_xls'),array('class'=>'btn btn-primary')); ?>
                 <?php echo $this->Html->link(__('New User'), array('action' => 'add'),array('class'=>'btn btn-primary')); ?>
             </div>

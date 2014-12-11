@@ -378,4 +378,27 @@ class UsersController extends AppController
             $this->redirect($this->referer());
         }
     }
+
+    public function export_users(){
+        $userData = $this->User->exportUsersData();
+        $this->XlsWriter = $this->Components->load('XlsWriter');
+
+        $xlsName = 'EmployeesData';
+        $workSheetName = 'Employees xls';
+        $dataKey = key($userData[0]);
+        $fields = array_keys($userData[0][$dataKey]);
+
+        $worksheet = $this->XlsWriter
+            ->createWorkbook()
+            ->createWorksheet($workSheetName);
+        $worksheet->freezePanes(array(1, 0, 1, 0));
+
+        $this->XlsWriter->addXlsHeader($fields);
+        foreach ($userData as $data) {
+            $excelData = $this->XlsWriter->replaceNulls($data[$dataKey]);
+            $this->XlsWriter->addXlsRecord($excelData);
+        }
+        /*Download excel sheet*/
+        $this->XlsWriter->download($xlsName);
+    }
 }
