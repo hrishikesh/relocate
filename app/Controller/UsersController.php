@@ -8,19 +8,18 @@ App::uses('AppController', 'Controller');
  * @property XlsReaderComponent $XlsReader
  * @property FileUploadComponent $FileUpload
  */
-class UsersController extends AppController
-{
+class UsersController extends AppController {
 
 
     public $components = array('FileUpload', 'XlsWriter', 'XlsReader');
+
     public function beforeFilter() {
 
         parent::beforeFilter();
         $this->Auth->allow(array('index', 'getResourcesBySkillSet'));
     }
 
-    public function beforeRender()
-    {
+    public function beforeRender() {
         parent::beforeRender();
         $this->set(compact('tab'));
     }
@@ -30,8 +29,7 @@ class UsersController extends AppController
      *
      * @return void
      */
-    public function index()
-    {
+    public function index() {
         if ($this->loggedInUserId() != '' && $this->loggedInUserRole() == 1) {
             $this->redirect(array('action' => 'all_users'));
         } else {
@@ -39,8 +37,7 @@ class UsersController extends AppController
         }
     }
 
-    public function login()
-    {
+    public function login() {
         $loggedInUserData = $this->Auth->login();
 
         if ($this->loggedInUserId() == '') {
@@ -58,22 +55,21 @@ class UsersController extends AppController
         }
     }
 
-    public function logout()
-    {
+    public function logout() {
         $this->Session->setFlash(__('You are successfully logged out from the system'), 'set_flash');
         $this->redirect($this->Auth->logout());
     }
 
-    public function all_users($project_id="") {
+    public function all_users($project_id = "") {
 
-        $this->User->recursive =0;
-        if(isset($this->request->data['User']['project_id'])){
-            $this->Session->write('project_id',$this->request->data['User']['project_id']) ;
+        $this->User->recursive = 0;
+        if (isset($this->request->data['User']['project_id'])) {
+            $this->Session->write('project_id', $this->request->data['User']['project_id']);
         }
         $project_id = $this->Session->read('project_id');
-        if($project_id ==""){
+        if ($project_id == "") {
             $users = $this->paginate('User', array('User.role_id != ' => 1));
-        }else{
+        } else {
             $this->paginate = array(
                 'conditions' => array('User.role_id != ' => 1),
                 'joins' => array(
@@ -81,7 +77,7 @@ class UsersController extends AppController
                         'alias' => 'ProjectsUser',
                         'table' => 'projects_users',
                         'type' => 'RIGHT',
-                        'conditions' => array('ProjectsUser.user_id=User.id','ProjectsUser.project_id'=>$project_id)
+                        'conditions' => array('ProjectsUser.user_id=User.id', 'ProjectsUser.project_id' => $project_id)
                     )
                 )
             );
@@ -89,10 +85,10 @@ class UsersController extends AppController
         }
 
         $userData = $this->User->formatUser($users);
-        $allProjects = $this->User->ProjectsUser->Project->find('list',array('fields'=>array('id','project_name')));
+        $allProjects = $this->User->ProjectsUser->Project->find('list', array('fields' => array('id', 'project_name')));
         $tab = 'users';
-        $this->set('users',$userData);
-        $this->set(compact('tab','allProjects','project_id'));
+        $this->set('users', $userData);
+        $this->set(compact('tab', 'allProjects', 'project_id'));
     }
 
     public function dashboard() {
@@ -116,9 +112,7 @@ class UsersController extends AppController
         $this->set(compact('projects', 'teams'));
     }
 
-
-    public function user_dashboard()
-    {
+    public function user_dashboard() {
         $this->autoRender = false;
         $tab = 'dashboard';
         $this->set(compact('projects', 'tab'));
@@ -130,8 +124,7 @@ class UsersController extends AppController
      * @param string $id
      * @return void
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -146,8 +139,7 @@ class UsersController extends AppController
      *
      * @return void
      */
-    public function add()
-    {
+    public function add() {
         if ($this->request->is('post')) {
             $userData = $this->request->data;
             $this->User->create($userData);
@@ -178,8 +170,7 @@ class UsersController extends AppController
      * @param string $id
      * @return void
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -197,12 +188,12 @@ class UsersController extends AppController
             }
         } else {
             $userData = $this->User->read(null, $id);
-            if(!empty($userData['UserTechnology'])){
-                $user_skills=array();
-                foreach($userData['UserTechnology'] as $key=>$val){
-                    if($val['primary_skill']==1){
-                       $user_skills['primary_skill'] =$val['technology_id'];
-                    }else{
+            if (!empty($userData['UserTechnology'])) {
+                $user_skills = array();
+                foreach ($userData['UserTechnology'] as $key => $val) {
+                    if ($val['primary_skill'] == 1) {
+                        $user_skills['primary_skill'] = $val['technology_id'];
+                    } else {
                         $user_skills['secondary_skill'][] = $val['technology_id'];
                     }
                 }
@@ -216,7 +207,7 @@ class UsersController extends AppController
         $roles = $this->User->Role->getList();
         $skills = $this->User->UserTechnology->Technology->getAllSkills();
         $tab = 'users';
-        $this->set(compact('skills','roles', 'tab'));
+        $this->set(compact('skills', 'roles', 'tab'));
     }
 
     /**
@@ -225,8 +216,7 @@ class UsersController extends AppController
      * @param string $id
      * @return void
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }
@@ -242,8 +232,7 @@ class UsersController extends AppController
         $this->redirect('/');
     }
 
-    public function change_password()
-    {
+    public function change_password() {
         $role = $this->loggedInUserRole();
         $loggedInUserId = $this->loggedInUserId();
         if ($role == 1) {
@@ -273,8 +262,7 @@ class UsersController extends AppController
 
     }
 
-    public function check_availability()
-    {
+    public function check_availability() {
         $this->layout = 'ajax';
         $this->autoRender = false;
 
@@ -304,10 +292,7 @@ class UsersController extends AppController
 
     public function get_resources_by_skill_set()
     {
-       // $this->autoRender = false;
         $this->layout = 'ajax';
-       // $this->layout = false;
-
         if (!$this->request->query['skill_id']) {
             return false;
         }
@@ -339,6 +324,7 @@ class UsersController extends AppController
     public function get_resources_formatted_data($resourcesData = array())
     {
         $this->layout('ajax');
+
         if (!$resourcesData) {
             return array();
         }
@@ -358,8 +344,8 @@ class UsersController extends AppController
         return $resources;
     }
 
-    public function upload_user_xls(){
-        try{
+    public function upload_user_xls() {
+        try {
             if ($this->request->is('post') || $this->request->is('put')) {
                 if ($this->request->data['User']['file_name']['error'] != 4) {
                     $xls = $this->FileUpload->uploadFiles('files/usersUpload/', $this->request->data['User']['file_name']
@@ -383,28 +369,60 @@ class UsersController extends AppController
                         $userXlData = $this->XlsReader->getExcelData($filePath);
 
 
-                        if($userXlData) {
+                        if ($userXlData) {
                             // Save Data
                             $isUserDataSaved = $this->User->saveUserDataFromXls($userXlData['succeed']);
-                            if($isUserDataSaved){
+                            if ($isUserDataSaved) {
                                 $this->Session->setFlash('Data saved successfully');
-                            }else{
+                            } else {
                                 $this->Session->setFlash('Problem Saving Data');
                             }
-                        }else{
+                        } else {
                             $this->Session->setFlash('Data is empty');
                         }
-                    }else{
+                    } else {
                         $this->Session->setFlash('Invalid Data');
                     }
-                }else{
+                } else {
                     $this->Session->setFlash('Problem Uploading File');
                 }
                 $this->redirect($this->referer());
             }
-        }catch (Exception $ex){
+        } catch (Exception $ex) {
             $this->Session->setFlash('There is some problem occur, please try after some time');
             $this->redirect($this->referer());
         }
+    }
+
+    //Method to save Data for Project Users, from Resource Loading page (Allocations Page)
+    public function saveAllocationsData() {
+
+
+        if ($this->request->is('post') && !empty($this->request->data)) {
+
+            $saveUser = false;
+            $saveFalse = false;
+            $userAllocationData = $this->request->data;
+            foreach($userAllocationData['ProjectUser'] as $key => $projectUsr){
+                $projectUsr['start'] = date('Y-m-d H:i:s',strtotime($projectUsr['start']));
+                $projectUsr['end'] = date('Y-m-d H:i:s',strtotime($projectUsr['end']));
+                $saveUserData  = $this->User->ProjectsUser->saveData($projectUsr);
+                if($saveUserData){
+                    $saveUser = true;
+                }else{
+                   $saveFalse = true;
+                }
+            }
+            if ($saveUser) {
+                $this->Session->setFlash('Allocation data saved.');
+                $this->redirect(array('controller' => 'projects', 'action' => 'all_projects'));
+
+            } else {
+                $this->Session->setFlash('There is some problem occur, please try after some time');
+                $this->redirect(array('controller' => 'projects', 'action' => 'all_projects'));
+            }
+
+        }
+
     }
 }

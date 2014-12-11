@@ -44,4 +44,9 @@ class ProjectsUser extends AppModel {
             'counterQuery' => ''
         )
 	);
+
+    public function saveData($projectUsr){
+        $this->create();
+        return $this->save($projectUsr);
+    }
 }

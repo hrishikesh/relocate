@@ -1,6 +1,6 @@
 <tr>
     <?php
-    echo $this->Form->input('ProjectUser.'.$count.'.project_id', array('type'=>'hidden','value'=>''));
+    echo $this->Form->input('ProjectUser.'.$count.'.project_id', array('type'=>'hidden','value'=>$project_id));
     echo $this->Form->input('ProjectUser.'.$count.'.technology_id', array('type'=>'hidden','value'=>$skill_id));
     ?>
     <td>
