@@ -42,6 +42,44 @@ class AppController extends Controller {
     public $loggedInUserLastName = '';
     public $loggedInUserRole = '';
 
+    public $permitted = array(
+        'image/jpeg',
+        'image/jpg',
+        'image/jpe_',
+        'image/pjpeg',
+        'image/vnd.swiftview-jpeg',
+        'image/gif',
+        'image/x-xbitmap',
+        'image/gi_',
+        'image/jpeg',
+        'image/jpg',
+        'image/jp_',
+        'application/jpg',
+        'application/x-jpg',
+        'image/pjpeg',
+        'image/pipeg',
+        'image/vnd.swiftview-jpeg',
+        'image/x-xbitmap',
+        'image/png',
+        'application/png',
+        'application/x-png'
+    );
+
+    public $permittedXls = array(
+        'application/vnd.ms-excel (official)',
+        'application/vnd.ms-excel [official]',
+        'application/vnd.ms-excel',
+        'application/msexcel',
+        'application/x-msexcel',
+        'application/x-ms-excel',
+        'application/x-excel',
+        'application/x-dos_ms_excel',
+        'application/xls',
+        'application/x-xls',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/octet-stream'
+    );
+
     public function beforeFilter() {
         parent::beforeFilter();
         $this->applicationName = Configure::read('APPLICATION_NAME');
