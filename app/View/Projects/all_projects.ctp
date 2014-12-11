@@ -1,5 +1,4 @@
 <div class="row">
-
     <div class="projects index">
         <h2><?php echo __('Projects');?>
             <a href="javascript:window.history.back();" class="pull-right backButton"></a>
@@ -23,7 +22,7 @@
                 <tr>
                     <td><?php echo h($project['Project']['project_name']); ?>&nbsp;</td>
                     <td><?php echo h($project['Project']['account_name']); ?>&nbsp;</td>
-                    <td><?php echo h($project['Project']['project_type']); ?>&nbsp;</td>
+                    <td><?php echo h($project['AllocationProjectType']['name']); ?>&nbsp;</td>
                     <td><?php echo h(date('d-m-Y',strtotime($project['Project']['start_date']))); ?>&nbsp;</td>
                     <td><?php echo h(date('d-m-Y',strtotime($project['Project']['end_date']))); ?>&nbsp;</td>
                     <td class="actions">

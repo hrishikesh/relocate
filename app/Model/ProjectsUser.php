@@ -29,6 +29,19 @@ class ProjectsUser extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+        'AllocationProjectType' => array(
+            'className' => 'AllocationProjectType',
+            'foreignKey' => 'resource_type_id',
+            'dependent' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        )
 	);
 }

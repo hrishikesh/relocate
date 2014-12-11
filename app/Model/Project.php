@@ -29,8 +29,8 @@ class Project extends AppModel {
             'finderQuery' => '',
             'counterQuery' => ''
         ),
-        /*'ProjectTechnology' => array(
-            'className' => 'ProjectTechnology',
+        'ProjectsUser' => array(
+            'className' => 'ProjectsUser',
             'foreignKey' => 'project_id',
             'dependent' => true,
             'conditions' => '',
@@ -41,10 +41,13 @@ class Project extends AppModel {
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => ''
-        ),*/
-        'ProjectsUser' => array(
-            'className' => 'ProjectsUser',
-            'foreignKey' => 'project_id',
+        )
+    );
+
+    public $belongsTo = array(
+        'AllocationProjectType' => array(
+            'className' => 'AllocationProjectType',
+            'foreignKey' => 'project_type_id',
             'dependent' => true,
             'conditions' => '',
             'fields' => '',
