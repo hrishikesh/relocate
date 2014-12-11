@@ -113,6 +113,21 @@ class User extends AppModel {
     }
 
 
+    public function formatUser($users){
+        foreach($users as $key => $user){
+
+            unset($users[$key]['UserTechnology']);
+            unset($users[$key]['ProjectsUser']);
+            $this->UserTechnology->recursive= 0;
+            $this->UserTechnology->unbindModel(array('belongsTo'=>array('User')));
+            $users[$key]['UserTechnology'] = $this->UserTechnology->find('all',array('conditions'=>array('UserTechnology.user_id'=>$user['User']['id']),'group' => array('UserTechnology.technology_id')));
+            $this->ProjectsUser->recursive= 0;
+            $this->ProjectsUser->unbindModel(array('belongsTo'=>array('User')));
+            $users[$key]['ProjectsUser'] = $this->ProjectsUser->find('all',array('conditions'=>array('ProjectsUser.user_id'=>$user['User']['id']),'group' => array('ProjectsUser.project_id')));
+        }
+        return $users;
+    }
+
     /**
      * @description Save Xl uploaded user data in DB
      * @param $userXlsData

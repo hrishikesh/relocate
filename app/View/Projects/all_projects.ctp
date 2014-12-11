@@ -12,39 +12,34 @@
             <tr>
                 <th><?php echo $this->Paginator->sort('project_name');?></th>
                 <th><?php echo $this->Paginator->sort('account_name');?></th>
-                <th><?php echo $this->Paginator->sort('project_type');?></th>
                 <th><?php echo $this->Paginator->sort('start_date');?></th>
                 <th><?php echo $this->Paginator->sort('end_date');?></th>
                 <th class="actions"><?php echo __('Actions');?></th>
             </tr>
             <?php
-            if (count($projects) > 0) {
-                foreach ($projects as $project) {
-                    ?>
+            if(count($projects)>0){
+                foreach ($projects as $project){ ?>
                     <tr>
                         <td><?php echo h($project['Project']['project_name']); ?>&nbsp;</td>
-                        <td><?php echo h($project['Project']['account_name']); ?>&nbsp;</td>
-                        <td><?php echo h($project['AllocationProjectType']['name']); ?>&nbsp;</td>
-                        <td><?php echo h(date('d-m-Y', strtotime($project['Project']['start_date']))); ?>&nbsp;</td>
-                        <td><?php echo h(date('d-m-Y', strtotime($project['Project']['end_date']))); ?>&nbsp;</td>
+                        <td><?php echo h($project['Project']['account_name']); echo"(".$project['AllocationProjectType']['name'].")" ?>&nbsp;</td>
+                        <td><?php echo h(date('d-m-Y',strtotime($project['Project']['start_date']))); ?>&nbsp;</td>
+                        <td><?php echo h(date('d-m-Y',strtotime($project['Project']['end_date']))); ?>&nbsp;</td>
                         <td class="actions">
                             <?php //echo $this->Html->link(__(''), array('action' => 'view', $project['Project']['id']), array('class' => 'icon-eye-open'));
-                            echo $this->Html->link(__(''), array('action' => 'edit', $project['Project']['id']), array('class' => 'icon-edit', 'title' => 'Edit Project'));
-                            echo $this->Html->link(__(''), array(
-                                    'action' => 'delete', $project['Project']['id']), array(
-                                    'class' => 'icon-trash',
-                                    'title' => 'Delete Project'
-                                ),
-                                __('You are about to delete %s', '"' . $project['Project']['project_name'] . '", Are you sure?')
+                            echo $this->Html->link(__(''), array('action' => 'edit', $project['Project']['id']), array('class' => 'icon-edit'));
+                            echo $this->Html->link(
+                            '', array('action' => 'delete', $project['Project']['id']), array(
+                            'class' => 'icon-trash',
+                            ),
+                            __('You are about to delete %s', '"'.$project['Project']['project_name']. '", Are you sure?')
                             );
-                            echo $this->Html->link(__(''), array('action' => 'allocate', $project['Project']['id']), array('class' => 'icon-user', 'title' => 'Allocate Talent'));
+                            echo $this->Html->link(__(''), array('action' => 'allocate', $project['Project']['id']), array('class' => 'icon-user'));
+
                             ?>
                         </td>
                     </tr>
-                    <?php
-                }
-            } else {
-                ?>
+          <?php }
+            } else{ ?>
                 <tr>
                     <td colspan="6">No projects are added yet.</td>
                 </tr>
