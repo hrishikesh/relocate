@@ -302,38 +302,50 @@ class UsersController extends AppController
         }
     }
 
-    public function getResourcesBySkillSet()
+    public function get_resources_by_skill_set()
     {
-        $this->autoRender = false;
-        $this->layout = false;
+       // $this->autoRender = false;
+        $this->layout = 'ajax';
+       // $this->layout = false;
 
         if (!$this->request->query['skill_id']) {
             return false;
         }
-
-        $formattedData = array();
-        $skilledResources = $this->User->UserTechnology->find('all', array(
-            'conditions' => array(
-                'UserTechnology.technology_id' => trim($this->request->query['skill_id']
-                )),
+        $count = $this->request->query['count'];
+        $skill_id = $this->request->query['skill_id'];
+        $project_id = $this->request->query['project_id'];
+        $joins = array(
+            array(
+                'table' => 'user_technologies',
+                'alias' => 'UserTechnology',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'UserTechnology.user_id'=>'User.id',
+                    'UserTechnology.technology_id' =>trim($this->request->query['skill_id'])
+                ),
+            )
+        );
+        $this->User->recursive = -1;
+        $skilledResources = $this->User->find('list', array(
+            'joins'=>$joins,
             'fields' => array(
-                'UserTechnology.*', 'User.id', 'User.username', 'User.first_name', 'User.last_name',
-                'User.work_experience', 'Technology.stream_name', 'Technology.slug'
-            ),
+                 'User.id', 'User.first_name'
+            )
         ));
-
-        //Get formatted Data, and pass to View.
-        $formattedData = $this->getResourcesFormattedDataBySkill($skilledResources);
-        return $formattedData;
+        $resource_type = $this->User->ProjectsUser->AllocationProjectType->find('list',array('conditions'=>array('type'=>'resource_type'),'fields'=>array('id','name')));
+        $this->set(compact('skilledResources','resource_type','count','project_id','skill_id'));
     }
 
-    public function getResourcesFormattedDataBySkill($resourcesData = array())
+    public function get_resources_formatted_data($resourcesData = array())
     {
+        $this->layout('ajax');
         if (!$resourcesData) {
             return array();
         }
-
+        $resource_type = $this->User->ProjectsUser->AllocationProjectType->find('list',array('conditions'=>array('type'=>'resource_type'),'fields'=>array('id','name')));
         $resources = '';
+        $this->set(compact('resourcesData','resource_type'));
+
         //Format the data in the variable : $resourcesData
         foreach ($resourcesData as $key => $value) {
             $resources .= "<tr><input type='hidden' id='user_id' name='user_id' value='" . $value['User']['id'] . "'>";

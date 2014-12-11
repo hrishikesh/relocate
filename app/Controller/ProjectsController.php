@@ -287,6 +287,6 @@ class ProjectsController extends AppController
             ),
         ));
 
-        $this->set(compact('allocationMatrix' , 'projectDetails'));
+        $this->set(compact('allocationMatrix' , 'projectDetails','id'));
     }
 }
