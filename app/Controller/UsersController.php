@@ -399,6 +399,10 @@ class UsersController extends AppController {
         }
     }
 
+    /**
+     * @description Download xls
+     * @param int $projectId
+     */
     public function export_users($projectId = 0){
         $conditions = array();
         if(!empty($projectId) && $projectId !=0 && $projectId !=null) {

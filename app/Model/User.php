@@ -189,6 +189,11 @@ class User extends AppModel
         return $this->field('id', array('username' => $emailId));
     }
 
+    /**
+     * @description This methods extracts users data from various related tables
+     * @param array $conditions
+     * @return array
+     */
     public function exportUsersData($conditions = array()){
 
         $this->virtualFields['projects'] = 'GROUP_CONCAT(DISTINCT Project.project_name)';
