@@ -7,7 +7,8 @@ App::uses('AppModel', 'Model');
  * @property Role $Role
  * @property ProjectsUser $ProjectsUser
  */
-class User extends AppModel {
+class User extends AppModel
+{
     /**
      * Validation rules
      *
@@ -91,7 +92,8 @@ class User extends AppModel {
         )
     );
 
-    public function beforeSave($options = array()) {
+    public function beforeSave($options = array())
+    {
         if (isset($this->data[$this->alias]['password'])) {
             $this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
         }
@@ -99,16 +101,21 @@ class User extends AppModel {
     }
 
 
-    public function checkUserCurrentPassword($user_id, $old_password) {
+    public function checkUserCurrentPassword($user_id, $old_password)
+    {
         $user = $this->isExist(array('id' => $user_id, 'password' => AuthComponent::password($old_password)));
         return $user;
     }
 
-    public function checkUserByCount($data = null) {
+    public function checkUserByCount($data = null)
+    {
         return $this->isExist(array('username' => $data['username']));
     }
 
-    public function checkUserByEmpIdCount($data){
+    public function checkUserByEmpIdCount($data)
+    {
         return $this->isExist(array('employee_id' => $data['employee_id']));
     }
+
+
 }

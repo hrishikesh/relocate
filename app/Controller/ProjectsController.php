@@ -5,7 +5,8 @@ App::uses('AppController', 'Controller');
  *
  * @property Project $Project
  */
-class ProjectsController extends AppController {
+class ProjectsController extends AppController
+{
 
     /**
      * Helpers
@@ -15,12 +16,14 @@ class ProjectsController extends AppController {
     public $helpers = array('Html', 'Form');
 
 
-    public function beforeFilter() {
+    public function beforeFilter()
+    {
         parent::beforeFilter();
         $this->Auth->allow('*');
     }
 
-    public function beforeRender() {
+    public function beforeRender()
+    {
         parent::beforeRender();
         if ($this->loggedInUserId() != '') {
             $tab = 'projects';
@@ -35,11 +38,12 @@ class ProjectsController extends AppController {
      *
      * @return void
      */
-    public function index() {
+    public function index()
+    {
         if ($this->loggedInUserId() != '' && $this->loggedInUserRole() == 1) {
             $this->redirect(array('action' => 'all_projects'));
         } else {
-            $this->redirect(array('controller'=>'users', 'action' => 'login'));
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }
     }
 
@@ -48,7 +52,8 @@ class ProjectsController extends AppController {
      *
      * @return void
      */
-    public function all_projects() {
+    public function all_projects()
+    {
         $this->Project->recursive = 1;
         $this->set('projects', $this->paginate());
     }
@@ -60,7 +65,8 @@ class ProjectsController extends AppController {
      * @param string $id
      * @return void
      */
-    public function view($id = null) {
+    public function view($id = null)
+    {
         $this->Project->id = $id;
         if (!$this->Project->exists()) {
             throw new NotFoundException(__('Invalid project'));
@@ -74,7 +80,8 @@ class ProjectsController extends AppController {
      *
      * @return void
      */
-    public function add() {
+    public function add()
+    {
         if ($this->request->is('post')) {
 
             $this->request->data['Project']['start_date'] = date('Y-m-d H:i:s', strtotime($this->request->data['Project']['start_date']));
@@ -108,7 +115,7 @@ class ProjectsController extends AppController {
         $skills = $this->Technology->getSkills();
         //$projectLeads = $this->User->find('list', array('fields'=>array('id', 'first_name')));
         //$ba = $this->User->find('list', array('fields'=>array('id', 'first_name')));
-        $this->set(compact('skills','projectType'));
+        $this->set(compact('skills', 'projectType'));
     }
 
     /**
@@ -117,7 +124,8 @@ class ProjectsController extends AppController {
      * @param string $id
      * @return void
      */
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
         $this->Project->id = $id;
         if (!$this->Project->exists()) {
             throw new NotFoundException(__('Invalid project'));
@@ -130,7 +138,7 @@ class ProjectsController extends AppController {
 
                 $projectResourceRequirement = $this->request->data['ProjectResourceRequirements'];
 
-                if ($this->Project->ProjectResourceRequirement->saveProjectReq($projectResourceRequirement,$this->request->data['Project']['id'])) {
+                if ($this->Project->ProjectResourceRequirement->saveProjectReq($projectResourceRequirement, $this->request->data['Project']['id'])) {
                     $this->log('>>>> SUCCESS | ProjectResourceRequirement data saved');
                 } else {
                     $this->log('>>>> FAILED | ProjectResourceRequirement data could not be saved');
@@ -158,7 +166,8 @@ class ProjectsController extends AppController {
      * @param string $id
      * @return void
      */
-    public function delete($id = null) {
+    public function delete($id = null)
+    {
         $this->Project->id = $id;
         if (!$this->Project->exists()) {
             throw new NotFoundException(__('Invalid project'));
@@ -171,7 +180,8 @@ class ProjectsController extends AppController {
         $this->redirect(array('action' => 'index'));
     }
 
-    public function getAllTechnologies() {
+    public function getAllTechnologies()
+    {
         $this->autoRender = false;
         if ($this->request->is('get') && empty($this->request->data)) {
             $technologies = array();
@@ -184,7 +194,8 @@ class ProjectsController extends AppController {
         }
     }
 
-    public function add_project_resource() {
+    public function add_project_resource()
+    {
 
         $this->autoRender = false;
         if (!empty($this->request->data) && $this->request->data['user_id'] != "" && $this->request->data['project_id']) {
@@ -201,28 +212,30 @@ class ProjectsController extends AppController {
         return json_encode($respoceArray);
     }
 
-    public function project_stats(){
+    public function project_stats()
+    {
         $projects = $this->Project->getActiveProjects();
         $firstProject = $projects[0];
 
         //$technologiesWiseData = $this->Project->ProjectTechnology->Technology->getProjectAllocationStats($firstProject['Project']['id']);
         //$technologyData =  $this->getFormattedData($technologiesWiseData);
 
-        $this->set(compact('projects','technologyData'));
+        $this->set(compact('projects', 'technologyData'));
     }
 
-    public function get_project_details() {
+    public function get_project_details()
+    {
         $this->autoRender = false;
-        $this->layout= false;
+        $this->layout = false;
         $technologyData = $this->Project->ProjectTechnology->Technology->getProjectAllocationStats($this->request->query['project_id']);
-        if(!empty($technologiesWiseData)){
+        if (!empty($technologiesWiseData)) {
 
-/*
-            $chartData = $this->getFormattedData($technologiesWiseData);
+            /*
+                        $chartData = $this->getFormattedData($technologiesWiseData);
 
-            echo $chartData;*/
-        }else {
-           /* echo json_encode(array('status'=>'0'));*/
+                        echo $chartData;*/
+        } else {
+            /* echo json_encode(array('status'=>'0'));*/
         }
         $technologyData = $this->getFormattedData($technologyData);
         $this->set(compact('technologyData'));
@@ -230,15 +243,16 @@ class ProjectsController extends AppController {
         die;
     }
 
-    private function getFormattedData($technologiesWiseData){
+    private function getFormattedData($technologiesWiseData)
+    {
         $technologiesWiseData = array_values($technologiesWiseData);
-        foreach($technologiesWiseData as $key => $technology){
+        foreach ($technologiesWiseData as $key => $technology) {
             unset($technology['id']);
-            $technologies[$key]= $technology['Technology'];
+            $technologies[$key] = $technology['Technology'];
         }
-        if(!empty($technologies)) {
+        if (!empty($technologies)) {
             $technologies = json_encode($technologies);
-        }else{
+        } else {
             $technologies = json_encode(array());
         }
 
@@ -246,16 +260,22 @@ class ProjectsController extends AppController {
         return $technologies;
     }
 
-    public function allocate($id){
+    public function allocate($id)
+    {
+        if (!$id) {
+            $this->redirect(array('action' => 'all_projects'));
+        }
+        $projectDetails = $this->Project->getProjectNameAndAccountName($id);
+
         $this->Project->ProjectResourceRequirement->recursive = -1;
         $allocationMatrix = $this->Project->ProjectResourceRequirement->find('all', array(
-            'conditions'=>array('project_id'=>$id),
-            'fields'=>array(
+            'conditions' => array('project_id' => $id),
+            'fields' => array(
                 'Skill.id',
                 'Skill.name',
                 'ProjectResourceRequirement.required_percentage'
             ),
-            'joins'=>array(
+            'joins' => array(
                 array(
                     'table' => 'skills',
                     'alias' => 'Skill',
@@ -267,6 +287,6 @@ class ProjectsController extends AppController {
             ),
         ));
 
-        $this->set(compact('allocationMatrix'));
+        $this->set(compact('allocationMatrix' , 'projectDetails'));
     }
 }

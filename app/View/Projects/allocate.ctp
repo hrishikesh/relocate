@@ -40,8 +40,28 @@
                 <?php } ?>
             </tbody>
         </table>
-        <div class="resourceLoading" style="display:none;">
+        <div class="resourceLoadingWrapper" style="display:none;">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>
+                        Name and Experience
+                    </th>
+                    <th>
+                        Percentage allocation(Actual)
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
+                    </th>
+                </tr>
+                </thead>
+                <thead class="resourceLoading">
 
+                </thead>
+            </table>
         </div>
     </div>
 </div>
@@ -61,23 +81,16 @@
         //Ajax Call for fetching Skill wise resources
         $.ajax({
             type:"GET",
-            url:"/user/getResourcesBySkillSet/",
+            url:"/users/getResourcesBySkillSet",
             data:{'skill_id':skill_id},
             dataType:'html',
             success:function (result) {
-                $('#projectChart').html(result);
-                /*chart.categoryField = "title";
-                chart.valueField = 'employee_count';
-                chart.titleField = 'stream_name';
-
-                chart.dataProvider = result.chartData;
-                chart.validateData();*/
-
-
+                //console.log(result);
+                $('.resourceLoading').append(result);
             }
         });
 
-        $(".resourceLoading").show();
+        $(".resourceLoadingWrapper").show();
     });
 
 

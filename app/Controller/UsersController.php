@@ -11,7 +11,7 @@ class UsersController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow(array('index'));
+        $this->Auth->allow(array('index', 'getResourcesBySkillSet'));
     }
 
     public function beforeRender()
@@ -280,25 +280,36 @@ class UsersController extends AppController
         $formattedData = array();
         $skilledResources = $this->User->UserTechnology->find('all', array(
             'conditions' => array(
-                'technology_id' => trim($this->request->query['skill_id']
-                ))
+                'UserTechnology.technology_id' => trim($this->request->query['skill_id']
+                )),
+            'fields' => array(
+                'UserTechnology.*', 'User.id', 'User.username', 'User.first_name', 'User.last_name',
+                'User.work_experience', 'Technology.stream_name', 'Technology.slug'
+            ),
         ));
 
         //Get formatted Data, and pass to View.
         $formattedData = $this->getResourcesFormattedDataBySkill($skilledResources);
-        $this->set(compact('formattedData'));
-
+        return $formattedData;
     }
 
-    //@todo : Move this to User Model
     public function getResourcesFormattedDataBySkill($resourcesData = array())
     {
         if (!$resourcesData) {
             return array();
         }
 
+        $resources = '';
         //Format the data in the variable : $resourcesData
-        //WHAT IS THE FORMAT
+        foreach ($resourcesData as $key => $value) {
+            $resources .= "<tr><input type='hidden' id='user_id' name='user_id' value='" . $value['User']['id'] . "'>";
+            $resources .= "<td>" . $value['User']['first_name'] . ' ' . $value['User']['last_name'] . '(' . $value['User']['work_experience'] . ')</td>';
+            $resources .= "<td><input type='text' id='percentage_allocation' name='percentage_allocation' value=''></td>";
+            $resources .= "<td><input type='text' id='start_date' name='start_date' value=''></td>";
+            $resources .= "<td><input type='text' id='end_date' name='end_date' value=''></td>";
+            $resources .= "</tr>";
+        }
+        return $resources;
     }
 
 }
