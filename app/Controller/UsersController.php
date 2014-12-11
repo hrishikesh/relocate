@@ -53,14 +53,39 @@ class UsersController extends AppController {
         $this->redirect($this->Auth->logout());
     }
 
-    public function all_users() {
-        $this->User->recursive = 0;
-        $users = $this->paginate('User', array('User.role_id != ' => 1));
+    public function all_users($project_id="") {
+
+        $this->User->recursive =0;
+        if(isset($this->request->data['User']['project_id'])){
+            $this->Session->write('project_id',$this->request->data['User']['project_id']) ;
+        }
+        $project_id = $this->Session->read('project_id');
+        if($project_id ==""){
+            $users = $this->paginate('User', array('User.role_id != ' => 1));
+        }else{
+            $this->paginate = array(
+                'conditions' => array('User.role_id != ' => 1),
+                'joins' => array(
+                    array(
+                        'alias' => 'ProjectsUser',
+                        'table' => 'projects_users',
+                        'type' => 'RIGHT',
+                        'conditions' => array('ProjectsUser.user_id=User.id','ProjectsUser.project_id'=>$project_id)
+                    )
+                )
+            );
+            $users = $this->paginate('User');
+        }
+
+        $userData = $this->User->formatUser($users);
+        $allProjects = $this->User->ProjectsUser->Project->find('list',array('fields'=>array('id','project_name')));
         $tab = 'users';
-        $this->set(compact('users','tab'));
+        $this->set('users',$userData);
+        $this->set(compact('tab','allProjects','project_id'));
     }
 
     public function dashboard() {
+
         $this->User->recursive = 0;
         $projects = $this->User->ProjectsUser->Project->getActiveProjects();
 
