@@ -41,6 +41,82 @@
                 <?php } ?>
             </tbody>
         </table>
+        <?php
+        if(!empty($projectUsers)){
+            ?>
+            <div class="resourceLoadingWrapper">
+                <?php
+                echo $this->Form->create(null, array('url' => array('controller' => 'users', 'action' => 'saveAllocationsData'),
+                    'class' => "form-horizontal well",
+                    'inputDefaults' => array('label' => false, 'div' => false)
+                ));
+                ?>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>
+                            Name and Experience
+                        </th>
+                        <th>
+                            Allocation Type
+                        </th>
+                        <th>
+                            Percentage allocation(Actual)
+                        </th>
+                        <th>
+                            Start Date
+                        </th>
+                        <th>
+                            End Date
+                        </th>
+                    </tr>
+                    </thead>
+                    <thead class="resourceLoading">
+                    <?php
+                    foreach($projectUsers as $key=>$projectUser){
+                        ?>
+                        <tr>
+                            <?php
+                            echo $this->Form->input('ProjectUser.'.$key.'.project_id', array('type'=>'hidden','value'=>$projectUser['ProjectsUser']['project_id']));
+                            echo $this->Form->input('ProjectUser.'.$key.'.technology_id', array('type'=>'hidden','value'=>$projectUser['ProjectsUser']['technology_id']));
+                            echo $this->Form->input('ProjectUser.'.$key.'.id', array('type'=>'hidden','value'=>$projectUser['ProjectsUser']['id']));
+                            ?>
+                            <td>
+                                <?php
+                                echo $this->Form->input('ProjectUser.'.$key.'.user_id', array('options' => $skilledResources,'empty' => 'Select User','label'=>false,'value'=>$projectUser['ProjectsUser']['user_id']));
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                echo $this->Form->input('ProjectUser.'.$key.'.resource_type_id', array('options' => $resource_type,'empty' => 'Select Allocation Type','label'=>false,'value'=>$projectUser['ProjectsUser']['resource_type_id']));
+                                ?>
+                            </td>
+                            <td>
+                                <?php echo $this->Form->input('ProjectUser.'.$key.'.percentage_of_allocation',array('label'=>false,'value'=>$projectUser['ProjectsUser']['percentage_of_allocation']));?>
+                            </td>
+                            <td>
+                                <?php echo $this->Form->input('ProjectUser.'.$key.'.start',array('label'=>false,'value'=>$projectUser['ProjectsUser']['start']));?>
+                            </td>
+                            <td>
+                                <?php echo $this->Form->input('ProjectUser.'.$key.'.end',array('label'=>false,'value'=>$projectUser['ProjectsUser']['end']));?>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                    </thead>
+                </table>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="/users/all_projects" class="btn">Cancel</a>
+                </div>
+
+                <?php echo $this->Form->end(); ?>
+            </div>
+            <?php
+
+        }else{
+        ?>
         <div class="resourceLoadingWrapper" style="display:none;">
             <?php
                 echo $this->Form->create(null, array('url' => array('controller' => 'users', 'action' => 'saveAllocationsData'),
@@ -79,6 +155,9 @@
 
             <?php echo $this->Form->end(); ?>
         </div>
+        <?php
+        }
+        ?>
     </div>
 </div>
 

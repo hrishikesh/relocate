@@ -46,7 +46,11 @@ class ProjectsUser extends AppModel {
 	);
 
     public function saveData($projectUsr){
-        $this->create();
+        if(isset($projectUsr['id'])){
+            $this->id = $projectUsr['id'];
+        }else{
+            $this->create();
+        }
         return $this->save($projectUsr);
     }
 }

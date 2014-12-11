@@ -286,7 +286,26 @@ class ProjectsController extends AppController
                 )
             ),
         ));
+        $project_id = $id;
+        $joins = array(
+            array(
+                'table' => 'user_technologies',
+                'alias' => 'UserTechnology',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'UserTechnology.user_id'=>'User.id'
+                ),
+            )
+        );
+        $skilledResources = $this->Project->ProjectsUser->User->find('list', array(
+            'joins'=>$joins,
+            'fields' => array(
+                'User.id', 'User.first_name'
+            )
+        ));
+        $projectUsers = $this->Project->ProjectsUser->find('all',array('conditions'=>array('ProjectsUser.project_id'=>$project_id)));
+        $resource_type = $this->Project->ProjectsUser->AllocationProjectType->find('list',array('conditions'=>array('type'=>'resource_type'),'fields'=>array('id','name')));
 
-        $this->set(compact('allocationMatrix' , 'projectDetails','id'));
+        $this->set(compact('allocationMatrix' , 'projectDetails','id','skilledResources','resource_type','projectUsers'));
     }
 }
