@@ -49,7 +49,7 @@ class ProjectsController extends AppController {
      * @return void
      */
     public function all_projects() {
-        $this->Project->recursive = 0;
+        $this->Project->recursive = 1;
         $this->set('projects', $this->paginate());
     }
 
@@ -87,23 +87,11 @@ class ProjectsController extends AppController {
                 $this->log('>>>> SUCCESS : Saved Project Data');
                 $projectId = $this->Project->id;
 
-                foreach ($projectResourceRequirement as $key => $value) {
-                    $projectResourceRequirement[$key]['project_id'] = $projectId;
-                    //$technologyAlloted[] = $value['technology_id'];
-                }
+//                foreach ($projectResourceRequirement as $key => $value) {
+//                    $projectResourceRequirement[$key]['project_id'] = $projectId;
+//                }
 
-                /*$technologyAlloted = array_unique($technologyAlloted);
-
-                foreach ($technologyAlloted as $alloted) {
-                    $this->Project->ProjectTechnology->create();
-                    if ($this->Project->ProjectTechnology->save(array('project_id' => $projectId, 'technology_id' => $alloted))) {
-                        $this->log('>>>> SUCCESS | ProjectTechnology Saved for ProjectId : ' . $projectId . "Technology Id : " . $alloted);
-                    } else {
-                        $this->log('>>>> FAILED | ProjectTechnology could not be Saved for ProjectId : ' . $projectId . "Technology Id : " . $alloted);
-                    }
-                }*/
-
-                if ($this->Project->ProjectResourceRequirement->saveProjectReq($projectResourceRequirement)) {
+                if ($this->Project->ProjectResourceRequirement->saveProjectReq($projectResourceRequirement, $projectId)) {
                     $this->log('>>>> SUCCESS : Saved ProjectResourceRequirement Data');
                     $this->Session->setFlash(__('The project has been saved'));
                     $this->redirect(array('action' => 'index'));
@@ -115,13 +103,12 @@ class ProjectsController extends AppController {
                 $this->Session->setFlash(__('The project could not be saved. Please, try again.'));
             }
         }
-       // $technologies = $this->Project->getTechnologyData();
-        $this->loadModel('Skill');
-        $this->loadModel('User');
-        $skills = $this->Skill->getSkills();
-        $projectLeads = $this->User->find('list', array('fields'=>array('id', 'first_name')));
-        $ba = $this->User->find('list', array('fields'=>array('id', 'first_name')));
-        $this->set(compact('skills','projectLeads','ba'));
+        $projectType = $this->Project->AllocationProjectType->getProjectType();
+        $this->loadModel('Technology');
+        $skills = $this->Technology->getSkills();
+        //$projectLeads = $this->User->find('list', array('fields'=>array('id', 'first_name')));
+        //$ba = $this->User->find('list', array('fields'=>array('id', 'first_name')));
+        $this->set(compact('skills','projectType'));
     }
 
     /**
@@ -142,24 +129,8 @@ class ProjectsController extends AppController {
             if ($this->Project->saveAll($this->request->data)) {
 
                 $projectResourceRequirement = $this->request->data['ProjectResourceRequirements'];
-               /* foreach ($projectResourceRequirement as $key => $value) {
 
-                    $technologyAlloted[] = $value['technology_id'];
-                }*/
-                $projectId=  $this->request->data['Project']['id'];
-                /*$technologyAlloted = array_unique($technologyAlloted);
-                if(!empty($technologyAlloted)){
-                    $this->Project->ProjectTechnology->deleteAll(array('ProjectTechnology.project_id'=>$projectId));
-                    foreach ($technologyAlloted as $alloted) {
-                        $this->Project->ProjectTechnology->create();
-                        if ($this->Project->ProjectTechnology->save(array('project_id' => $projectId, 'technology_id' => $alloted))) {
-                            $this->log('>>>> SUCCESS | ProjectTechnology Saved for ProjectId : ' . $projectId . "Technology Id : " . $alloted);
-                        } else {
-                            $this->log('>>>> FAILED | ProjectTechnology could not be Saved for ProjectId : ' . $projectId . "Technology Id : " . $alloted);
-                        }
-                    }
-                }*/
-                if ($this->Project->ProjectResourceRequirement->saveProjectReq($projectResourceRequirement)) {
+                if ($this->Project->ProjectResourceRequirement->saveProjectReq($projectResourceRequirement,$this->request->data['Project']['id'])) {
                     $this->log('>>>> SUCCESS | ProjectResourceRequirement data saved');
                 } else {
                     $this->log('>>>> FAILED | ProjectResourceRequirement data could not be saved');
@@ -173,12 +144,12 @@ class ProjectsController extends AppController {
 
         $this->request->data = $this->Project->read(null, $id);
         $project_id = $id;
-        $this->loadModel('Skill');
-        $this->loadModel('User');
-        $skills = $this->Skill->getSkills();
-        $projectLeads = $this->User->find('list', array('fields'=>array('id', 'first_name')));
-        $ba = $this->User->find('list', array('fields'=>array('id', 'first_name')));
-        $this->set(compact('skills', 'project_id','projectLeads','ba'));
+        $projectType = $this->Project->AllocationProjectType->getProjectType();
+        $this->loadModel('Technology');
+        $skills = $this->Technology->getSkills();
+//        $projectLeads = $this->User->find('list', array('fields'=>array('id', 'first_name')));
+//        $ba = $this->User->find('list', array('fields'=>array('id', 'first_name')));
+        $this->set(compact('skills', 'projectType'));
     }
 
     /**
