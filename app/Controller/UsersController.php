@@ -64,7 +64,7 @@ class UsersController extends AppController {
         $this->User->recursive = 0;
         $projects = $this->User->ProjectsUser->Project->getActiveProjects();
 
-        $teams= $this->User->Technology->getTechnologyUserCount();
+        $teams= $this->User->UserTechnology->Technology->getTechnologyUserCount();
         $projects = $this->User->ProjectsUser->Project->getProjectUserCount();
         $projects = array_values($projects);
         foreach($projects as $key => $project){
