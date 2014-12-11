@@ -142,7 +142,6 @@ class UserTechnology extends AppModel {
                     $secondarySkillData = array('technology_id' => $secondarySkill['secondary_skill'], 'user_id' => $user_id);
                     $this->create();
                     $this->save($secondarySkillData);
-
                 }
             }
 
