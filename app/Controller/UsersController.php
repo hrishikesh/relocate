@@ -399,8 +399,12 @@ class UsersController extends AppController {
         }
     }
 
-    public function export_users(){
-        $userData = $this->User->exportUsersData();
+    public function export_users($projectId = 0){
+        $conditions = array();
+        if(!empty($projectId) && $projectId !=0 && $projectId !=null) {
+            $conditions['Project.id'] = $projectId;
+        }
+        $userData = $this->User->exportUsersData($conditions);
         $this->XlsWriter = $this->Components->load('XlsWriter');
 
         $xlsName = 'EmployeesData';

@@ -191,10 +191,11 @@ class User extends AppModel
 
     public function exportUsersData($conditions = array()){
 
+        $this->virtualFields['projects'] = 'GROUP_CONCAT(DISTINCT Project.project_name)';
         $this->virtualFields['primary_skill'] = 'GROUP_CONCAT(DISTINCT Technology.stream_name)';
         $this->virtualFields['secondary_skills'] = 'GROUP_CONCAT(DISTINCT SecondaryTechnology.stream_name)';
         $this->virtualFields['date_joining'] = 'UserProfiles.date_joining';
-        $this->virtualFields['current_projects'] = 'GROUP_CONCAT(DISTINCT Project.project_name)';
+
 
         $joins = array(
             array(
@@ -242,8 +243,8 @@ class User extends AppModel
                 'type' => 'LEFT',
                 'conditions' => array(
                     'User.id = ProjectUser.user_id',
-                    'DATE(ProjectUser.start) <= CURDATE()',
-                    'DATE(ProjectUser.end) >= CURDATE()'
+                    /*'DATE(ProjectUser.start) <= CURDATE()',
+                    'DATE(ProjectUser.end) >= CURDATE()'*/
                 )
             ),
             array(
@@ -256,7 +257,8 @@ class User extends AppModel
             )
 
         );
-        $conditions['User.id !='] = 0;
+        $this->recursive = -1;
+        $conditions['User.id !='] = 1;
         $users = $this->find('all',
             array(
                 'fields'=>array(
@@ -264,13 +266,16 @@ class User extends AppModel
                     'User.username',
                     'User.first_name',
                     'User.last_name',
+                    'User.projects',
                     'User.date_of_birth',
                     'User.date_joining',
                     'User.salary',
                     'User.primary_skill',
                     'User.secondary_skills',
-                    'User.work_experience'
+                    'User.work_experience',
+
                 ),
+                'joins'=>$joins,
                 'conditions'=> $conditions,
                 'group'=> array('User.id')
             ));
