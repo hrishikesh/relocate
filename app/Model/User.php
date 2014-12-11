@@ -188,4 +188,105 @@ class User extends AppModel
     {
         return $this->field('id', array('username' => $emailId));
     }
+
+    /**
+     * @description This methods extracts users data from various related tables
+     * @param array $conditions
+     * @return array
+     */
+    public function exportUsersData($conditions = array()){
+
+        $this->virtualFields['projects'] = 'GROUP_CONCAT(DISTINCT Project.project_name)';
+        $this->virtualFields['primary_skill'] = 'GROUP_CONCAT(DISTINCT Technology.stream_name)';
+        $this->virtualFields['secondary_skills'] = 'GROUP_CONCAT(DISTINCT SecondaryTechnology.stream_name)';
+        $this->virtualFields['date_joining'] = 'UserProfiles.date_joining';
+
+
+        $joins = array(
+            array(
+                'table' => 'user_profiles',
+                'alias' => 'UserProfiles',
+                'type' => 'LEFT',
+                'conditions' => array('User.id = UserProfiles.user_id')
+            ),
+            array(
+                'table' => 'user_technologies',
+                'alias' => 'UserTechnology',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'User.id = UserTechnology.user_id',
+                    'UserTechnology.primary_skill = 1'
+                )
+            ),
+            array(
+                'table' => 'user_technologies',
+                'alias' => 'SecondaryUserTechnology',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'User.id = SecondaryUserTechnology.user_id'
+                )
+            ),
+            array(
+                'table' => 'technologies',
+                'alias' => 'Technology',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'UserTechnology.technology_id = Technology.id'
+                )
+            ),
+            array(
+                'table' => 'technologies',
+                'alias' => 'SecondaryTechnology',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'SecondaryUserTechnology.technology_id = SecondaryTechnology.id'
+                )
+            ),
+            array(
+                'table' => 'projects_users',
+                'alias' => 'ProjectUser',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'User.id = ProjectUser.user_id',
+                    /*'DATE(ProjectUser.start) <= CURDATE()',
+                    'DATE(ProjectUser.end) >= CURDATE()'*/
+                )
+            ),
+            array(
+                'table' => 'projects',
+                'alias' => 'Project',
+                'type' => 'LEFT',
+                'conditions' => array(
+                    'ProjectUser.project_id = Project.id'
+                )
+            )
+
+        );
+        $this->recursive = -1;
+        $conditions['User.id !='] = 1;
+        $users = $this->find('all',
+            array(
+                'fields'=>array(
+                    'User.employee_id',
+                    'User.username',
+                    'User.first_name',
+                    'User.last_name',
+                    'User.projects',
+                    'User.date_of_birth',
+                    'User.date_joining',
+                    'User.salary',
+                    'User.primary_skill',
+                    'User.secondary_skills',
+                    'User.work_experience',
+
+                ),
+                'joins'=>$joins,
+                'conditions'=> $conditions,
+                'group'=> array('User.id')
+            ));
+
+
+        return $users;
+
+    }
 }
