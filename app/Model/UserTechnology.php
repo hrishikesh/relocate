@@ -61,6 +61,7 @@ class UserTechnology extends AppModel {
         return $returnSave;
     }
 
+
     /**
      * @description Save user skills
      * used at xls upload
@@ -114,4 +115,37 @@ class UserTechnology extends AppModel {
     }
 
 
+    public function updateUserTechnologies($userData, $user_id){
+
+        $returnSave = false;
+        if(!empty($userData)){
+            $userTechnologies = $this->find('all',array('conditions'=>array('UserTechnology.user_id'=>$user_id)));
+            if(!empty($userTechnologies)){
+                foreach($userTechnologies as $key => $userTechnology){
+                    $this->delete($userTechnology['UserTechnology']['id']);
+                }
+
+            }
+            $primaryData['technology_id'] = $userData['primary_skill'];
+            $primaryData['user_id'] = $user_id;
+            $primaryData['primary_skill'] = 1;
+            $this->create();
+            if($this->save($primaryData)){
+                $returnSave = true;
+            }
+            if(isset($userData['secondary_skill'])){
+                $primary_key = array_search($userData['primary_skill'], $userData['secondary_skill']);
+                if($primary_key){
+                    unset($userData['secondary_skill'][$primary_key]);
+                }
+                foreach($userData['secondary_skill'] as $key => $secondarySkill){
+                    $secondarySkillData = array('technology_id' => $secondarySkill['secondary_skill'], 'user_id' => $user_id);
+                    $this->create();
+                    $this->save($secondarySkillData);
+                }
+            }
+
+        }
+        return $returnSave;
+    }
 }

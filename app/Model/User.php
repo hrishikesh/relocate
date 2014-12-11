@@ -7,7 +7,8 @@ App::uses('AppModel', 'Model');
  * @property Role $Role
  * @property ProjectsUser $ProjectsUser
  */
-class User extends AppModel {
+class User extends AppModel
+{
     /**
      * Validation rules
      *
@@ -91,7 +92,8 @@ class User extends AppModel {
         )
     );
 
-    public function beforeSave($options = array()) {
+    public function beforeSave($options = array())
+    {
         if (isset($this->data[$this->alias]['password'])) {
             $this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
         }
@@ -99,31 +101,35 @@ class User extends AppModel {
     }
 
 
-    public function checkUserCurrentPassword($user_id, $old_password) {
+    public function checkUserCurrentPassword($user_id, $old_password)
+    {
         $user = $this->isExist(array('id' => $user_id, 'password' => AuthComponent::password($old_password)));
         return $user;
     }
 
-    public function checkUserByCount($data = null) {
+    public function checkUserByCount($data = null)
+    {
         return $this->isExist(array('username' => $data['username']));
     }
 
-    public function checkUserByEmpIdCount($data){
+    public function checkUserByEmpIdCount($data)
+    {
         return $this->isExist(array('employee_id' => $data['employee_id']));
     }
 
 
-    public function formatUser($users){
-        foreach($users as $key => $user){
+    public function formatUser($users)
+    {
+        foreach ($users as $key => $user) {
 
             unset($users[$key]['UserTechnology']);
             unset($users[$key]['ProjectsUser']);
-            $this->UserTechnology->recursive= 0;
-            $this->UserTechnology->unbindModel(array('belongsTo'=>array('User')));
-            $users[$key]['UserTechnology'] = $this->UserTechnology->find('all',array('conditions'=>array('UserTechnology.user_id'=>$user['User']['id']),'group' => array('UserTechnology.technology_id')));
-            $this->ProjectsUser->recursive= 0;
-            $this->ProjectsUser->unbindModel(array('belongsTo'=>array('User')));
-            $users[$key]['ProjectsUser'] = $this->ProjectsUser->find('all',array('conditions'=>array('ProjectsUser.user_id'=>$user['User']['id']),'group' => array('ProjectsUser.project_id')));
+            $this->UserTechnology->recursive = 0;
+            $this->UserTechnology->unbindModel(array('belongsTo' => array('User')));
+            $users[$key]['UserTechnology'] = $this->UserTechnology->find('all', array('conditions' => array('UserTechnology.user_id' => $user['User']['id']), 'group' => array('UserTechnology.technology_id')));
+            $this->ProjectsUser->recursive = 0;
+            $this->ProjectsUser->unbindModel(array('belongsTo' => array('User')));
+            $users[$key]['ProjectsUser'] = $this->ProjectsUser->find('all', array('conditions' => array('ProjectsUser.user_id' => $user['User']['id']), 'group' => array('ProjectsUser.project_id')));
         }
         return $users;
     }
@@ -133,13 +139,15 @@ class User extends AppModel {
      * @param $userXlsData
      * @return bool
      */
-    public function saveUserDataFromXls($userXlsData){
-        try{
-            foreach($userXlsData as $data){
-                $nullChecks = array('',null,'0','-');
-                if(!isset($data['email']) ||
+    public function saveUserDataFromXls($userXlsData)
+    {
+        try {
+            foreach ($userXlsData as $data) {
+                $nullChecks = array('', null, '0', '-');
+                if (!isset($data['email']) ||
                     empty($data['email']) ||
-                    in_array($data['email'], $nullChecks)) {
+                    in_array($data['email'], $nullChecks)
+                ) {
                     continue;
                 }
                 $usersData = array(
@@ -149,35 +157,36 @@ class User extends AppModel {
                     'last_name' => $data['last_name'],
                     'date_of_birth' => $data['dob'],
                     'salary' => $data['salary'],
-                    'work_experience'=> $data['work_ex'],
-                    'is_active'=>1,
-                    'is_verified'=>1
+                    'work_experience' => $data['work_ex'],
+                    'is_active' => 1,
+                    'is_verified' => 1
 
                     //'date_of_birth' => $data['dob'],
                 );
 
                 // Check if email exist then update record
-                if($userId = $this->isEmailExists($data['email'])) {
+                if ($userId = $this->isEmailExists($data['email'])) {
                     $usersData['id'] = $userId;
                 }
 
                 $this->create();
                 $this->save($usersData);
 
-                if(!$userId) {
+                if (!$userId) {
                     $userId = $this->getLastInsertID();
                 }
 
                 $this->UserTechnology->saveUserSkills($userId, $data['primary_skill'], $data['secondary_skills']);
             }
             return true;
-        }catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
 
-    public function isEmailExists($emailId){
-        return $this->field('id', array('username'=>$emailId));
+    public function isEmailExists($emailId)
+    {
+        return $this->field('id', array('username' => $emailId));
     }
 
     public function exportUsersData($conditions = array()){

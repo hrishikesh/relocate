@@ -40,19 +40,19 @@ class XlsWriterComponent extends Component {
         $this->_Controller = $controller;
     }
 
-    public function startup() {
+    public function startup(Controller $controller) {
 
     }
 
-    public function beforeRender() {
+    public function beforeRender(Controller $controller) {
 
     }
 
-    public function shutdown() {
+    public function shutdown(Controller $controller) {
 
     }
 
-    public function beforeRedirect() {
+    public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true) {
 
     }
 
