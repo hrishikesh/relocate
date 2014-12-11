@@ -5,14 +5,17 @@ App::uses('AppController', 'Controller');
  *
  * @property User $User
  */
-class UsersController extends AppController {
+class UsersController extends AppController
+{
 
-    public function beforeFilter() {
+    public function beforeFilter()
+    {
         parent::beforeFilter();
         $this->Auth->allow(array('index'));
     }
 
-    public function beforeRender() {
+    public function beforeRender()
+    {
         parent::beforeRender();
         $this->set(compact('tab'));
     }
@@ -22,7 +25,8 @@ class UsersController extends AppController {
      *
      * @return void
      */
-    public function index() {
+    public function index()
+    {
         if ($this->loggedInUserId() != '' && $this->loggedInUserRole() == 1) {
             $this->redirect(array('action' => 'all_users'));
         } else {
@@ -30,7 +34,8 @@ class UsersController extends AppController {
         }
     }
 
-    public function login() {
+    public function login()
+    {
         $loggedInUserData = $this->Auth->login();
 
         if ($this->loggedInUserId() == '') {
@@ -48,43 +53,47 @@ class UsersController extends AppController {
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         $this->Session->setFlash(__('You are successfully logged out from the system'), 'set_flash');
         $this->redirect($this->Auth->logout());
     }
 
-    public function all_users() {
+    public function all_users()
+    {
         $this->User->recursive = 0;
         $users = $this->paginate('User', array('User.role_id != ' => 1));
         $tab = 'users';
-        $this->set(compact('users','tab'));
+        $this->set(compact('users', 'tab'));
     }
 
-    public function dashboard() {
+    public function dashboard()
+    {
         $this->User->recursive = 0;
         $projects = $this->User->ProjectsUser->Project->getActiveProjects();
 
-        $teams= $this->User->UserTechnology->Technology->getTechnologyUserCount();
+        $teams = $this->User->UserTechnology->Technology->getTechnologyUserCount();
         $projects = $this->User->ProjectsUser->Project->getProjectUserCount();
         $projects = array_values($projects);
-        foreach($projects as $key => $project){
+        foreach ($projects as $key => $project) {
             unset($project['id']);
-            $projects[$key]= $project['Project'];
+            $projects[$key] = $project['Project'];
         }
         $projects = json_encode($projects);
-        foreach($teams as $key => $team) {
+        foreach ($teams as $key => $team) {
             unset($team['id']);
             $teams[$key] = $team['Technology'];
         }
         $teams = json_encode($teams);
-        $this->set(compact('projects','teams'));
+        $this->set(compact('projects', 'teams'));
     }
 
 
-    public function user_dashboard() {
+    public function user_dashboard()
+    {
         $this->autoRender = false;
         $tab = 'dashboard';
-        $this->set(compact('projects','tab'));
+        $this->set(compact('projects', 'tab'));
     }
 
     /**
@@ -93,14 +102,15 @@ class UsersController extends AppController {
      * @param string $id
      * @return void
      */
-    public function view($id = null) {
+    public function view($id = null)
+    {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
         $user = $this->User->read(null, $id);
         $tab = 'users';
-        $this->set(compact('user','tab'));
+        $this->set(compact('user', 'tab'));
     }
 
     /**
@@ -108,7 +118,8 @@ class UsersController extends AppController {
      *
      * @return void
      */
-    public function add() {
+    public function add()
+    {
         if ($this->request->is('post')) {
             $userData = $this->request->data;
             $this->User->create($userData);
@@ -117,7 +128,7 @@ class UsersController extends AppController {
                 $userData['UserProfile']['user_id'] = $user_id;
                 $this->User->UserProfile->create($userData);
                 $this->User->UserProfile->save();
-                $saveSkills = $this->User->UserTechnology->saveUserTechnologies($userData['UserSkill'],$user_id);
+                $saveSkills = $this->User->UserTechnology->saveUserTechnologies($userData['UserSkill'], $user_id);
 //                if(!empty($userData['UserPreviousExperience'])) {
 //                    $experienceCount = 0;
 //                    foreach($userData['UserPreviousExperience'] as $experienceKey=>$experienceValue){
@@ -144,7 +155,7 @@ class UsersController extends AppController {
 //        $designations = $this->User->UserProfile->Designation->getList();
 //        $grades = $this->User->UserProfile->Grade->getList();
         $tab = 'users';
-        $this->set(compact('skills','teams', 'roles','tab','designations','grades'));
+        $this->set(compact('skills', 'teams', 'roles', 'tab', 'designations', 'grades'));
     }
 
     /**
@@ -153,7 +164,8 @@ class UsersController extends AppController {
      * @param string $id
      * @return void
      */
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -169,7 +181,7 @@ class UsersController extends AppController {
             $this->request->data = $this->User->read(null, $id);
             $technologies = $this->User->Technology->getList();
             $tab = 'users';
-            $this->set(compact('technologies','tab'));
+            $this->set(compact('technologies', 'tab'));
         }
     }
 
@@ -179,7 +191,8 @@ class UsersController extends AppController {
      * @param string $id
      * @return void
      */
-    public function delete($id = null) {
+    public function delete($id = null)
+    {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException();
         }
@@ -195,7 +208,8 @@ class UsersController extends AppController {
         $this->redirect('/');
     }
 
-    public function change_password() {
+    public function change_password()
+    {
         $role = $this->loggedInUserRole();
         $loggedInUserId = $this->loggedInUserId();
         if ($role == 1) {
@@ -219,13 +233,14 @@ class UsersController extends AppController {
                 }
             }
         } else {
-            $this->Session->setFlash('You are not authorized user.','set_flash');
+            $this->Session->setFlash('You are not authorized user.', 'set_flash');
             $this->redirect($this->Auth->logout());
         }
 
     }
 
-    public function check_availability() {
+    public function check_availability()
+    {
         $this->layout = 'ajax';
         $this->autoRender = false;
 
@@ -245,12 +260,45 @@ class UsersController extends AppController {
             } else {
                 return false;
             }
-        }  elseif(isset($this->request->data['employee_id'])) {
+        } elseif (isset($this->request->data['employee_id'])) {
             $result = $this->User->checkUserByEmpIdCount($this->request->data);
             return $result;
-        }else{
+        } else {
             return false;
         }
+    }
+
+    public function getResourcesBySkillSet()
+    {
+        $this->autoRender = false;
+        $this->layout = false;
+
+        if (!$this->request->query['skill_id']) {
+            return false;
+        }
+
+        $formattedData = array();
+        $skilledResources = $this->User->UserTechnology->find('all', array(
+            'conditions' => array(
+                'technology_id' => trim($this->request->query['skill_id']
+                ))
+        ));
+
+        //Get formatted Data, and pass to View.
+        $formattedData = $this->getResourcesFormattedDataBySkill($skilledResources);
+        $this->set(compact('formattedData'));
+
+    }
+
+    //@todo : Move this to User Model
+    public function getResourcesFormattedDataBySkill($resourcesData = array())
+    {
+        if (!$resourcesData) {
+            return array();
+        }
+
+        //Format the data in the variable : $resourcesData
+        //WHAT IS THE FORMAT
     }
 
 }

@@ -4,14 +4,27 @@ $(document).ready(function () {
         $(obj).each(function(){
             var name = $(this).attr('name');
             name = name.replace('[1]', '['+count +']');
+            var attrid = $(this).attr('id');
+            attrid = attrid.replace(1, count);
             $(this).attr('name', name);
+            $(this).attr('id', attrid);
+
             $(this).val('');
-            /*if($(this).hasClass('date-picker')){
-                var date = $.datepicker.formatDate('dd-mm-yy', new Date());
-                $(this).val(date);
-            }else {
-                $(this).val('');
-            }*/
+            if($(this).hasClass('start_date')){
+                $(this).removeClass('hasDatepicker')
+                var dateStart = $.datepicker.formatDate('dd-mm-yy', new Date());
+                $(this).datepicker({
+                    dateFormat:'dd-mm-yy'
+                });
+            }
+            if($(this).hasClass('end_date')){
+                $(this).removeClass('hasDatepicker')
+                var dateEnd = $.datepicker.formatDate('dd-mm-yy', new Date());
+                $(this).datepicker({
+                    dateFormat:'dd-mm-yy'
+                });
+
+            }
         });
     };
 
@@ -29,9 +42,26 @@ $(document).ready(function () {
 
         $('#project-requirements').append(requirements_html);
 
-
+        //$(".date-picker").datepicker('remove'); //detach
+//        $(".date-picker").datepicker({          //re attach
+//            dateFormat:'dd-mm-yy'
+//        })
     });
 
     $('.comboBox').combobox();
 
 });
+
+//if($(this).hasClass('start_date')){
+//    $(this).removeClass('hasDatepicker')
+//    var date = $.datepicker.formatDate('dd-mm-yy', new Date());
+//    $("#ProjectResourceRequirements"+count+"startDate").datepicker({          //re attach
+//        dateFormat:'dd-mm-yy'
+//    });
+//}
+//if($(this).hasClass('end_date')){
+//    $(this).removeClass('hasDatepicker')
+//    var date = $.datepicker.formatDate('dd-mm-yy', new Date());
+//    $("#ProjectResourceRequirements"+count+"endDate").datepicker({          //re attach
+//        dateFormat:'dd-mm-yy'
+//    })
