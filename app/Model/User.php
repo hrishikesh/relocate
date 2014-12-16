@@ -158,6 +158,7 @@ class User extends AppModel
                     'date_of_birth' => $data['dob'],
                     'salary' => $data['salary'],
                     'work_experience' => $data['work_ex'],
+                    'role_id' => 2,
                     'is_active' => 1,
                     'is_verified' => 1
 

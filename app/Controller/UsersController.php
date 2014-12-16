@@ -364,7 +364,7 @@ class UsersController extends AppController {
                                 'salary',
                                 'primary_skill',
                                 'secondary_skills',
-                                'work_ex'
+                                'work_ex',
                             ));
                         $userXlData = $this->XlsReader->getExcelData($filePath);
 
