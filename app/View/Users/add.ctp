@@ -109,14 +109,6 @@ echo $this->Html->script(array('validations'), false);
                             ?>
                         </div>
                     </div>
-<!--                    <div class="control-group info">-->
-<!--                        <label class="control-label" for="team_id">Team</label>-->
-<!--                        <div class="controls">-->
-<!--                            --><?php
-//                            echo $this->Form->input('UserProfile.team_id', array('options' => $teams,'empty' => 'Select Team'));
-//                            ?>
-<!--                        </div>-->
-<!--                    </div>-->
 
                     <div class="control-group info">
                         <label class="control-label" for="role_id">Role</label>
@@ -127,27 +119,11 @@ echo $this->Html->script(array('validations'), false);
                         </div>
                     </div>
 
-<!--                    <div class="control-group info">-->
-<!--                        <label class="control-label" for="designation_id">Designation</label>-->
-<!--                        <div class="controls">-->
-<!--                            --><?php
-//                            echo $this->Form->input('UserProfile.designation_id', array('options' => $designations,'empty' => 'Select Designation'));
-//                            ?>
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="control-group info">-->
-<!--                        <label class="control-label" for="grade_id">Grade</label>-->
-<!--                        <div class="controls">-->
-<!--                            --><?php
-//                            echo $this->Form->input('UserProfile.grade_id', array('options' => $grades,'empty' => 'Select Grade'));
-//                            ?>
-<!--                        </div>-->
-<!--                    </div>-->
                     <div class="control-group info">
                         <label class="control-label" for="date_of_joining">Date Of Joining</label>
                         <div class="controls">
                             <?php
-                            echo $this->Form->input('User.date_of_joining',array('placeholder'=>'dd/mm/yyyy','type'=>'text','class'=>'date-picker'));
+                            echo $this->Form->input('UserProfile.date_joining',array('placeholder'=>'dd/mm/yyyy','type'=>'text','class'=>'date-picker'));
                             ?>
                         </div>
                     </div>

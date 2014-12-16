@@ -162,7 +162,7 @@ class User extends AppModel
                 if (!$userId) {
                     $userId = $this->getLastInsertID();
                 }
-
+                $this->UserProfile->saveProfile($userId, $data['doj']);
                 $this->UserTechnology->saveUserSkills($userId, $data['primary_skill'], $data['secondary_skills']);
             }
             return true;

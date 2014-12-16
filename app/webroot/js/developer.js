@@ -4,6 +4,10 @@ $(document).ready(function () {
         dateFormat:'dd-mm-yy'
     });
 
+    $('#date-of-join').datepicker({
+        dateFormat:'dd-mm-yy'
+    });
+
     $('#start').datepicker({
         dateFormat:'dd-mm-yy',
         onSelect:function (selectedDate) {

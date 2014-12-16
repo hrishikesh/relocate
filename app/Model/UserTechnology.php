@@ -50,9 +50,11 @@ class UserTechnology extends AppModel {
                     unset($userData['secondary_skill'][$primary_key]);
                 }
                 foreach($userData['secondary_skill'] as $key => $secondarySkill){
-                    $secondarySkillData = array('technology_id' => $secondarySkill['secondary_skill'], 'user_id' => $user_id);
-                    $this->create();
-                    $this->save($secondarySkillData);
+                    if($userData['primary_skill'] != $secondarySkill){
+                        $secondarySkillData = array('technology_id' => $secondarySkill, 'user_id' => $user_id);
+                        $this->create();
+                        $this->save($secondarySkillData);
+                    }
 
                 }
             }

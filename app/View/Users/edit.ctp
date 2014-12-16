@@ -105,10 +105,10 @@ echo $this->Html->script(array('validations'), false);
                         </div>
                     </div>
                     <div class="control-group info">
-                        <label class="control-label" for="date_of_joining">Date Of Joining</label>
+                        <label class="control-label" for="date_joining">Date Of Joining</label>
                         <div class="controls">
                             <?php
-                            echo $this->Form->input('User.date_of_joining',array('placeholder'=>'dd/mm/yyyy','type'=>'text','class'=>'date-picker'));
+                            echo $this->Form->input('UserProfile.date_joining',array('placeholder'=>'dd/mm/yyyy','type'=>'text','class'=>'date-picker','id'=>'date-of-join'));
                             ?>
                         </div>
                     </div>

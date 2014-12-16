@@ -145,9 +145,10 @@ class UsersController extends AppController {
             $this->User->create($userData);
             if ($this->User->save()) {
                 $user_id = $this->User->getLastInsertID();
-//                $userData['UserProfile']['user_id'] = $user_id;
-//                $this->User->UserProfile->create($userData);
-//                $this->User->UserProfile->save();
+                $userData['UserProfile']['user_id'] = $user_id;
+                $userData['UserProfile']['date_joining'] = date('Y-m-d H:i:s',strtotime($userData['UserProfile']['date_joining']));
+                $this->User->UserProfile->create($userData);
+                $this->User->UserProfile->save();
                 $saveSkills = $this->User->UserTechnology->saveUserTechnologies($userData['UserSkill'], $user_id);
 
                 $this->Session->setFlash(__('The user has been saved'), 'set_flash');
@@ -176,10 +177,16 @@ class UsersController extends AppController {
             throw new NotFoundException(__('Invalid user'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
-//            pr($this->request->data);
-//            die;
             $userData = $this->request->data;
             if ($this->User->save($this->request->data)) {
+                $this->request->data['UserProfile']['user_id'] = $this->request->data['User']['id'];
+                $this->request->data['UserProfile']['date_joining'] = date('Y-m-d H:i:s', strtotime($this->request->data['UserProfile']['date_joining']));
+                if($this->request->data['UserProfile']['id'] != null && $this->request->data['UserProfile']['id'] !=""){
+                    $this->User->UserProfile->id = $this->request->data['UserProfile']['id'];
+                }else{
+                    $this->User->UserProfile->create();
+                }
+                $this->User->UserProfile->save($this->request->data);
                 $saveSkills = $this->User->UserTechnology->updateUserTechnologies($userData['UserSkill'], $userData['User']['id']);
                 $this->Session->setFlash(__('The user has been saved'), 'set_flash');
                 $this->redirect('/');

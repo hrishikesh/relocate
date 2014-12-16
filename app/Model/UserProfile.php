@@ -47,4 +47,14 @@ class UserProfile extends AppModel {
 			'order' => ''
 		)
 	);
+
+    public function  saveProfile($user_id, $doj){
+        if($doj != "" && $doj != null){
+            $data['user_id'] = $user_id;
+            $data['date_joining'] = date('Y-m-d H:i:s', strtotime($doj)) ;
+            $this->create();
+            $this->save($data);
+        }
+        return true;
+    }
 }
