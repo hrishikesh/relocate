@@ -44,7 +44,7 @@ class ProjectResourceRequirement extends AppModel {
 
         foreach($resourceRequirements as $resourceRequirement) {
 
-            if($resourceRequirement['skill_id']!="" && $resourceRequirement['no_of_resources']!=""){
+            if($resourceRequirement['technology_id']!="" && $resourceRequirement['no_of_resources']!=""){
                 $resourceRequirement['start_date'] = date('Y-m-d H:i:s', strtotime($resourceRequirement['start_date']));
                 $resourceRequirement['end_date'] = date('Y-m-d H:i:s', strtotime($resourceRequirement['end_date']));
                 $resourceRequirement['project_id'] = $project_id;
@@ -54,7 +54,6 @@ class ProjectResourceRequirement extends AppModel {
 
                     $this->create();
                 }
-
                 $this->save($resourceRequirement);
             }
 
