@@ -58,6 +58,19 @@ class Project extends AppModel
             'exclusive' => '',
             'finderQuery' => '',
             'counterQuery' => ''
+        ),
+        'ProjectAccount' => array(
+            'className' => 'ProjectAccount',
+            'foreignKey' => 'project_account_id',
+            'dependent' => true,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
         )
     );
 

@@ -404,14 +404,18 @@ class UsersController extends AppController {
             $saveFalse = false;
             $userAllocationData = $this->request->data;
             foreach($userAllocationData['ProjectUser'] as $key => $projectUsr){
-                $projectUsr['start'] = date('Y-m-d H:i:s',strtotime($projectUsr['start']));
-                $projectUsr['end'] = date('Y-m-d H:i:s',strtotime($projectUsr['end']));
-                $saveUserData  = $this->User->ProjectsUser->saveData($projectUsr);
-                if($saveUserData){
-                    $saveUser = true;
-                }else{
-                   $saveFalse = true;
+                if($projectUsr['user_id']!="" && $projectUsr['percentage_of_allocation']!=""){
+                    $projectUsr['start'] = date('Y-m-d H:i:s',strtotime($projectUsr['start']));
+                    $projectUsr['end'] = date('Y-m-d H:i:s',strtotime($projectUsr['end']));
+
+                    $saveUserData  = $this->User->ProjectsUser->saveData($projectUsr);
+                    if($saveUserData){
+                        $saveUser = true;
+                    }else{
+                        $saveFalse = true;
+                    }
                 }
+
             }
             if ($saveUser) {
                 $this->Session->setFlash('Allocation data saved.');

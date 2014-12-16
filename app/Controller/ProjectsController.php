@@ -111,11 +111,12 @@ class ProjectsController extends AppController
             }
         }
         $projectType = $this->Project->AllocationProjectType->getProjectType();
+        $project_accounts = $this->Project->ProjectAccount->getAccounts();
         $this->loadModel('Technology');
         $skills = $this->Technology->getSkills();
         //$projectLeads = $this->User->find('list', array('fields'=>array('id', 'first_name')));
         //$ba = $this->User->find('list', array('fields'=>array('id', 'first_name')));
-        $this->set(compact('skills', 'projectType'));
+        $this->set(compact('skills', 'projectType','project_accounts'));
     }
 
     /**

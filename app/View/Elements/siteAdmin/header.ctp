@@ -3,7 +3,7 @@ if (!isset($tab) || $tab == '') {
     $tab = '';
 }
 
-$dashboard = $users = $projects = '';
+$dashboard = $users = $projects = $accounts = $skills = '';
 
 switch($tab){
     case 'dashboard':
@@ -15,6 +15,12 @@ switch($tab){
     case 'projects':
         $projects = 'active';
         break;
+    case 'accounts':
+        $accounts = 'active';
+        break;
+    case 'skills':
+        $skills = 'active';
+        break;
 }
 ?>
 
@@ -23,8 +29,7 @@ switch($tab){
         <div class="container">
             <a href="/users/dashboard" class="logo brand <?php echo $dashboard; ?>"></a>
             <div id="main-menu" class="nav-collapse collapse">
-
-<?php if(!empty($loggedInUserId)){ ?>
+                <?php if(!empty($loggedInUserId)){ ?>
                 <ul id="main-menu-left" class="nav">
                     <?php
                     echo $this->Html->tag(
@@ -40,6 +45,20 @@ switch($tab){
                             array('controller'=>'projects','action'=>'all_projects'),
                             array('escape' => false)
                         ), array('escape' => false, 'class' => $projects)
+                    );
+                    echo $this->Html->tag(
+                        'li',
+                        $this->Html->link(__('Manage Accounts'),
+                            array('controller'=>'project_accounts','action'=>'index'),
+                            array('escape' => false)
+                        ), array('escape' => false, 'class' => $accounts)
+                    );
+                    echo $this->Html->tag(
+                        'li',
+                        $this->Html->link(__('Manage Skills'),
+                            array('controller'=>'technologies','action'=>'index'),
+                            array('escape' => false)
+                        ), array('escape' => false, 'class' => $skills)
                     );
                     ?>
                 </ul>

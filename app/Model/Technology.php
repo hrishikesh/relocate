@@ -18,7 +18,7 @@ class Technology extends AppModel {
 	public $hasMany = array(
 		'ProjectResourceRequirement' => array(
 			'className' => 'ProjectResourceRequirement',
-			'foreignKey' => 'technology_id',
+			'foreignKey' => 'skill_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -43,6 +43,13 @@ class Technology extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+
+    public  $actsAs = array('Sluggable' => array(
+        'label'=>'stream_name',
+        'slug'=>'slug',
+        'separator'=>'-',
+        'overwrite'=>false
+    ));
 
 
     public function getList(){

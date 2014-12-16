@@ -10,8 +10,8 @@
         </h2>
         <table class="table table-bordered table-striped table-hover">
             <tr>
-                <th><?php echo $this->Paginator->sort('project_name');?></th>
                 <th><?php echo $this->Paginator->sort('account_name');?></th>
+                <th><?php echo $this->Paginator->sort('project_name','SOW(name and number)');?></th>
                 <th><?php echo $this->Paginator->sort('start_date');?></th>
                 <th><?php echo $this->Paginator->sort('end_date');?></th>
                 <th class="actions"><?php echo __('Actions');?></th>
@@ -20,8 +20,8 @@
             if(count($projects)>0){
                 foreach ($projects as $project){ ?>
                     <tr>
-                        <td><?php echo h($project['Project']['project_name']); ?>&nbsp;</td>
-                        <td><?php echo h($project['Project']['account_name']); echo"(".$project['AllocationProjectType']['name'].")" ?>&nbsp;</td>
+                        <td><?php echo h($project['ProjectAccount']['name']); ?>&nbsp;</td>
+                        <td><?php echo h($project['Project']['project_name']); echo"(".$project['AllocationProjectType']['name'].")" ?>&nbsp;</td>
                         <td><?php echo h(date('d-m-Y',strtotime($project['Project']['start_date']))); ?>&nbsp;</td>
                         <td><?php echo h(date('d-m-Y',strtotime($project['Project']['end_date']))); ?>&nbsp;</td>
                         <td class="actions">

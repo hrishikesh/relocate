@@ -25,10 +25,13 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                     </div>
 
                     <div class="control-group info">
-                        <label class="control-label" for="accountName">Account Name</label>
-
+                        <label class="control-label" for="accountName">Account</label>
                         <div class="controls">
-                            <?php echo $this->Form->input('account_name', array('placeholder'=>'Enter Account Name')); ?>
+                            <?php echo $this->Form->input('project_account_id', array('options' => $project_accounts,
+                            'div' => false,
+                            'class'=>'span2',
+                            'label' => false,
+                            'empty' => 'Select Account')); ?>
                         </div>
                     </div>
 

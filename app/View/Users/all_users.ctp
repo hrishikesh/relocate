@@ -71,18 +71,18 @@
                     <?php
                     $projects = "";
                     $percent_allocation = 0;
-                    //pr($user['ProjectsUser']);
+//                    pr($user['ProjectsUser']);
                     foreach($user['ProjectsUser'] as $key=>$project){
                         if($projects == ""){
                             $projects .= $project['Project']['project_name'];
                         }else{
                             $projects .= ", ".$project['Project']['project_name'];
                         }
-                        $percent_allocation = $percent_allocation + (isset($project['percentage_of_allocation'])?$project['percentage_of_allocation']:0);
+                        $percent_allocation = $percent_allocation + (isset($project['ProjectsUser']['percentage_of_allocation'])?$project['ProjectsUser']['percentage_of_allocation']:0);
                     }
                     ?>
                     <td><?php echo h($projects); ?>&nbsp;</td>
-                    <td><?php echo h($percent_allocation.'%'); ?>&nbsp;</td>
+                    <td><?php echo h($percent_allocation); ?>&nbsp;</td>
 
                     <td><?php echo h($user['User']['work_experience']); ?>&nbsp;</td>
                     <td class="actions">
