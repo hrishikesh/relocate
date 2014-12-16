@@ -29,7 +29,6 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                         <div class="controls">
                             <?php echo $this->Form->input('project_account_id', array('options' => $project_accounts,
                             'div' => false,
-                            'class'=>'span2',
                             'label' => false,
                             'empty' => 'Select Account')); ?>
                         </div>

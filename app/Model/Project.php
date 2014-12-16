@@ -181,11 +181,11 @@ class Project extends AppModel
             return false;
         }
 
-        $this->recursive = -1;
+        $this->recursive = 1;
         return $this->find('first', array(
-                'conditions' => array('id' => $projectID),
+                'conditions' => array('Project.id' => $projectID),
                 'fields' => array(
-                    'project_name', 'account_name'
+                    'Project.project_name', 'ProjectAccount.name'
                 )
             )
         );
