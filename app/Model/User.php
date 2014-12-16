@@ -47,20 +47,6 @@ class User extends AppModel
             'finderQuery' => '',
             'counterQuery' => ''
         ),
-        'UserPreviousExperience' => array(
-            'className' => 'UserPreviousExperience',
-            'foreignKey' => 'user_id',
-            'dependent' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => ''
-
-        ),
         'UserTechnology' => array(
             'className' => 'UserTechnology',
             'foreignKey' => 'user_id',
