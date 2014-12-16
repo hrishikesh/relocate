@@ -18,7 +18,7 @@ class Technology extends AppModel {
 	public $hasMany = array(
 		'ProjectResourceRequirement' => array(
 			'className' => 'ProjectResourceRequirement',
-			'foreignKey' => 'skill_id',
+			'foreignKey' => 'technology_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

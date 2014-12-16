@@ -269,24 +269,14 @@ class ProjectsController extends AppController
         }
         $projectDetails = $this->Project->getProjectNameAndAccountName($id);
 
-        $this->Project->ProjectResourceRequirement->recursive = -1;
+        $this->Project->ProjectResourceRequirement->recursive = 0;
         $allocationMatrix = $this->Project->ProjectResourceRequirement->find('all', array(
             'conditions' => array('project_id' => $id),
             'fields' => array(
-                'Skill.id',
-                'Skill.name',
+                'Technology.id',
+                'Technology.stream_name',
                 'ProjectResourceRequirement.required_percentage'
-            ),
-            'joins' => array(
-                array(
-                    'table' => 'skills',
-                    'alias' => 'Skill',
-                    'type' => 'INNER',
-                    'conditions' => array(
-                        'ProjectResourceRequirement.skill_id = Skill.id'
-                    ),
-                )
-            ),
+            )
         ));
         $project_id = $id;
         $joins = array(

@@ -26,14 +26,14 @@
             <?php foreach ($allocationMatrix as $allocate) { ?>
             <tr>
                 <td>
-                    <?php echo $allocate['Skill']['name']; ?>
+                    <?php echo $allocate['Technology']['stream_name']; ?>
                 </td>
                 <td>
                     <?php echo $allocate['ProjectResourceRequirement']['required_percentage'] . '%'; ?>
                 </td>
                 <td>
                     <a href="javascript:void(0);" class="btn resourceLoadingInitiate"
-                       data-id="<?php echo $allocate['Skill']['id']; ?>">
+                       data-id="<?php echo $allocate['Technology']['id']; ?>">
                         Allocate
                     </a>
                 </td>
@@ -108,7 +108,7 @@
                 </table>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Save</button>
-                    <a href="/users/all_projects" class="btn">Cancel</a>
+                    <a href="/projects/all_projects" class="btn">Cancel</a>
                 </div>
 
                 <?php echo $this->Form->end(); ?>

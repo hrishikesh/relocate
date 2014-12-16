@@ -31,7 +31,7 @@ class ProjectResourceRequirement extends AppModel {
 		),
 		'Technology' => array(
 			'className' => 'Technology',
-			'foreignKey' => 'skill_id',
+			'foreignKey' => 'technology_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

@@ -92,39 +92,6 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                         </div>
                     </div>
 
-<!--                    <div class="control-group info">-->
-<!--                        <label class="control-label" for="end">Project Lead</label>-->
-<!---->
-<!--                        <div class="controls">-->
-<!--                            --><?php
-//                            echo $this->Form->input(
-//                                'project_lead_id', array(
-//                                'options'=>$projectLeads,
-//                                'class' => 'span3 comboBox',
-//                               /* 'placeholder' => 'Enter Project Lead Name',*/
-//                                'id' => 'projectLead',
-//                                /*'type' => 'text',*/
-//                            ));
-//                            ?>
-<!--                        </div>-->
-<!--                    </div>-->
-<!---->
-<!--                    <div class="control-group info">-->
-<!--                        <label class="control-label" for="end">Project BA</label>-->
-<!---->
-<!--                        <div class="controls">-->
-<!--                            --><?php
-//                            echo $this->Form->input(
-//                                'project_ba_id', array(
-//                                'options'=>$ba,
-//                                'class' => 'span3 comboBox',
-//                                /*'placeholder' => 'Enter Projects BA Name',*/
-//                                'id' => 'projectBa',
-//                                /*'type' => 'text',*/
-//                            ));
-//                            ?>
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
 
                 <!--Project Requirements : start-->
@@ -141,7 +108,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                         <div class="requirements" id="requirements">
                             <span class="pull-left">
                             <?php
-                                echo $this->Form->input('ProjectResourceRequirements.1.skill_id', array(
+                                echo $this->Form->input('ProjectResourceRequirements.1.technology_id', array(
                                     'options' => $skills,
                                     'div' => false,
                                     'class'=>'span2',
@@ -198,20 +165,6 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                 ));
                                 ?>
                             </span>
-
-                            <!-- <span class="pull-left">
-                                <?php
-    /*                                echo $this->Form->input('ProjectResourceRequirements.1.no_of_resources', array(
-                                        'options' => array(
-                                            1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7,
-                                            8 => 8, 9 => 9, 10 => 10
-                                        ),
-                                        'div' => false,
-                                        'label' => false,
-                                        'empty' => 'Number of resources'
-                                    ));
-                                    */?>
-                            </span>-->
                         </div>
                     </div>
 
