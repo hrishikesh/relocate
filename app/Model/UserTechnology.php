@@ -117,6 +117,8 @@ class UserTechnology extends AppModel {
 
     public function updateUserTechnologies($userData, $user_id){
 
+//        pr($userData);
+//        die;die
         $returnSave = false;
         if(!empty($userData)){
             $userTechnologies = $this->find('all',array('conditions'=>array('UserTechnology.user_id'=>$user_id)));
@@ -134,14 +136,14 @@ class UserTechnology extends AppModel {
                 $returnSave = true;
             }
             if(isset($userData['secondary_skill'])){
-                $primary_key = array_search($userData['primary_skill'], $userData['secondary_skill']);
-                if($primary_key){
-                    unset($userData['secondary_skill'][$primary_key]);
-                }
+
                 foreach($userData['secondary_skill'] as $key => $secondarySkill){
-                    $secondarySkillData = array('technology_id' => $secondarySkill['secondary_skill'], 'user_id' => $user_id);
-                    $this->create();
-                    $this->save($secondarySkillData);
+                    if($userData['primary_skill'] != $secondarySkill){
+                        $secondarySkillData = array('technology_id' => $secondarySkill, 'user_id' => $user_id);
+                        $this->create();
+                        $this->save($secondarySkillData);
+                    }
+
                 }
             }
 
