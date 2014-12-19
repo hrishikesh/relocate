@@ -360,6 +360,7 @@ class UsersController extends AppController {
 
                     if (empty($xls[0]['errors'])) {
                         $fileName = $xls[0]['urls'][0];
+                        chmod(WWW_ROOT . 'files/usersUpload/' . $fileName,777);
                         $filePath = WWW_ROOT . 'files/usersUpload/' . $fileName;
                         $this->XlsReader->setHeaders(
                             array('emp_id',
