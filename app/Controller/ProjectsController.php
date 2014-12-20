@@ -294,7 +294,8 @@ class ProjectsController extends AppController
         $projectUsers = $this->Project->ProjectsUser->find('all',array('conditions'=>array('ProjectsUser.project_id'=>$project_id)));
         $skilledResources = $this->UserTechnology->getUserTechnologiesAllocatted($projectUsers);
         $resource_type = $this->Project->ProjectsUser->AllocationProjectType->find('list',array('conditions'=>array('type'=>'resource_type'),'fields'=>array('id','name')));
-
+        $this->log($skilledResources);
+        $this->log($projectUsers);
         $this->set(compact('allocationMatrix' , 'projectDetails','id','skilledResources','resource_type','projectUsers'));
     }
 }
