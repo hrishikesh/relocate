@@ -152,6 +152,8 @@ class ProjectsController extends AppController
         }
 
         $this->request->data = $this->Project->read(null, $id);
+
+        $this->log($this->request->data);
         $project_id = $id;
         $projectType = $this->Project->AllocationProjectType->getProjectType();
         $project_accounts = $this->Project->ProjectAccount->getAccounts();
