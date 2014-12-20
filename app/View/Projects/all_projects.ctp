@@ -28,7 +28,7 @@
                     $actual_allocation = 0;
                     $difference_allocation = 0;
                     foreach($project['ProjectResourceRequirement'] as $contracted){
-                        $contracted_allocation = $contracted_allocation + $contracted['required_percentage'];
+                        $contracted_allocation = $contracted_allocation + ($contracted['required_percentage']*$contracted['no_of_resources']);
                     }
                     foreach($project['ProjectsUser'] as $actual){
                         $actual_allocation = $actual_allocation + $actual['percentage_of_allocation'];
