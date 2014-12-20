@@ -16,7 +16,7 @@ class UsersController extends AppController {
     public function beforeFilter() {
 
         parent::beforeFilter();
-        $this->Auth->allow(array('index', 'getResourcesBySkillSet'));
+        $this->Auth->allow(array('index', 'get_resources_by_skill_set','get_resources_by_skill_set_new'));
     }
 
     public function beforeRender() {
@@ -306,24 +306,22 @@ class UsersController extends AppController {
         $count = $this->request->query['count'];
         $skill_id = $this->request->query['skill_id'];
         $project_id = $this->request->query['project_id'];
-        $joins = array(
-            array(
-                'table' => 'user_technologies',
-                'alias' => 'UserTechnology',
-                'type' => 'LEFT',
-                'conditions' => array(
-                    'UserTechnology.user_id'=>'User.id',
-                    'UserTechnology.technology_id' =>trim($this->request->query['skill_id'])
-                ),
-            )
-        );
-        $this->User->recursive = -1;
-        $skilledResources = $this->User->find('list', array(
-            'joins'=>$joins,
-            'fields' => array(
-                 'User.id', 'User.first_name'
-            )
-        ));
+        $skilledResources = $this->User->UserTechnology->getUserTechnologies(trim($this->request->query['skill_id']));
+        $resource_type = $this->User->ProjectsUser->AllocationProjectType->find('list',array('conditions'=>array('type'=>'resource_type'),'fields'=>array('id','name')));
+        $this->set(compact('skilledResources','resource_type','count','project_id','skill_id'));
+    }
+
+    public function get_resources_by_skill_set_new($count=0, $skill_id=1, $project_id=20)
+    {
+
+        if (!$skill_id) {
+            return false;
+        }
+        $count = $count;
+        $skill_id = $skill_id;
+        $project_id = $project_id;
+
+        $skilledResources = $this->User->UserTechnology->getUserTechnologies($skill_id);
         $resource_type = $this->User->ProjectsUser->AllocationProjectType->find('list',array('conditions'=>array('type'=>'resource_type'),'fields'=>array('id','name')));
         $this->set(compact('skilledResources','resource_type','count','project_id','skill_id'));
     }

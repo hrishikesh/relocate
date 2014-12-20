@@ -275,7 +275,8 @@ class ProjectsController extends AppController
             'fields' => array(
                 'Technology.id',
                 'Technology.stream_name',
-                'ProjectResourceRequirement.required_percentage'
+                'ProjectResourceRequirement.required_percentage',
+                'ProjectResourceRequirement.no_of_resources'
             )
         ));
         $project_id = $id;
@@ -289,13 +290,9 @@ class ProjectsController extends AppController
                 ),
             )
         );
-        $skilledResources = $this->Project->ProjectsUser->User->find('list', array(
-            'joins'=>$joins,
-            'fields' => array(
-                'User.id', 'User.first_name'
-            )
-        ));
+        $this->loadModel('UserTechnology');
         $projectUsers = $this->Project->ProjectsUser->find('all',array('conditions'=>array('ProjectsUser.project_id'=>$project_id)));
+        $skilledResources = $this->UserTechnology->getUserTechnologiesAllocatted($projectUsers);
         $resource_type = $this->Project->ProjectsUser->AllocationProjectType->find('list',array('conditions'=>array('type'=>'resource_type'),'fields'=>array('id','name')));
 
         $this->set(compact('allocationMatrix' , 'projectDetails','id','skilledResources','resource_type','projectUsers'));

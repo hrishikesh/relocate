@@ -18,6 +18,9 @@
                     Percentage required (Contracted)
                 </th>
                 <th>
+                    No Of Resources (Contracted)
+                </th>
+                <th>
                     Actions
                 </th>
             </tr>
@@ -30,6 +33,9 @@
                 </td>
                 <td>
                     <?php echo $allocate['ProjectResourceRequirement']['required_percentage'] . '%'; ?>
+                </td>
+                <td>
+                    <?php echo $allocate['ProjectResourceRequirement']['no_of_resources']; ?>
                 </td>
                 <td>
                     <a href="javascript:void(0);" class="btn resourceLoadingInitiate"
@@ -83,7 +89,7 @@
                             ?>
                             <td>
                                 <?php
-                                echo $this->Form->input('ProjectUser.'.$key.'.user_id', array('options' => $skilledResources,'empty' => 'Select User','label'=>false,'value'=>$projectUser['ProjectsUser']['user_id']));
+                                echo $this->Form->input('ProjectUser.'.$key.'.user_id', array('options' => $skilledResources[$projectUser['ProjectsUser']['technology_id']],'empty' => 'Select User','label'=>false,'value'=>$projectUser['ProjectsUser']['user_id']));
                                 ?>
                             </td>
                             <td>

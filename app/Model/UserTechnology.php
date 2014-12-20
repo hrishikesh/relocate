@@ -152,4 +152,38 @@ class UserTechnology extends AppModel {
         }
         return $returnSave;
     }
+
+    public function getUserTechnologies($skill_id){
+        $skilledResources = array();
+        $this->recursive = -1;
+        $skilledResourcesNew = $this->query("SELECT User.id , CONCAT(User.first_name,' ', User.last_name) AS first_name
+                                                                FROM user_technologies AS UserTechnology
+                                                                LEFT JOIN users  AS User ON User.id=UserTechnology.user_id
+                                                                WHERE UserTechnology.technology_id=".$skill_id." GROUP BY UserTechnology.user_id");
+        if(!empty($skilledResourcesNew)){
+            foreach($skilledResourcesNew as $skilledResource){
+                $skilledResources[$skilledResource['User']['id']] = $skilledResource[0]['first_name'];
+            }
+        }
+        return $skilledResources;
+    }
+
+    public function getUserTechnologiesAllocatted($projectUsers){
+        $skilledResources = array();
+        if(!empty($projectUsers)){
+            foreach($projectUsers as $key => $projectUser){
+                $this->recursive = -1;
+                $skilledResourcesNew = $this->query("SELECT User.id , CONCAT(User.first_name,' ', User.last_name) AS first_name
+                                                                FROM user_technologies AS UserTechnology
+                                                                LEFT JOIN users  AS User ON User.id=UserTechnology.user_id
+                                                                WHERE UserTechnology.technology_id=".$projectUser['ProjectsUser']['technology_id']." GROUP BY UserTechnology.user_id");
+                if(!empty($skilledResourcesNew)){
+                    foreach($skilledResourcesNew as $skilledResource){
+                        $skilledResources[$projectUser['ProjectsUser']['technology_id']][$skilledResource['User']['id']] = $skilledResource[0]['first_name'];
+                    }
+                }
+            }
+        }
+        return $skilledResources;
+    }
 }
