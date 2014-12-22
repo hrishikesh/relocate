@@ -10,6 +10,34 @@
             </div>
 
         </h2>
+        <div>
+            <?php
+            echo $this->Form->create('Project', array('method'=>'get',
+                'class' => "form-horizontal well",
+                'inputDefaults' => array('label' => false, 'div' => false)
+            )); ?>
+            <table style="margin: 0 auto;">
+                <tr class="control-group info">
+                    <td class="controls">
+                        <?php
+                        echo $this->Form->input('account_id', array(
+                            'options' => $allAccounts,
+                            'div' => false,
+                            'class'=>'span3',
+                            'label' => false,
+                            'empty' => 'Select Account',
+                            'value'=>$account_id
+                        ));
+                        ?>
+                    </td>
+                    <td class="controls">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </td>
+                </tr>
+            </table>
+
+            <?php echo $this->Form->end(); ?>
+        </div>
         <table class="table table-bordered table-striped table-hover">
             <tr>
                 <th><?php echo $this->Paginator->sort('account_name');?></th>

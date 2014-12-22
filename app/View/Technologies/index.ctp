@@ -21,7 +21,7 @@
                 foreach ($technologies as $technology): ?>
                 <tr>
                     <td><?php echo h($technology['Technology']['id']); ?>&nbsp;</td>
-                    <td><?php echo h($technology['Technology']['stream_name']); ?>&nbsp;</td>
+                    <td><?php echo $this->Html->link(__($technology['Technology']['stream_name']), array('plugin'=>false,'controller'=>'users','action' => 'all_users',0,$technology['Technology']['id'])); ?>&nbsp;</td>
                     <td><?php echo h($technology['Technology']['slug']); ?>&nbsp;</td>
                     <td><?php echo h(count($technology['UserTechnology'])); ?>&nbsp;</td>
                     <td class="actions">

@@ -68,7 +68,7 @@ class Technology extends AppModel {
     }
 
     public function getTechnologyUserCount() {
-        $this->virtualFields['employee_count'] = 'count(User.id)';
+        $this->virtualFields['employee_count'] = 'count(UserTechnology.user_id)';
 
         $result = $this->find('all',array(
             'fields' => array(
@@ -76,11 +76,11 @@ class Technology extends AppModel {
             ),
             'joins' => array(
                 array(
-                    'table' => 'users',
-                    'alias' => 'User',
+                    'table' => 'user_technologies',
+                    'alias' => 'UserTechnology',
                     'type'  => 'LEFT',
                     'conditions' =>array(
-                        'Technology.id = User.technology_id'
+                        'Technology.id = UserTechnology.technology_id'
                     )
                 )
             ),

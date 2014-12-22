@@ -21,7 +21,7 @@
                foreach ($projectAccounts as $projectAccount): ?>
                     <tr>
                         <td><?php echo h($projectAccount['ProjectAccount']['id']); ?>&nbsp;</td>
-                        <td><?php echo h($projectAccount['ProjectAccount']['name']); ?>&nbsp;</td>
+                        <td><?php echo $this->Html->link(__($projectAccount['ProjectAccount']['name']), array('plugin'=>false,'controller'=>'projects','action' => 'all_projects',$projectAccount['ProjectAccount']['id'])); ?>&nbsp;</td>
                         <td><?php echo h($projectAccount['ProjectAccount']['slug']); ?>&nbsp;</td>
                         <td><?php echo h($projectAccount['ProjectAccount']['is_active']); ?>&nbsp;</td>
                         <td class="actions">

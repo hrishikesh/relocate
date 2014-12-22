@@ -15,27 +15,37 @@
                 'class' => "form-horizontal well",
                 'inputDefaults' => array('label' => false, 'div' => false)
             )); ?>
-            <div class="control-group info">
-                <label class="control-label" for="projectId">Project</label>
-
-                <div class="controls">
-                    <?php
-                    echo $this->Form->input('project_id', array(
-                        'options' => $allProjects,
-                        'div' => false,
-                        'class'=>'span3',
-                        'label' => false,
-                        'empty' => 'Select Project',
-                        'value'=>$project_id
-                    ));
-                    ?>
-                </div>
-
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Submit</button>
-
-            </div>
+            <table style="margin: 0 auto;">
+                <tr class="control-group info">
+                    <td class="controls">
+                        <?php
+                        echo $this->Form->input('project_id', array(
+                            'options' => $allProjects,
+                            'div' => false,
+                            'class'=>'span3',
+                            'label' => false,
+                            'empty' => 'Select Project',
+                            'value'=>$project_id
+                        ));
+                        ?>
+                    </td>
+                    <td class="controls">
+                        <?php
+                        echo $this->Form->input('technology_id', array(
+                            'options' => $allSkills,
+                            'div' => false,
+                            'class'=>'span3',
+                            'label' => false,
+                            'empty' => 'Select Skill',
+                            'value'=>$technology_id
+                        ));
+                        ?>
+                    </td>
+                    <td class="controls">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </td>
+                </tr>
+            </table>
 
             <?php echo $this->Form->end(); ?>
         </div>

@@ -19,7 +19,7 @@ class ProjectsController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
-        $this->Auth->allow('*');
+        $this->Auth->allow(array('index','project_stats','add_project_resource','get_project_details'));
     }
 
     public function beforeRender()
@@ -52,10 +52,27 @@ class ProjectsController extends AppController
      *
      * @return void
      */
-    public function all_projects()
+    public function all_projects($account_id = "")
     {
+        if (isset($this->request->data['Project']['account_id']) || ($account_id !=""&& $account_id !=0)) {
+            $account_id = isset($this->request->data['Project']['account_id'])?$this->request->data['Project']['account_id']:$account_id;
+            $this->Session->write('account_id', $account_id);
+        }
+        $account_id = $this->Session->read('account_id');
         $this->Project->recursive = 1;
-        $this->set('projects', $this->paginate());
+        if ($account_id == "" ) {
+            $projects= $this->paginate('Project');
+        } else {
+            echo $account_id;
+            $this->paginate = array(
+                'conditions' => array('Project.start_date <= ' => date('Y-m-d H:i:s'),'Project.end_date >= ' => date('Y-m-d H:i:s'),'Project.project_account_id'=>$account_id),
+            );
+            $projects = $this->paginate('Project');
+        }
+
+        $allAccounts = $this->Project->ProjectAccount->getAccounts();
+        $this->set(compact('allAccounts','account_id','projects'));
+
     }
 
 
@@ -93,11 +110,6 @@ class ProjectsController extends AppController
             if ($this->Project->save($this->request->data)) {
                 $this->log('>>>> SUCCESS : Saved Project Data');
                 $projectId = $this->Project->id;
-
-//                foreach ($projectResourceRequirement as $key => $value) {
-//                    $projectResourceRequirement[$key]['project_id'] = $projectId;
-//                }
-
                 if ($this->Project->ProjectResourceRequirement->saveProjectReq($projectResourceRequirement, $projectId)) {
                     $this->log('>>>> SUCCESS : Saved ProjectResourceRequirement Data');
                     $this->Session->setFlash(__('The project has been saved'));
@@ -114,8 +126,6 @@ class ProjectsController extends AppController
         $project_accounts = $this->Project->ProjectAccount->getAccounts();
         $this->loadModel('Technology');
         $skills = $this->Technology->getSkills();
-        //$projectLeads = $this->User->find('list', array('fields'=>array('id', 'first_name')));
-        //$ba = $this->User->find('list', array('fields'=>array('id', 'first_name')));
         $this->set(compact('skills', 'projectType','project_accounts'));
     }
 

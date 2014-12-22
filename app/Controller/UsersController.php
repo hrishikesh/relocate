@@ -60,16 +60,23 @@ class UsersController extends AppController {
         $this->redirect($this->Auth->logout());
     }
 
-    public function all_users($project_id = "") {
+    public function all_users($project_id = "",$technology_id = "") {
 
         $this->User->recursive = 0;
-        if (isset($this->request->data['User']['project_id'])) {
-            $this->Session->write('project_id', $this->request->data['User']['project_id']);
+        if (isset($this->request->data['User']['project_id']) || ($project_id !=""&& $project_id !=0) ) {
+            $project_id = isset($this->request->data['User']['project_id'])?$this->request->data['User']['project_id']:$project_id;
+            $this->Session->write('project_id', $project_id);
+        }
+        if (isset($this->request->data['User']['technology_id']) || ($technology_id !="" && $technology_id !=0)) {
+            $technology_id = isset($this->request->data['User']['technology_id'])?$this->request->data['User']['technology_id']:$technology_id;
+            $this->Session->write('technology_id', $technology_id);
         }
         $project_id = $this->Session->read('project_id');
-        if ($project_id == "") {
+        $technology_id = $this->Session->read('technology_id');
+
+        if ($project_id == "" && $technology_id =="") {
             $users = $this->paginate('User', array('User.role_id != ' => 1));
-        } else {
+        } else if($project_id != "" && $technology_id =="") {
             $this->paginate = array(
                 'conditions' => array('User.role_id != ' => 1),
                 'joins' => array(
@@ -82,13 +89,47 @@ class UsersController extends AppController {
                 )
             );
             $users = $this->paginate('User');
+        }else if($project_id == "" && $technology_id !="") {
+            $this->paginate = array(
+                'conditions' => array('User.role_id != ' => 1),
+                'joins' => array(
+                    array(
+                        'alias' => 'UserTechnology',
+                        'table' => 'user_technologies',
+                        'type' => 'RIGHT',
+                        'conditions' => array('UserTechnology.user_id=User.id', 'UserTechnology.technology_id' => $technology_id)
+                    )
+                )
+            );
+            $users = $this->paginate('User');
+        }else if($project_id != "" && $technology_id !="") {
+            $this->paginate = array(
+                'conditions' => array('User.role_id != ' => 1),
+                'joins' => array(
+                    array(
+                        'alias' => 'ProjectsUser',
+                        'table' => 'projects_users',
+                        'type' => 'RIGHT',
+                        'conditions' => array('ProjectsUser.user_id=User.id', 'ProjectsUser.project_id' => $project_id)
+                    ),
+                    array(
+                        'alias' => 'UserTechnology',
+                        'table' => 'user_technologies',
+                        'type' => 'RIGHT',
+                        'conditions' => array('UserTechnology.user_id=User.id', 'UserTechnology.technology_id' => $technology_id)
+                    )
+                )
+            );
+            $users = $this->paginate('User');
         }
+
 
         $userData = $this->User->formatUser($users);
         $allProjects = $this->User->ProjectsUser->Project->find('list', array('fields' => array('id', 'project_name')));
+        $allSkills = $this->User->UserTechnology->Technology->find('list', array('fields' => array('id', 'stream_name')));
         $tab = 'users';
         $this->set('users', $userData);
-        $this->set(compact('tab', 'allProjects', 'project_id'));
+        $this->set(compact('tab', 'allProjects', 'project_id','allSkills','technology_id'));
     }
 
     public function dashboard() {
