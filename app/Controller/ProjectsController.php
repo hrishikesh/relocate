@@ -310,4 +310,45 @@ class ProjectsController extends AppController
         $this->log($projectUsers);
         $this->set(compact('allocationMatrix' , 'projectDetails','id','skilledResources','resource_type','projectUsers'));
     }
+
+    /**
+     * @description Download xls
+     * @param int $projectId
+     */
+    public function export_project_report(){
+
+    }
+
+    public function export_report(){
+        $this->layout = 'report';
+        if($this->request->is('post'))
+        {
+            pr($this->request->data);
+            die;
+            $conditions = array();
+            if(!empty($this->request->data['Project']['start_date']) && !empty($this->request->data['Project']['end_date'])) {
+                $conditions['Project.id'] = $projectId;
+            }
+            $userData = $this->User->exportUsersData($conditions);
+            $this->XlsWriter = $this->Components->load('XlsWriter');
+
+            $xlsName = 'EmployeesData';
+            $workSheetName = 'Employees xls';
+            $dataKey = key($userData[0]);
+            $fields = array_keys($userData[0][$dataKey]);
+
+            $worksheet = $this->XlsWriter
+                ->createWorkbook()
+                ->createWorksheet($workSheetName);
+            $worksheet->freezePanes(array(1, 0, 1, 0));
+
+            $this->XlsWriter->addXlsHeader($fields);
+            foreach ($userData as $data) {
+                $excelData = $this->XlsWriter->replaceNulls($data[$dataKey]);
+                $this->XlsWriter->addXlsRecord($excelData);
+            }
+            /*Download excel sheet*/
+            $this->XlsWriter->download($xlsName);
+        }
+    }
 }

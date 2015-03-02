@@ -69,7 +69,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                 'placeholder' => 'Enter Start Date',
                                 'id' => 'start',
                                 'type' => 'text',
-                                'value' => date('d-m-Y')
+                                'value' => date('d-m-Y',strtotime($this->data['Project']['start_date']))
                             ));
                             ?>
                         </div>
@@ -86,7 +86,7 @@ echo $this->Html->script(array('validations','jquery.ui.widget','combobox', 'aut
                                 'placeholder' => 'Enter End Date',
                                 'id' => 'end',
                                 'type' => 'text',
-                                'value' => date('d-m-Y')
+                                'value' => date('d-m-Y',strtotime($this->data['Project']['end_date']))
                             ));
                             ?>
                         </div>

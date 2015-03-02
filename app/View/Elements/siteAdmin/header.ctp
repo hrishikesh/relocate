@@ -34,28 +34,28 @@ switch($tab){
                     <?php
                     echo $this->Html->tag(
                         'li',
-                        $this->Html->link(__('Manage Teams'),
+                        $this->Html->link(__('Teams'),
                             array('controller'=>'users','action'=>'all_users'),
                             array('escape' => false)
                         ), array('escape' => false, 'class' => $users)
                     );
                     echo $this->Html->tag(
                         'li',
-                        $this->Html->link(__('Manage Projects'),
+                        $this->Html->link(__('Projects'),
                             array('controller'=>'projects','action'=>'all_projects'),
                             array('escape' => false)
                         ), array('escape' => false, 'class' => $projects)
                     );
                     echo $this->Html->tag(
                         'li',
-                        $this->Html->link(__('Manage Accounts'),
+                        $this->Html->link(__('Accounts'),
                             array('controller'=>'project_accounts','action'=>'index'),
                             array('escape' => false)
                         ), array('escape' => false, 'class' => $accounts)
                     );
                     echo $this->Html->tag(
                         'li',
-                        $this->Html->link(__('Manage Skills'),
+                        $this->Html->link(__('Skills'),
                             array('controller'=>'technologies','action'=>'index'),
                             array('escape' => false)
                         ), array('escape' => false, 'class' => $skills)

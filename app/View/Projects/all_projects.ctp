@@ -7,6 +7,7 @@
             <a href="javascript:window.history.back();" class="pull-right backButton"></a>
             <div class="pull-right" style="margin-right: 10px;">
                 <?php echo $this->Html->link(__('New Project'), array('action' => 'add'), array('class' => 'btn btn-primary')); ?>
+                <?php echo $this->Html->link(__('Export Project Report'), array('action' => 'export_report'), array('class' => 'btn btn-primary')); ?>
             </div>
 
         </h2>

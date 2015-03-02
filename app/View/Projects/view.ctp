@@ -1,6 +1,5 @@
 <div class="container">
-    <!-- Forms
-   ================================================== -->
+    <!-- Forms ================================================== -->
     <section id="forms">
         <div class="page-header">
             <h3><?php echo h($project['Project']['project_name']); ?>  <a href="javascript:window.history.back();" class="pull-right backButton"></a></h3>
